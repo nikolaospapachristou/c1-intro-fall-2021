@@ -22,6 +22,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE)
 
 library(xaringanthemer)
+library(xaringanExtra)
 library(tidyverse)
 library(knitr)
 library(here)
@@ -49,6 +50,10 @@ style_duo_accent(
   )
 )
 
+```
+
+```{r xaringanExtra-freezeframe, echo=FALSE}
+xaringanExtra::use_freezeframe()
 ```
 
 ---
@@ -171,12 +176,10 @@ This course, and much of the materials prepared and content presented, was origi
 ### Celebrating successes!
 
 --
-<br>
-<br>
 
-.center[
-![](https://media2.giphy.com/media/OcZp0maz6ALok/giphy.gif?cid=ecf05e47nmgpnfbcocno4uyal5vpv1orgvnyw028hqgsisak&rid=giphy.gif&ct=g)
-]
+```{r out.width = '50%'}
+knitr::include_graphics("https://media2.giphy.com/media/OcZp0maz6ALok/giphy.gif?cid=ecf05e47nmgpnfbcocno4uyal5vpv1orgvnyw028hqgsisak&rid=giphy.gif&ct=g")
+```
 
 ---
 
@@ -199,12 +202,10 @@ American theoretical physicist, Nobel Laureate
 ### Celebrating failures!
 
 --
-<br>
-<br>
 
-.center[
-![](https://media0.giphy.com/media/g0KKEpxfjIPS7RpZPJ/giphy.gif?cid=ecf05e47gp0ldlgtsjg7b2bwvx5fa7x10j9taot0f8hsrdtp&rid=giphy.gif&ct=g)
-]
+```{r out.width = '80%'}
+knitr::include_graphics("https://media0.giphy.com/media/g0KKEpxfjIPS7RpZPJ/giphy.gif?cid=ecf05e47gp0ldlgtsjg7b2bwvx5fa7x10j9taot0f8hsrdtp&rid=giphy.gif&ct=g")
+```
 
 ---
 
@@ -223,11 +224,10 @@ American theoretical physicist, Nobel Laureate
 ### Celebrating trying!
 
 --
-<br>
-<br>
-.center[
-![](https://media0.giphy.com/media/26ybwvTX4DTkwst6U/giphy.gif?cid=ecf05e4784dexf3mrjfpve138d14ggn7x18kqt8fa4n17ua2&rid=giphy.gif&ct=g)
-]
+
+```{r out.width = '80%'}
+knitr::include_graphics("https://media0.giphy.com/media/26ybwvTX4DTkwst6U/giphy.gif?cid=ecf05e4784dexf3mrjfpve138d14ggn7x18kqt8fa4n17ua2&rid=giphy.gif&ct=g")
+```
 
 ---
 
@@ -243,15 +243,13 @@ American theoretical physicist, Nobel Laureate
 
 # What this class is about
 
-### Learning to problem solve
+### Learning to problem solve!
 
 --
-<br>
-<br>
 
-.center[
-![](../images/problemsolved.gif)
-]
+```{r out.width = '100%'}
+knitr::include_graphics("../images/problemsolved.gif")
+```
 
 ---
 
@@ -339,7 +337,7 @@ class: inverse, left, middle
 * Understand the R package ecosystem 
   + how to find, install, load, and learn about them
 * Read "flat" (i.e., rectangular) datasets into `R` 
-* Perform basic data manipulations / transformations in R with the `tidyverse`
+* Perform basic data manipulations / transformations in R with the `{tidyverse}`
   + leverage appropriate functions for introductory data science tasks
   + prepare data using scripts and reproducible workflows
 * Use version control with `R` via git and GitHub
@@ -382,13 +380,17 @@ https://happygitwithr.com/
 # Books not required (but possibly helpful)
 
 .pull-left[
-https://clauswilke.com/dataviz/
-![https://clauswilke.com/dataviz/](https://clauswilke.com/dataviz/cover.png){height=25%}
+[https://clauswilke.com/dataviz/](https://clauswilke.com/dataviz/)
+```{r out.width = '80%'}
+knitr::include_graphics("https://clauswilke.com/dataviz/cover.png") 
+```
 ]
 
 .pull-right[
-https://socviz.co/
-![https://socviz.co/](https://socviz.co/assets/dv-cover-pupress.jpg){height=25%}
+[https://socviz.co/](https://socviz.co/)
+```{r out.width = '80%'}
+knitr::include_graphics("https://socviz.co/assets/dv-cover-pupress.jpg") 
+```
 ]
 
 ---
