@@ -1,0 +1,1416 @@
+---
+title: "Week 3: Data Visualization"
+subtitle: "`{ggplot2}`"
+author: "Joe Nese"
+institute: "University of Oregon"
+date: "Fall 2021"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(message = FALSE,
+                      warning = FALSE,
+                      cache = TRUE,
+                      fig.width = 12)
+
+library(xaringan)
+library(xaringanExtra)
+library(tidyverse)
+library(knitr)
+library(here)
+library(kableExtra)
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+
+style_duo_accent(
+  primary_color = "#1F4E79",
+  secondary_color = "#0072B2",
+  header_font_google = google_font("Atkinson Hyperlegible", "600"),
+  text_font_google   = google_font("Atkinson Hyperlegible", "300", "300i"),
+  code_font_google   = google_font("IBM Plex Mono"),
+  colors = c(
+    darkblue = "#0072B2",
+    lightblue = "#56B4E9",
+    darkorange = "#D55E00",
+    lightorange = "#E69f00",
+    yellow = "f0e442",
+    green = "#009E73",
+    pink = "#CC79A7",
+    gray = "999999",
+    white = "#FFFFFF"
+  )
+)
+
+```
+
+```{r xaringan-panelset, echo=FALSE}
+xaringanExtra::use_panelset()
+```
+
+---
+class: inverse, left, middle
+
+# Data Visualization with `{ggplot2}`
+## Week 3
+
+---
+
+# Agenda
+
+*
+
+**Overall Purpose**
+
+* 
+
+---
+class: inverse, left, middle
+
+# Share! 
+
+---
+
+# [`{datapasta}`](https://github.com/MilesMcBain/datapasta)
+
+* Copy and paste data to and from R
+* VERY handy!
+* Good for [reprex](https://github.com/tidyverse/reprex) 
+  + posting questions on Rstudio Community or stackoverflow
+
+**.darkorange[[demo]]**
+
+---
+
+background-size: contain
+
+background-image: url("https://www.tidyverse.org/images/tidyverse-default.png")
+
+---
+
+# Providing grammar for:
+
+* Graphics 
+  + `{ggplot2}`
+* Data manipulations 
+  + `{dplyr}`
+  + `{tidyr}`
+* Expanding area of specialized topics
+  + `{lubridate}`
+  + `{glue}`
+  + `{tidymodels}`
+* Many more...
+
+---
+
+# Providing grammar for:
+
+* Graphics 
+  + .lightblue.bg-yellow[`{ggplot2}`]
+* Data manipulations
+  + `{dplyr}`
+  + `{tidyr}`
+* Expanding area of specialized topics
+  + `{lubridate}`
+  + `{glue}`
+  + `{tidymodels}`
+* Many more...
+
+
+---
+class: inverse, left, middle
+
+# `{ggplot2}`
+
+---
+
+# The `{ggplot2}` package
+
+`gg` stands for the "grammar of graphics"
+
+.pull-left[
+[![](https://ggplot2-book.org/cover.jpg)](https://ggplot2-book.org/)
+]
+
+.pull-right[
+[![](https://images-us.bookshop.org/ingram/9780387245447.jpg?height=500&v=v2)](https://bookshop.org/books/the-grammar-of-graphics/9780387245447)
+]
+
+---
+
+# Resources
+
+The `{ggplot2}` package is one of the most popular `R` packages, and there are many resources to learn the syntax 
+* ggplot2 book (email me for digital copy)
+* RStudio [cheat sheet](https://raw.githubusercontent.com/rstudio/cheatsheets/master/data-visualization.pdf)
+  + Can be helpful, perhaps more so after a little experience
+* [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
+* [R Graph Gallery](https://www.r-graph-gallery.com/index.html)
+
+---
+
+# Components
+
+**Every ggplot plot has three components**
+
+1. data
+  + the `data` used to produce the plot
+2. aesthetic mappings (`aes`)
+  + between variables and visual properties 
+3. layer(s) 
+  + usually through the `geom_*()` function to produce geometric shapes to be rendered
+
+--
+
+**`{ggplot}` always takes a data frame (tibble) as the first argument**
+
+---
+
+# Basic syntax
+
+.darkorange[`ggplot(`].darkblue[`data`]`,` .green[`aes(`] x = `xvar, y = yvar`.green[`)`].darkorange[`)`] .lightblue[`+`]<br>
+&emsp;&emsp;&emsp;&emsp;&nbsp;.lightorange[`geom_*()`]
+
+--
+
+.darkorange[`ggplot()`] = the function is `ggplot` and the package is `{ggplot2}` 
+
+--
+
+.darkblue[`data`] = the data to be plotted
+
+--
+
+.green[`aes(`] x = `xvar, y = yvar`.green[`)`] = the `aes`thetic mappings
+
+--
+
+.lightorange[`geom_*()`] = the `geom`etrics of the plot; the `*` here represents any of the geom offerings
+
+--
+
+.footnote[
+.lightblue[`+`] = note the `+` and <ins>NOT</ins> the `%>%`
+]
+
+---
+
+# `{ggplot2}` template
+
+ggplot(.green["data"], aes(.green["mappings"])) + <br>
+&emsp;&emsp;&emsp;&emsp;.green["geom_*function*"]()
+
+---
+
+# Some data for today
+
+<div>
+    <p style="float: right;"><img src="https://allisonhorst.github.io/palmerpenguins/reference/figures/lter_penguins.png" height="100"></p>
+    <p><i>penguins</i> from {palmerpenguins}</p>
+</div>
+
+.darkorange[[run the following]]
+
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+
+head(penguins)
+```
+
+---
+class: inverse, left, middle
+
+# Continuous Data
+
+---
+
+# Setting up a plot
+
+Run the following code. What do you see?
+
+.pull-left[
+```{r pengemp, fig.show='hide'}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) 
+```
+]
+
+--
+
+.pull-right[
+```{r ref.label = 'pengemp', echo = FALSE}
+```
+]
+
+--
+
+It's ready for you to add some `geom`etric <ins>layers</ins>...what should we add?
+
+---
+
+# How about points?
+
+ 
+
+.pull-left[
+```{r peng-1, fig.show='hide'}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point() #<<
+```
+]
+
+.pull-right[
+```{r ref.label = 'peng-1', echo = FALSE}
+```
+]
+
+---
+
+# Adding layers
+
+* In the previous slide, we added a layer of points
+* The `geom_point()` layer is a function, complete with it's own arguments
+
+--
+
+
+* Let’s change the color of the points
+
+How would you change the color of the points? 
+	
+&emsp;&emsp;<ins>or</ins> 
+
+How would you find out about changing the color of the points?
+
+---
+
+# Color
+
+ 
+
+.pull-left[
+```{r peng-2, fig.show='hide'}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(color = "magenta") #<<
+```
+]
+
+.pull-right[
+```{r ref.label = 'peng-2', echo = FALSE}
+```
+]
+
+---
+
+# Add another layer
+
+Let's add a smoothed line with `geom_smooth()`
+
+.pull-left[
+```{r peng-3, message=FALSE, fig.show='hide'}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(color = "magenta") + 
+  geom_smooth() #<<
+```
+]
+
+.pull-right[
+```{r ref.label = 'peng-3', echo = FALSE}
+```
+]
+
+---
+
+# You try
+
+You probably got the note below when you ran (defaults)
+
+```{r peng-4, message=TRUE, fig.show='hide'}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(color = "magenta") + 
+  geom_smooth()
+```
+
+--
+
+Change the `method` to `"lm"`
+
+---
+
+# Let's do this together
+
+Look at the help page – `?geom_smooth` 
+
+1. Remove the confidence interval around the line
+
+2. Now change the SE band to reflect a 68% confidence interval
+
+---
+
+# Global vs. conditional `color`
+
+Prior examples changed colors globally
+- `geom_point(color = "magenta")`
+
+Use `aes()` to access variables, and color according to a specific variable
+- We use variable names within `aes()`
+
+Let’s check the data again (`head()`) and the "species" variable (`table()`) 
+
+.darkorange[[let's do this together]]
+
+---
+
+.pull-left[
+```{r peng-5, message=FALSE, fig.show='hide'}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(aes(color = species)) #<< 
+```
+]
+
+.pull-right[
+```{r ref.label = 'peng-5', echo = FALSE}
+```
+]
+
+---
+
+# Global vs. Conditional `color`
+
+```{r, eval=FALSE}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(aes(color = species))
+```
+
+* When we did `geom_point(color = "magenta")` we put quotes around the color 
+* Why now is "species" not in quotes?
+
+--
+* color names/hex codes are in quotes **NOT** in the `aes()`
+* variable names are in the `aes()` **NOT** in quotes
+
+---
+
+## Conditional flow through layers
+
+If we use something like `color = “x”` in the first `aes`thetic, it will carry on through all additional layers
+
+* These two codes are the same:
+
+```{r, eval=FALSE}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(aes(color = species))
+```
+
+```{r, eval=FALSE}
+ggplot(penguins, aes(bill_length_mm, body_mass_g, color = species)) +
+  geom_point()
+```
+
+--
+
+* But these two are not...why? .darkorange[[run to find out]]
+
+```{r, eval=FALSE}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(aes(color = species)) + 
+  geom_smooth()
+```
+
+```{r, eval=FALSE, out.height='50%'}
+ggplot(penguins, aes(bill_length_mm, body_mass_g, color = species)) +
+  geom_point() + 
+  geom_smooth()
+```
+
+---
+
+# Be mindful with `aes()`
+
+Using `aes()` when you **don't** need it
+
+What is happening here?
+
+```{r, fig.height=4}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(aes(color = "blue")) + 
+  geom_smooth()
+```
+
+---
+
+# Be mindful with `aes()`
+
+**Not** using `aes()` when you need it
+
+What is happening here?
+
+```{r. fig.height=4}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(aes(color = species)) + 
+  geom_smooth()
+```
+
+--
+
+.footnote[
+Not a very helpful error message, by the way.
+]
+
+---
+class: inverse, left, middle
+
+# Themes
+
+---
+
+# Let's talk themes
+
+* The default is `theme_gray`
+  + I don't like it
+* But there are a lot of build-in alternative in `{ggplot2}`
+  + `theme_minimal` is my favorite
+* Check out the [`{ggthemes}`](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/) package for a lot of alternatives
+  + These days I nearly always use the [`colorblind`](https://yutannihilation.github.io/allYourFigureAreBelongToUs/ggthemes/colorblind/) theme for discrete values in my plots
+* Check out the [`{ggthemeassist}`](https://github.com/calligross/ggthemeassist) add-in
+
+---
+
+# More themes
+
+* The [`{hrbrthemes}`](https://github.com/hrbrmstr/hrbrthemes) are nice
+* Consider [building your own theme!](https://bookdown.org/rdpeng/RProgDA/building-a-new-theme.html)
+* Or Google around
+
+--
+
+* Set the theme globally
+  + One of the first lines in your .rmd file could be:
+  
+`theme_set(theme_minimal())`
+
+---
+
+# Get a little fancy
+
+* You can use `geom_point()` for more than one layer
+* You can also use a different data source on a layer
+* Use these two properties to highlight points
+  + How about penguins from Torgersen Island?
+
+---
+
+```{r}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(color = "black")
+```
+
+---
+
+```{r}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(color = "black") + 
+  geom_point(data = dplyr::filter(penguins, island == "Torgersen"), color = "magenta") #<<
+```
+
+---
+
+```{r}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(color = "black") + 
+  geom_point(data = dplyr::filter(penguins, island == "Torgersen"), color = "magenta") + 
+  geom_smooth(se = FALSE) #<<
+```
+
+---
+
+```{r}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(color = "black") + 
+  geom_point(data = dplyr::filter(penguins, island == "Torgersen"), color = "magenta") + 
+  geom_smooth(se = FALSE) + 
+  theme_minimal() #<<
+```
+
+---
+
+# Another option
+
+`{gghighlight}` varying flexibility
+
+```{r, warning=FALSE, message=FALSE}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
+  geom_point(color = "magenta") + 
+  gghighlight::gghighlight(island == "Torgersen") + 
+  theme_minimal()
+```
+
+---
+
+# Line plots
+
+* When should you use line plots instead of smooths?
+--
+
+  + usually when time is involved
+--
+
+* What are some good candidate data for line plots?
+--
+
+  + observed versus model-implied (estimated)
+
+---
+
+# `geom_line()`
+
+Classic time series example 
+
+*economics* data from `{ggplot2}`
+
+```{r}
+economics
+```
+
+---
+
+# Let's try it
+
+How do you think we'd fit a line plot to these data, showing unemployment ("unemploy") over time?
+
+--
+
+```{r}
+ggplot(economics, aes(date, unemploy)) +
+  geom_line()
+```
+
+---
+
+# Layers
+
+What happens when we layer geom_line and geom_point?
+
+```{r, eval=FALSE}
+ggplot(economics, aes(date, unemploy)) +
+  geom_line() +
+  geom_point()
+```
+
+.darkorange[try it!]
+
+--
+
+Not the best instance of this 
+It would work better on a plot with fewer time points, but you get the idea
+
+---
+class: inverse, left, middle
+
+# Labels
+
+---
+
+# Axis Labels
+
+.pull-left[
+```{r axes-1, fig.show='hide'}
+ggplot(economics, aes(date, unemploy)) +
+  geom_line() +
+  theme_minimal() +
+  labs(x = "Date", #<<
+       y = "Unemployment") #<<
+```
+]
+
+.pull-right[
+```{r ref.label = 'axes-1', echo = FALSE}
+```
+]
+
+---
+
+# Axis Labels
+
+.pull-left[
+```{r axes-2, fig.show='hide'}
+ggplot(economics, aes(date, unemploy)) +
+  geom_line() +
+  theme_minimal() +
+  labs(x = "Date", 
+       y = "Unemployment",
+       title = "Unemployment Over Time") #<<
+```
+]
+
+.pull-right[
+```{r ref.label = 'axes-2', echo = FALSE}
+```
+]
+
+---
+
+# Axis Labels
+
+.pull-left[
+```{r axes-3, fig.show='hide'}
+ggplot(economics, aes(date, unemploy)) +
+  geom_line() +
+  theme_minimal() +
+  labs(x = "Date", 
+       y = "Unemployment",
+       title = "Unemployment Over Time",
+       subtitle = "This is the subtitle") #<<
+```
+]
+
+.pull-right[
+```{r ref.label = 'axes-3', echo = FALSE}
+```
+]
+
+---
+
+# Axis Labels
+
+.pull-left[
+```{r axes-4, fig.show='hide'}
+ggplot(economics, aes(date, unemploy)) +
+  geom_line() +
+  theme_minimal() +
+  labs(x = "Date", 
+       y = "Unemployment",
+       title = "Unemployment Over Time",
+       subtitle = "This is the subtitle",
+       caption = "Created by Joe Nese") #<<
+```
+]
+
+.pull-right[
+```{r ref.label = 'axes-4', echo = FALSE}
+```
+]
+
+
+---
+
+# Axis Labels
+
+.pull-left[
+```{r axes-5, fig.show='hide'}
+ggplot(economics, aes(date, unemploy)) +
+  geom_line() +
+  theme_minimal() +
+  labs(x = "Date", 
+       y = "Unemployment",
+       title = "Unemployment Over Time",
+       subtitle = "This is the subtitle",
+       caption = "Created by Joe Nese",
+       tag = "(A)") #<<
+```
+]
+
+.pull-right[
+```{r ref.label = 'axes-5', echo = FALSE}
+```
+]
+
+---
+
+# Axis Labels
+
+.pull-left[
+```{r axes-6, fig.show='hide'}
+ggplot(penguins, aes(bill_length_mm, body_mass_g, color = species)) + # 'color = '
+  geom_point() +
+  theme_minimal() +
+  labs(x = "Bill Length (mm)",
+       y = "Body Mass (g)",
+       color = "Species") # 'color = '
+```
+]
+
+.pull-right[
+```{r ref.label = 'axes-6', echo = FALSE}
+```
+]
+
+---
+class: inverse, left, middle
+
+# Facets
+
+---
+
+# Faceting
+
+* One of the most powerful features of `{ggplot}`
+* Produce *n* plots by a specific variable
+
+* `facet_wrap()`
+  + wrap a sequence of panels into two dimensions
+  + based on variables(s)
+---
+
+# Faceting
+
+.pull-left[
+```{r facet-1, fig.show='hide'}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) + 
+  geom_point() +
+  geom_smooth() +
+  facet_wrap(~species)
+```
+]
+
+.pull-right[
+```{r ref.label = 'facet-1', echo = FALSE}
+```
+]
+
+---
+
+# Careful about `~`
+
+```{r, eval=FALSE, message=TRUE, warning=TRUE, error=FALSE}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) + 
+  geom_point() +
+  geom_smooth() +
+  facet_wrap(species)
+```
+
+---
+
+# Faceting 
+
+```{r, message=TRUE, warning=TRUE}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) + 
+  geom_point() +
+  geom_smooth() +
+  facet_wrap(species ~ year)
+```
+
+---
+
+# Alternative specification
+
+```{r, eval=FALSE}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) + 
+  geom_point() +
+  geom_smooth() +
+  facet_wrap(vars(species))
+```
+
+```{r, eval=FALSE}
+ggplot(penguins, aes(bill_length_mm, body_mass_g)) + 
+  geom_point() +
+  geom_smooth() +
+  facet_wrap(vars(species, year))
+```
+
+---
+class: inverse, left, middle
+
+# Categorical Data
+
+---
+
+# Data
+
+`{fivethirtyeight}` package
+- *college_grad_students*
+
+```{r}
+#install.packages("fivethirtyeight")
+library(fivethirtyeight)
+# View(college_grad_students)
+d <- college_grad_students # simpler reference
+d
+theme_set(theme_minimal(base_size = 16))
+```
+
+---
+
+# Histogram
+
+Histogram of "grad_total"
+
+```{r}
+ggplot(d, aes(x = grad_total)) +
+  geom_histogram()
+```
+
+---
+
+# Transparency - `alpha`
+
+Add some transparency – perhaps this looks nicer
+
+```{r}
+ggplot(d, aes(x = grad_total)) +
+  geom_histogram(alpha = 0.7) #<<
+```
+
+---
+
+# `color` vs. `fill`
+
+**In general**
+* `color` defines the color a geom is *outlined*
+* `fill` defines the color a geom is *filled* 
+
+For example:
+* `geom_point()` default has only has a color and **NO** fill because they're just points
+* Point shapes 21–24 include both a color and a fill
+
+```{r}
+knitr::include_graphics("https://ggplot2.tidyverse.org/reference/scale_shape.html 
+")
+```
+
+---
+
+## How would we change the color of this plot?
+
+```{r, eval=FALSE}
+ggplot(d, aes(x = grad_total)) +
+  geom_histogram(alpha = 0.7)
+```
+
+--
+
+```{r}
+ggplot(d, aes(x = grad_total)) +
+  geom_histogram(alpha = 0.7, color = "magenta")
+```
+
+---
+
+## How would we change the color of this plot?
+
+```{r, eval=FALSE}
+ggplot(d, aes(x = grad_total)) +
+  geom_histogram(alpha = 0.7)
+```
+
+--
+
+```{r}
+ggplot(d, aes(x = grad_total)) +
+  geom_histogram(alpha = 0.7, fill = "magenta")
+```
+
+---
+
+# Color by variable
+
+What if we wanted different colors by major_category
+
+```{r}
+ggplot(d, aes(x = grad_total)) +
+  geom_histogram(aes(fill = major_category), alpha = 0.7)
+```
+
+---
+
+# Density plot
+
+Alternative representation of distribution
+
+* Think of it as a smoothed histogram (uses kernel smoothing)
+* The depiction of the distribution is **NOT** determined by the number of the bins you use, as are histograms
+
+---
+
+# Density plot
+
+`geom_density()`
+
+```{r}
+ggplot(d, aes(x = grad_total)) +
+  geom_density()
+```
+
+---
+
+# Density plot
+
+`geom_density()`
+
+Now let’s fill by major_category
+
+```{r}
+ggplot(d, aes(x = grad_total)) +
+  geom_density(aes(fill = major_category), alpha = 0.2)
+```
+
+--
+
+.footnote[
+Not a good plot, just an example
+]
+
+---
+
+## Possible alternative? `facet_wrap`
+
+
+```{r}
+ggplot(d, aes(x = grad_total)) +
+  geom_density(alpha = 0.2) +
+  facet_wrap(~major_category)
+```
+
+---
+
+# Even better
+
+## density ridges
+
+```{r}
+library(ggridges)
+ggplot(d, aes(x = grad_total, y = major_category)) +
+  geom_density_ridges()
+```
+
+---
+
+# Density  Ridges
+
+```{r}
+ggplot(penguins, aes(bill_length_mm , species)) +
+  geom_density_ridges()
+```
+
+---
+
+# `fill` 
+
+```{r}
+ggplot(penguins, aes(bill_length_mm , species)) +
+  geom_density_ridges(aes(fill = factor(year)))
+```
+
+---
+
+# Add transparency for clarity
+
+```{r}
+ggplot(penguins, aes(bill_length_mm , species)) +
+  geom_density_ridges(aes(fill = factor(year)),
+                      alpha = 0.7) #<<
+```
+
+---
+
+# Viridis
+
+```{r}
+ggplot(penguins, aes(bill_length_mm , species)) +
+  geom_density_ridges(aes(fill = factor(year)),
+                      alpha = 0.7) +
+                      scale_fill_viridis_d() #<<
+```
+
+---
+
+# Same fill function, different option
+
+```{r}
+ggplot(penguins, aes(bill_length_mm , species)) +
+  geom_density_ridges(aes(fill = factor(year)),
+                      alpha = 0.7) +
+                      scale_fill_viridis_d(option = "plasma") #<<
+```
+
+---
+
+## Candy rankings `{fivethirtyeight}`
+
+```{r}
+candy <- candy_rankings %>% 
+  pivot_longer(
+    cols = chocolate:pluribus,
+    names_to = "type",
+    values_to = "foo") %>% 
+  filter(foo) %>% 
+  select(-foo)
+candy
+```
+
+---
+
+# Boxplot
+
+```{r}
+ggplot(candy, aes(type, sugarpercent)) +
+  geom_boxplot() 
+```
+
+---
+
+# Violin plots
+
+```{r}
+ggplot(candy, aes(type, sugarpercent)) +
+  geom_violin() 
+```
+
+---
+
+# Heatmaps
+
+> A heatmap is a literal way of visualizing a table of numbers, where you substitute the numbers with colored cells.
+  -- Nathan Yau
+
+* Useful for finding highs and lows  - and sometimes patterns
+* They don't always work well
+
+---
+
+# Example with correlations
+
+```{r}
+corr <- cor(mtcars)
+
+pc <- corr %>% 
+  as.data.frame() %>% 
+  mutate(row = rownames(.)) %>% 
+  pivot_longer(
+    cols = -row,
+    names_to = "col",
+    values_to = "cor"
+  )
+head(pc)
+```
+
+---
+
+```{r}
+ggplot(pc, aes(row, col, fill = cor)) +
+  geom_tile()
+```
+
+---
+
+```{r}
+ggplot(pc, aes(row, col, fill = cor)) +
+  geom_tile() +
+  scale_fill_viridis_c() #<<
+```
+
+---
+
+# Bar Charts
+
+.pull-left[
+**`{geom_bar()}`**
+* expects *x* **OR** *y*
+* counts rows
+* if you want to count the number of cases at each *x* or *y* position 
+* makes the height of the bar proportional to the number of cases in each group
+* uses `stat_count()` by default
+]
+
+.pull-right[
+**`{geom_col()}`**
+* expects *x* **AND** *y*
+* expects numbers in your data
+* if you want the heights of the bars to represent values in the data
+* leaves the data as is
+* uses `stat_identity()` by default
+]
+
+---
+
+# Bar chart
+
+```{r}
+ggplot(mpg, aes(class)) + # one variable in the `aes()`
+  geom_bar() # counts the rows per class
+```
+
+---
+
+.pull-left[
+```{r}
+head(mpg)
+```
+
+]
+
+.pull-right[
+```{r}
+summarized_mpg <- mpg %>% 
+  group_by(class) %>% 
+  count()
+
+head(summarized_mpg)
+```
+]
+
+---
+
+# `geom_col()`
+
+```{r}
+ggplot(summarized_mpg, aes(class, n)) + # two variables in the `aes()`
+  geom_col() # data has the rows per class in "n"
+```
+
+---
+
+.pull-left[
+### `geom_bar()` default
+```{r}
+ggplot(mpg, aes(class)) + 
+  geom_bar()
+```
+]
+
+--
+### `geom_bar(stat = "identity")` 
+.pull-right[
+```{r}
+ggplot(summarized_mpg, aes(class, n)) + 
+  geom_bar(stat = "identity")
+```
+]
+
+---
+
+.pull-left[
+### `geom_bar()` default
+```{r}
+ggplot(mpg, aes(class)) + 
+  geom_bar()
+```
+]
+
+.pull-right[
+### `geom_col()` default
+```{r}
+ggplot(summarized_mpg, aes(class, n)) + 
+  geom_col()
+```
+]
+
+---
+
+.pull-left[
+### `geom_bar()` default
+```{r}
+ggplot(mpg, aes(class)) + 
+  geom_bar()
+```
+]
+
+.pull-right[
+### `geom_bar()` uh-oh
+```{r}
+ggplot(summarized_mpg, aes(class)) + 
+  geom_bar()
+```
+]
+
+--
+
+# What happened?
+
+Let's look at our data again
+
+```{r}
+summarized_mpg
+```
+
+---
+
+.left-pull[
+```{r}
+h_mileage <- mpg %>% 
+  group_by(class) %>% 
+  summarize(mean_hwy = mean(hwy)) 
+```
+]
+
+--
+
+.right-pull[
+```{r}
+h_mileage %>% 
+  ggplot(aes(class, mean_hwy)) + 
+  geom_col()
+```
+]
+
+---
+
+# Change the order of the *x*-axis
+
+* We'll talk about automated methods more later
+* Basically - define *x*-axis variable as a factor with levels in the order you want
+
+--
+
+.left-pull[
+```{r}
+mpg_new <- mpg %>% 
+  mutate(class = factor(class,
+                        levels = c("pickup",
+                                   "suv",
+                                   "minivan",
+                                   "2seater",
+                                   "midsize",
+                                   "subcompact",
+                                   "compact")))
+```
+]
+
+--
+
+.right-pull[
+```{r}
+h_mileage %>% 
+  ggplot(aes(class, mean_hwy)) + 
+  geom_col()
+```
+]
+
+---
+
+# More boxplot options
+
+Data
+
+```{r}
+eclsk <- haven::read_sav(here::here("data", "ecls-k_samp.sav")) %>% 
+  rio::characterize() %>% 
+  janitor::clean_names()
+
+ecls_smry <- eclsk %>%
+    group_by(k_type, ethnic) %>%
+    summarize(t1r_mean = mean(t1rscale))
+
+ecls_smry
+```
+
+---
+
+# Stacked bar plot
+
+Look for effects in "ethnicity" by "k_type" (full/half day K)
+
+```{r}
+ggplot(ecls_smry, aes(ethnic, t1r_mean)) +
+    geom_col(aes(fill = k_type))
+```
+
+---
+
+# Grouped bar plot
+
+ 
+
+```{r}
+ggplot(ecls_smry, aes(ethnic, t1r_mean)) +
+    geom_col(aes(fill = k_type),
+             position = "dodge") #<<
+```
+
+---
+
+# Rotating Labels
+
+I have to look [this](https://stackoverflow.com/questions/1330989/rotating-and-spacing-axis-labels-in-ggplot2) up *every* time
+
+```{r}
+ggplot(ecls_smry, aes(ethnic, t1r_mean)) +
+  geom_col(aes(fill = k_type),
+           position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) #<<
+```
+
+---
+
+# Flip the coordinates
+
+`coord_flip()`
+
+```{r}
+ggplot(ecls_smry, aes(ethnic, t1r_mean)) +
+  geom_col(aes(fill = k_type),
+           position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  coord_flip() #<<
+```
+
+---
+
+# Alternatively
+
+`facet_wrap()`
+
+```{r}
+ggplot(ecls_smry, aes(k_type, t1r_mean)) +
+    geom_col(alpha = 0.8) +
+    facet_wrap(~ethnic)
+```
+
+---
+
+# Sometimes some redundancy works well
+
+```{r}
+ggplot(ecls_smry, aes(k_type, t1r_mean, fill = k_type)) +
+    geom_col(alpha = 0.8) +
+    facet_wrap(~ethnic)
+```
+
+---
+
+# `geom_*()` Review
+
+`geom_point()`
+`geom_smooth()`
+`geom_line()`
+`geom_histogram()`
+`geom_density()`
+`ggridges::geom_density_ridges()`
+`geom_boxplot()`
+`geom_violin()`
+`geom_tile()`
+`geom_bar()`
+`geom_col()`
+
+---
+
+# Challenge
+
+#!! Probably not!
+
+* Start a new `R` project
+* Create a new script, save it as "practice-plots.R"
+* Load the `{tidyverse}`
+* Print the **msleep** dataset to see it's structure (it's from `{ggplot2}`)
+
+For each of the following, produce a separate plot
+
+1. Plot the relation between "sleep_total" and "brainwt" (with "brainwt" as the DV) - scatter plot
+2. Overlay a smooth on the prior plot
+3. Color the points by "vore", but fit a single smooth
+4. Fit separate smooths by "vore", but with all points being gray
+5. Omit the standard error of the smooths
+6. Use ylim as an additional layer to restrict the y-axis to range from 0 to 5
+
+
