@@ -1,4 +1,5 @@
 name: "Introduction to Data Science with R"
+output_dir: "docs"
 navbar:
   title: "EDLD 651"
   left:
