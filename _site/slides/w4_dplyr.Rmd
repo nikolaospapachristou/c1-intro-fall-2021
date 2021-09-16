@@ -1,0 +1,402 @@
+---
+title: "Week 3: Data Wrangling"
+subtitle: "`{dplyr}`"
+author: "Joe Nese"
+institute: "University of Oregon"
+date: "Fall 2021"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+#      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+library(xaringan)
+library(xaringanExtra)
+library(tidyverse)
+library(knitr)
+library(here)
+library(kableExtra)
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+
+style_duo_accent(
+  primary_color = "#1F4E79",
+  secondary_color = "#0072B2",
+  header_font_google = google_font("Atkinson Hyperlegible", "600"),
+  text_font_google   = google_font("Atkinson Hyperlegible", "300", "300i"),
+  code_font_google   = google_font("IBM Plex Mono"),
+  colors = c(
+    darkblue = "#0072B2",
+    lightblue = "#56B4E9",
+    darkorange = "#D55E00",
+    lightorange = "#E69f00",
+    yellow = "f0e442",
+    green = "#009E73",
+    pink = "#CC79A7",
+    gray = "999999",
+    white = "#FFFFFF"
+  )
+  #inverse_header_color = "#FFFFFF"
+)
+```
+
+---
+class: inverse, left, middle
+
+# Data Wrangling with `{dplyr}`
+## Week 4
+
+---
+
+# Agenda
+
+*
+
+**Overall Purpose**
+
+* 
+
+---
+background-size: contain
+
+background-image: url("https://www.ltd.org/files/library/bus-with-rainbow_lb.jpg")
+
+---
+
+background-size: contain
+
+background-image: url("https://www.tidyverse.org/images/tidyverse-default.png")
+
+---
+
+# Providing grammar for:
+
+* Graphics 
+  + `{ggplot2}`
+* Data manipulations 
+  + `{dplyr}`
+  + `{tidyr}`
+* Expanding area of specialized topics
+  + `{lubridate}`
+  + `{glue}`
+  + `{tidymodels}`
+* Many more...
+
+---
+
+# Providing grammar for:
+
+* Graphics 
+  + `{ggplot2}`
+* Data manipulations
+  + .lightblue.bg-yellow[`{dplyr}`]
+  + `{tidyr}`
+* Expanding area of specialized topics
+  + `{lubridate}`
+  + `{glue}`
+  + `{tidymodels}`
+* Many more...
+
+
+---
+class: inverse, left, middle
+
+# `{dplyr}`
+
+---
+
+# `{dplyr}`
+
+<div>
+    <p style="float: right;"><img src="https://d33wubrfki0l68.cloudfront.net/621a9c8c5d7b47c4b6d72e8f01f28d14310e8370/193fc/css/images/hex/dplyr.png" width="100" height="100"></p>
+    <p>A grammar for data wrangling (verbs!)</p>
+</div>
+
+Take a minute with your neighbor to guess what the following functions do:
+* `select()`
+* `filter()`
+* `mutate()`
+* `arrange()`
+* `summarize()`
+* `group_by()`
+
+---
+
+# `{dplyr}`
+
+A grammar for data wrangling (verbs!)
+
+* `select()`
+--
+  + a subset of **columns**
+--
+* `filter()`
+--
+  + a subset of **rows**
+--
+* `mutate()`
+--
+  + **add** a new column or **modify** an existing column
+--
+* `arrange()`
+--
+  + order rows in ascending/descending order
+--
+* `summarize()`
+--
+  + a column created according to other columns
+  + for example: `mean()` or `sd()`
+  + often used with...
+--
+* `group_by()`
+
+---
+
+# Arguments
+
+* **`{dplyr}` always takes a data frame (tibble) as the first argument**
+  + just like `{ggplot}`
+* subsequent argument tell `{dplyr}` what to do with the data frame
+* returns the modified data frame
+
+---
+
+# `select()`
+
+```{r, eval=FALSE}
+select(df, a, c)
+```
+
+![](https://swcarpentry.github.io/r-novice-gapminder/fig/13-dplyr-fig1.png)
+
+.footnote[
+Image from [Software Carpentry](https://swcarpentry.github.io/r-novice-gapminder/fig/13-dplyr-fig1.png)
+]
+
+---
+
+# `filter()`
+
+```{r, eval=FALSE}
+filter(df,
+       type == "otter",
+       site == "bay")
+```
+
+![](https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/dplyr_filter.jpg)
+
+.footnote[
+Illustration by [Allison Horst](https://github.com/allisonhorst/stats-illustrations/)
+]
+
+---
+
+# Examples
+
+Let’s start with the presidential dataset from the {mdsr} package
+
+```{r}
+library(tidyverse)
+#install.packages("mdsr")
+library(mdsr)
+presidential
+```
+
+---
+
+# `select` president name and party
+
+```{r, eval=FALSE}
+select(presidential, name, party)
+```
+**OR** more typically
+```{r}
+presidential %>%
+	select(name, party)
+```
+
+---
+
+# Negation `-`
+
+```{r, eval=FALSE}
+select(presidential, -start)
+```
+**OR**
+```{r}
+presidential %>%
+	select(-start)
+```
+
+---
+
+# Indexing
+
+```{r, eval=FALSE}
+select(presidential, 1:3)
+```
+**OR**
+```{r}
+presidential %>%
+	select(1:3)
+```
+
+---
+
+# Use multiple methods
+
+```{r, eval=FALSE}
+select(presidential, name, 2, 4)
+```
+**OR**
+```{r}
+presidential %>%
+	select(name, 2, 4)
+```
+
+---
+
+# Use `select` to order columns
+
+```{r}
+library(fivethirtyeight)
+college_grad_students
+```
+
+---
+
+# Use `select` to order columns
+
+```{r}
+college_grad_students %>%
+	select(major_code, grad_total, grad_sample_size, everything())
+```
+
+`everything()` is a helper verb that includes all column names
+
+---
+
+# `relocate()`
+
+.darkorange[`relocate(`].lightblue[`.data`]`, ...` .green[`before`]` = NULL, `lightorange[`.after`]` = NULL)`
+
+lightblue[`.data`] = dataframe/tibble
+`...` = columns to move
+.green[`.before`] = variable to move *before*
+lightorange[`.after`] = variable to move *after*
+- supplying neither .green[`.before`] nor lightorange[`.after`] move columns to the left-hand side
+- specifying both is an error
+
+---
+
+# `relocate()`
+
+```{r}
+presidential %>% 
+  relocate(party)
+```
+
+.footnote[
+moves "party" to far left (default)
+]
+
+---
+
+# `relocate()`
+
+```{r}
+presidential %>% 
+  relocate(party, .after = start)
+```
+
+.footnote[
+moves "party" after "start"
+]
+
+---
+
+# `relocate()`
+
+```{r}
+presidential %>% 
+  relocate(end, .before = party)
+```
+
+.footnote[
+moves "end" before "party"
+]
+
+---
+
+# `filter()`
+
+![](https://d33wubrfki0l68.cloudfront.net/01f4b6d39d2be8269740a3ad7946faa79f7243cf/8369a/diagrams/transform-logical.png)
+
+Complete set of boolean operations
+- *x* is the left-hand circle
+- *y* is the right-hand circle
+- the shaded region show which parts each operator selects
+  + *xor* == *x* or *y* except where they overlap
+
+.footnote[
+Image from [Wickham & Grolemund (2017)](https://r4ds.had.co.nz/transform.html?q=filter#filter-rows-with-filter)
+]
+
+---
+
+# `filter()` numeric
+
+.pull-left[
+```{r}
+mpg %>% 
+  filter(cyl == 4)
+```
+]
+
+.pull-right[
+```{r}
+mpg %>% 
+  filter(hwy >= 22)
+```
+]
+
+---
+
+# `filter()` character
+
+.pull-left[
+```{r}
+mpg %>% 
+  filter(manufacturer == "pontiac")
+```
+]
+
+.pull-right[
+```{r}
+presidential %>% 
+  filter(party == "Democratic")
+```
+]
+
+---
+

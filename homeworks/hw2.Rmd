@@ -1,0 +1,75 @@
+---
+title: "Lab 2"
+author: "Your Name Here"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+#Ignore this code chunk for now. 
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+1. Install the `{nlme}` package
+
+2. Load `{nlme}`, `{janitor}`, and the `{tidyverse}` packages in the "setup" chunk
+
+3. Run the chunk below to prep some data from the `{nmle}` package for plotting
+
+```{r data, echo=TRUE}
+pd <- Oxboys %>% 
+  clean_names() %>% 
+  mutate(subject = factor(subject),
+         occasion = factor(occasion)) %>% 
+  filter(subject == "10" | subject == "4" | subject == "7") %>% 
+  as_tibble()
+```
+
+4. Reproduce the following two plots, using the *pd* data. You can use whatever theme you want (I used `theme_minimal()`), but all else should be the same. 
+
+```{r plots1}
+
+# Put code below for Plot 1. Note that Plot 1 is a line plot, not a "smooth."
+
+
+# Put code below for Plot 2. Note that Plot 2 is a line plot also.
+
+
+```
+
+\newpage
+
+2. Use the *mtcars* dataset from base `R` to replicate the following plots. (Just type *mtcars* into the console to see the dataset).
+
+```{r plots2}
+
+# Put code below for Plot 3
+
+
+# Put code below for Plot 4
+
+
+# Put code below for Plot 5
+
+
+# Put code below for Plot 6. I have given you the first line of code to start.
+ggplot(mtcars, aes(drat, mpg, color = factor(cyl))) +
+
+  
+```
+
+\newpage
+
+3. Use the *Orange* dataset, also part of base `R`, to replicate the following plots.
+   
+```{r orange-plots}
+
+# Put code below for Plot 7
+
+
+# Put code below for the last plot. See slide xx from the w3 class for labels.
+
+
+```
