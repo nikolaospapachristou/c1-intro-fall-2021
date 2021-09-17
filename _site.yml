@@ -3,8 +3,8 @@ output_dir: "docs"
 navbar:
   title: "EDLD 651"
   left:
-    - icon: fa-home
-      href: index.html
+    # - icon: fa-home
+    #   href: index.html
     - text: Syllabus
       href: syllabus.html
   right:
