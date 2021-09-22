@@ -1,0 +1,237 @@
+---
+title: "The Great Bean Experiment!"
+author: "Joe Nese and EDLD 651"
+date: "9/29/2021"
+output: 
+  html_document:
+    code_folding: hide
+bibliography: bean_bib.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+
+library(tidyverse)
+library(here)
+library(ggthemes)
+library(ggrepel)
+library(reactable)
+library(equatiomatic)
+library(parameters)
+library(knitr)
+
+theme_set(theme_minimal(base_size = 18))
+```
+
+<style type="text/css">
+  body{
+  font-size: 18pt;
+}
+</style>
+
+<br>
+<center>**Introduction**</center>
+<br>
+
+This is the great bean experiment! An under-powered (mediocre) scientific replication of the famous historical event (folktale?) in statistics in which each person in town was asked to guess the weight of the ox. Having no knowledge of oxen, no person correctly guessed the weight, but the average of all guesses was within one pound of the ox's weight! What an inspiring story of collectivism, the strength in numbers, and the power of data, data science, and statistics! We are better together.
+
+
+```{r}
+truth <- 1276
+
+dta <- read_csv(here("nopublish", "bean_data.csv")) %>% 
+  mutate(id = ifelse(uo_id %% 2 == 0, "even", "odd"),
+         initials = paste0(str_sub(first, 1, 1), str_sub(last, 1, 2)),
+         dist = guess - truth) %>% 
+  select(-uo_id)
+
+answ <- tibble(
+  name = c("Class Mean", "Truth"),
+  value = c(round(mean(dta$guess, na.rm = TRUE)), truth)
+)
+```
+<br>
+
+<center>**Method**</center>
+<br>
+
+We used the following packages: equatiomatic (Anderson, ND), ggrepel @ggrepel, ggthemes @ggthemes, here @here, knitr @knitr, parameters @parameters, reactable @reactable, and tidyverse @tidyverse.
+
+<br>
+**Research Question**
+<br>
+
+1. Is the average of the class's bean guesses closer to the actual number of beans in the jar than any one person?
+
+Our hypothesis is that the class average will be more accurate than the guess of any one person.
+
+<br>
+<center>**Results**</center>
+<br>
+
+First, let's look at a density plot, which shows the distribution of the class guesses. 
+<br>
+
+```{r}
+dta %>% 
+  ggplot(aes(guess)) +
+  geom_density() +
+  geom_vline(xintercept = truth, color = "magenta", size = 2) +
+  geom_vline(xintercept = mean(dta$guess, na.rm = TRUE), size = 2) +
+  ggrepel::geom_label_repel(data = answ, aes(x = value, y = .0005, label = name)) +
+  theme(plot.title.position = "plot",
+        axis.text.y = element_blank()) +
+  labs(
+    x = "Class Guesses",
+    y = NULL,
+    title = "Density Plot of Class Guesses"
+  )
+```
+<br>
+And here is a table of the class guesses. You can filter and sort it!
+<br>
+```{r}
+dta %>% 
+  select(first, guess) %>% 
+  reactable(filterable = TRUE, searchable = TRUE)
+```
+<br>
+Here is another cool data visualization.
+<br>
+```{r}
+
+dta %>% 
+  ggplot(aes(guess, reorder(first, guess), group = 1)) +
+  geom_point(size = 2.5) +
+  geom_segment(aes(x = 0, xend = guess, y = first, yend = first), color = "cornflowerblue") +
+  geom_vline(xintercept = truth, color = "magenta", size = 2) +
+  geom_vline(xintercept = mean(dta$guess, na.rm = TRUE), size = 2) +
+  geom_label_repel(data = answ, aes(x = value, y = 2, label = name)) +
+  theme(plot.title.position = "plot") +
+  labs(
+    x = "Class Guesses",
+    y = NULL,
+    title = "A Cool Figure"
+  )
+
+```
+<br>
+Or perhaps my favorite:
+<br>
+```{r}
+dta %>% 
+  ggplot(aes(dist, reorder(first, dist))) +
+  geom_col(aes(fill = ifelse(dist > 0, "plus", "minus"))) +
+  geom_vline(xintercept = 0, color = "magenta", size = .5) +
+  geom_vline(xintercept = mean(dta$guess, na.rm = TRUE) - truth, size = 2) +
+  ggrepel::geom_label_repel(data = filter(answ, name == "Class Mean"), 
+                            aes(x = value - truth, y = -1, label = name),
+                            min.segment.length = 0) +
+  ggthemes::scale_fill_colorblind() +
+  theme(legend.position="none",
+        plot.title.position = "plot") +
+  labs(
+    x = "Guesses Distance from Truth",
+    y = NULL,
+    title = "Distance from Truth"
+  )
+```
+<br>
+
+Now let's get to the results...
+
+The actual number of beans in the jar was **`r format(truth, big.mark = ",")`**.
+
+The person closest to the truth was **`r slice(dta, which.min(abs(dist))) %>% pull(first)`** with a guess of **`r slice(dta, which.min(abs(dist))) %>% pull(guess) %>% format(., big.mark = ",")`** beans. This is a difference of `r round(slice(dta, which.min(abs(dist))) %>% pull(guess)/(truth*100), 2)`%.
+
+The class mean was **`r format(round(mean(dta$guess, na.rm = TRUE), 1), big.mark = ",")`** (*SD* = `r round(sd(dta$guess, na.rm = TRUE))`). This is a difference of `r round(mean(dta$guess, na.rm = TRUE)/(truth*100), 2)`%.
+
+So to answer our research question...
+
+```{r, results='asis'}
+if(abs(mean(dta$guess, na.rm = TRUE) - truth) < abs(slice(dta, which.min(abs(dist))) %>% pull(guess) - truth)) {
+   cat("Hypothosis confirmed! The class average was more accurate than any one person!")
+} else if (abs(mean(dta$guess, na.rm = TRUE) - truth) > abs(slice(dta, which.min(abs(dist))) %>% pull(guess) - truth)) {
+   cat(paste0("**Hypthosis rejected! ", slice(dta, which.min(abs(dist))) %>% pull(first), "'s guess was closer than the class average!**")) 
+} else if (abs(mean(dta$guess, na.rm = TRUE) - truth) == abs(slice(dta, which.min(abs(dist))) %>% pull(guess) - truth)) {
+  cat(paste0("What?! It was a tie! ", slice(dta, which.min(abs(dist))) %>% pull(first), "'s guess was the same as the class average!"))
+}
+```
+<br>
+<br>
+
+<center>**Discussion**</center>
+<br>
+
+Wait! I'm having fun with this, so let's look at major and ID number!
+<br>
+```{r}
+dta_smry <- dta %>% 
+  group_by(major) %>% 
+  summarize(mean_guess = mean(guess, na.rm = TRUE))
+
+ggplot(dta, aes(major, guess, group = major)) +
+  geom_point() +
+  stat_summary(fun = "mean", 
+               geom = "crossbar",
+               width = .5,
+               color = "red") +
+  geom_hline(yintercept = truth, color = "magenta", size = 1) +
+  labs(
+    x = "Major",
+    y = "Bean Guess",
+    title = "Guesses by Major"
+  ) +
+  theme(plot.title.position = "plot")
+```
+<br>
+```{r}
+ggplot(dta, aes(id, guess, group = id)) +
+  geom_point() +
+  stat_summary(fun = "mean", 
+               geom = "crossbar",
+               width = .5,
+               color = "red") +
+  geom_hline(yintercept = truth, color = "magenta", size = 1) +
+  labs(
+    x = "UO ID",
+    y = "Bean Guess",
+    title = "Guesses by UO ID"
+  ) +
+  theme(plot.title.position = "plot")
+```
+
+<br>
+Let's run (bad) a regression!
+With some some help from the `{equatiomatic}` package by our own [Daniel Anderson](https://github.com/datalorax/equatiomatic)!
+<br>
+
+```{r}
+m1 <- lm(dist ~ major + id, data = dta)
+```
+
+```{r}
+extract_eq(m1, wrap = TRUE)
+```
+<br>
+
+```{r}
+model_parameters(m1) %>%
+  as_tibble() %>% 
+  select(-c(CI, df_error, t)) %>% 
+  mutate(across(c(2:5), ~round(., 1)),
+         p = round(p, 3)) %>% 
+  kable(booktabs = TRUE,
+        align = c("l", "r", "r", "r", "r", "r"),
+        caption = "These are the Regression Results")
+```
+
+<br>
+<br>
+<center>**References**</center>
+<br>
+
+
+
