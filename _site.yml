@@ -3,8 +3,6 @@ output_dir: "docs"
 navbar:
   title: "EDLD 651"
   left:
-    # - icon: fa-home
-    #   href: index.html
     - text: Syllabus
       href: syllabus.html
   right:
@@ -12,6 +10,8 @@ navbar:
       href: schedule.html
     - text: Assignments
       href: assignments.html
+    - text: Installs
+      href: installs.html
     - icon: fa-github
       href: https://github.com/uo-datasci-specialization/c1-intro-fall-2021
 output:
