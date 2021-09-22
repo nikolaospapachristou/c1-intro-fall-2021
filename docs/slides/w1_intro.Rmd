@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Data Science with R"
+title: "Introduction to Data Science with `R`"
 subtitle: "EDLD 651"
 author: "Joe Nese"
 institute: "University of Oregon"
@@ -42,7 +42,7 @@ style_duo_accent(
     lightblue = "#56B4E9",
     darkorange = "#D55E00",
     lightorange = "#E69f00",
-    yellow = "F0E442",
+    yellow = "#F0E442",
     green = "#009E73",
     pink = "#CC79A7",
     gray = "999999",
@@ -77,6 +77,30 @@ class: inverse, left, middle
 
 ---
 
+# Some COVID-19 Notes
+
+* Masks required at all times
+* Try to sit in the same seat each week
+* See [syllabus](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/syllabus.html#UO_COVID-19_Regulations__Prevention) for related policies
+* Communicate early and often with me
+* Allow everyone grace
+* Questions?
+
+---
+
+## Courageous Conversations with Me
+
+* Creating norms of openness, understanding, and development
+* An opportunity for us to grow
+* Assumes positive intent
+* Critical for my work (and yours)
+
+.footnote[
+Credit: Dr. Rhonda Nese
+]
+
+---
+
 # About me
 
 * BA: UC Santa Barbara
@@ -92,21 +116,8 @@ class: inverse, left, middle
   
 **Teaching**
 * EDLD 651 - this one!
-* EDLD 654 Applied Machine Learning for Educational Data Scientists
-* EDLD 609 Data Science Capstone
-
----
-
-# Courageous Conversations with Me
-
-* Creating norms of openness, understanding, and development
-* An opportunity for us to grow
-* Assumes positive intent
-* Critical for my work (and yours)
-
-.footnote[
-Credit: Dr. Rhonda Nese
-]
+* EDLD 654 - Applied Machine Learning for Educational Data Scientists
+* EDLD 609 - Data Science Capstone
 
 ---
 
@@ -115,19 +126,84 @@ Credit: Dr. Rhonda Nese
 Please introduce yourself 
 
 * Name and program/year of study 
-* How are you doing?
-* Why you want to learn R?
+* Why you want to learn `R`?
+* Do you have any `R` experience?
 * Tell me whatever you’d like me and the class to know (e.g., pronouns, circumstances)
+* How many beans are in the jar?
+  + No changing your answer!
 
 ---
-
-# BEAN COUNT
+background-color: #cb4154
+# The Great Bean Experiment!
 
 content
 
 ---
 
-# Why is R awesome?
+## Make a journal article!
+
+### with `{rmarkdown}` or `{papaja}`
+
+Like we just did!
+
+---
+## Make slides with `{xaringan}`
+
+Like these!
+
+---
+## Make a website!
+
+### with `{blogdown}`, `{distill}`, `{bookdown}`, `{rmarkdown}`
+
+.pull-left[
+[**For a project**](https://jnese.github.io/coreprosody/)
+```{r out.width = '50%'}
+knitr::include_graphics("images/coreprosody.png")
+```
+]
+
+.pull-right[
+[**For this class**](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/)
+```{r out.width = '50%'}
+knitr::include_graphics("images/edld651home.png")
+```
+]
+---
+
+## Make a dashboard with `{flexdashboard}`!
+
+```{r out.width = '50%'}
+knitr::include_graphics("images/dashboard-ex.png")
+```
+
+---
+
+## Make an app with `{shiny}`
+
+```{r out.width = '50%'}
+knitr::include_graphics("images/shiny-ex.png")
+```
+
+---
+
+## Make a poster with `{posterdown}`!
+
+```{r out.width = '80%'}
+knitr::include_graphics("images/poster_ex.png")
+```
+
+---
+
+class: center, middle
+
+.center[
+![](https://media3.giphy.com/media/l0Ex6Ut39Zj7DzJn2/giphy.gif?cid=ecf05e47nuxorxxyd90ssv30og5pfaysh3bmmj48f7h8exuc&rid=giphy.gif&ct=g)
+]
+
+---
+
+# Why is `R` awesome?
 
 --
 
@@ -152,14 +228,6 @@ content
 --
 
 **Workflow!**
-
----
-
-class: center, middle
-
-.center[
-![](https://media3.giphy.com/media/l0Ex6Ut39Zj7DzJn2/giphy.gif?cid=ecf05e47nuxorxxyd90ssv30og5pfaysh3bmmj48f7h8exuc&rid=giphy.gif&ct=g)
-]
 
 ---
 
@@ -191,9 +259,9 @@ American theoretical physicist, Nobel Laureate
 
 --
 
-.center[
-![](../images/feynman_teach.png)
-]
+```{r}
+knitr::include_graphics("images/feynman_teach.png")
+```
 
 ---
 
@@ -209,13 +277,13 @@ knitr::include_graphics("https://media0.giphy.com/media/g0KKEpxfjIPS7RpZPJ/giphy
 
 ---
 
-# What does Richard Feynman have to say about failing?
+## What does Richard Feynman have to say about failing?
 
 --
 
-.center[
-![](../images/feynman_fail.png)
-]
+```{r}
+knitr::include_graphics("images/feynman_fail.png")
+```
 
 ---
 
@@ -231,13 +299,13 @@ knitr::include_graphics("https://media0.giphy.com/media/26ybwvTX4DTkwst6U/giphy.
 
 ---
 
-# Very smart person Richard Feynman said:
+## Very smart person Richard Feynman said:
 
 --
 
-.center[
-![](../images/feynman_trying.png)
-]
+```{r, out.height='60%'}
+knitr::include_graphics("images/feynman_trying.png")
+```
 
 ---
 
@@ -248,7 +316,7 @@ knitr::include_graphics("https://media0.giphy.com/media/26ybwvTX4DTkwst6U/giphy.
 --
 
 ```{r out.width = '100%'}
-knitr::include_graphics("../images/problemsolved.gif")
+knitr::include_graphics("images/problemsolved.gif")
 ```
 
 ---
@@ -257,21 +325,23 @@ knitr::include_graphics("../images/problemsolved.gif")
 
 --
 
-.center[
-![](../images/feynman_problemsolve.png)
-]
+```{r}
+knitr::include_graphics("images/feynman_problemsolve.png")
+```
 
 ---
 
 # This class...
 
-**Is**
+**...is**
 * data visualization 
 * data structuring and manipulations
 * reproducible workflows
 * a LOT (content and assignments at a fast pace)
 
-**Is not**
+--
+
+**...is not**
 * all encompassing 
 * first of the series
 * a statistics course 
@@ -285,7 +355,7 @@ Sometimes I may ask people to share with the class something they have learned.
 
 * A success, a new `{package}` or `function()`
 * *Completely* voluntary
-  + BUT, you might get a hex sticker 🎉
+  + **BUT**, you might get a hex sticker 🎉
 
 --
 </br>
@@ -299,15 +369,15 @@ Sometimes I may ask people to share with the class something they have learned.
 # A sharing example
 
 .pull-left[
-"I made this cool figure!
-
-I used the `{gghighlight}` package for the first time!
-
-And I annoted my facets separately!"
+> "I made this cool figure!
+> 
+> I used the `{gghighlight}` package for the first time!
+> 
+> And I annoted my facets separately!"
 ]
 
 .pull-right[
-![](../images/share_ex.png)
+![](./images/share_ex.png)
 ]
 
 ---
@@ -315,13 +385,13 @@ And I annoted my facets separately!"
 # Another sharing example
 
 .pull-left[
-"I went to re-run my ‘cool figure’ a couple months later and my code did not work!
-
-I spent [mumble mumble] minutes getting it to work again!"
+> "I went to re-run my ‘cool figure’ a couple months later and my code did not work!
+>
+>I spent [*mumble mumble*] minutes getting it to work again!"
 ]
 
 .pull-right[
-![](../images/share_ex.png)
+![](./images/share_ex.png)
 ]
 
 ---
@@ -348,10 +418,11 @@ class: inverse, left, middle
 
 # Course Site
 
-**www.--------**
+**https://uo-datasci-specialization.github.io/c1-intro-fall-2021/index.html**
 
+* schedule
 * slides (before each class)
-* get assignments
+* assignments
 * syllabus
 * data?
 
@@ -444,10 +515,10 @@ knitr::include_graphics("https://socviz.co/assets/dv-cover-pupress.jpg")
 **Homework (200 points)**
 * Homeworks – 10 labs, 10 points each (120 points)
 * Supplemental Learning
-  + RStudio Primers $/times$ 4
-  + R-Bootcamp – $/times$ 2
-  + Codeacademy - $/times$ 4
-  + Screenshot of specific part of Supplemental Learning
+  + RStudio Primers $\times$ 4
+  + R-Bootcamp $\times$ 2
+  + Codeacademy $\times$ 4
+  + Screenshot of specific part of "Supplemental Learning"
   
 **Final Project (200 points)**
 * Outline (15 points)
@@ -474,7 +545,7 @@ read_csv(here("rubrics", "grades_rubric.csv")) %>%
 
 ---
 
-# Homeworks
+# Homework
 
 * Scored on a “best honest effort” basis
   + generally zero or full credit 
@@ -511,7 +582,7 @@ read_csv(here("rubrics", "grades_rubric.csv")) %>%
 
 ---
 
-# Final Project - Paper Scoring Rubric
+## Final Project - Paper Scoring Rubric
 
 ```{r, echo=FALSE}
 
@@ -536,7 +607,7 @@ read_csv(here("rubrics", "final-project_rubric.csv")) %>%
 
 ---
 
-# Final Project - Data Prep Script
+## Final Project - Data Prep Script
 
 * Expected to be a work in progress
 * Provided to your peers so they can learn from you as much as you can learn from their feedback
@@ -562,7 +633,7 @@ read_csv(here("rubrics", "final-project_rubric.csv")) %>%
 
 ---
 
-# Final Project – Presentation Scoring Rubric
+### Final Project – Presentation Scoring Rubric
 
 ```{r, echo=FALSE}
 
@@ -579,7 +650,7 @@ read_csv(here("rubrics", "final-presentation_rubric.csv")) %>%
 # Final Projct - Paper
 
 * Research Paper
-  + Abstract, Intro, Methods, Results, Discussion
+  + Abstract, Intro, Methods, Results, Discussion, References
   + Should be brief: 3,500 words max 
 * No code displayed - should look like any other manuscript being submitted for publication
 * Include at least 1 table
@@ -603,13 +674,13 @@ read_csv(here("rubrics", "final-presentation_rubric.csv")) %>%
 
 --
 
-This might be frustrating, but we’ll get through it together!
+Git might be frustrating, but we’ll get through it together!
 
 ---
 
 class: inverse, left, middle
 
-# Welcome to `R`
+# Welcome to `R` 
 
 ---
 
@@ -691,7 +762,7 @@ class: center, middle
 
 ### This is the RStudio IDE _(Integrated Development Environment)_
 
-![](./images/ide.png)
+![](../images/ide.png)
 
 ---
 
@@ -829,7 +900,7 @@ Functions are generally followed by `()`
 
 ---
 
-background-image: url("./images/help_info.png")
+background-image: url("../images/help_info.png")
 
 .footnote[
 [https://socviz.co/](https://socviz.co/)
@@ -852,7 +923,7 @@ background-image: url("./images/help_info.png")
 
 (Isaac Asimov, really)
 
-![](./images/feynman_learning.png)
+![](../images/feynman_learning.png)
 
 ---
 class: inverse, left, middle
@@ -874,7 +945,6 @@ Also
 
 ---
 
----
 class: inverse, left, middle
 
 # Customize!
@@ -905,11 +975,11 @@ General
 
 There are a lot...
 
-**Tools 🡆 Keyboard Shortcuts Help** (Alt+Shift+K)
+**Tools 🡆 Keyboard Shortcuts Help** (`Alt + Shift + K`)
 
 **Tools 🡆 Modify Keyboard Shortcuts**
 
-My favorites (for Macs, sub Command for Ctrl)
+My favorites (for Macs, sub `Command` for `Ctrl`)
 * `Ctrl + Enter` = run code
 * `Ctrl + Shift + M` = insert pipe (`%>%`)
 * `Ctrl + Alt + I` = insert code chunk in R Markdown
@@ -919,7 +989,7 @@ Other good ones
 * `Alt + -` = insert assignment operator (<-)
 * `Ctrl + Shift + Alt + Up/Down` = add cursor above/below current cursor
 
-**.darkorange[demo]**
+**.darkorange[[demo]]**
 
 
 ---
@@ -931,7 +1001,7 @@ class: inverse, left, middle
 
 # The data science pipeline
 
-![](./images/ds_pipeline.png)
+![](../images/ds_pipeline.png)
 
 .footnote[
 [R4DS](https://r4ds.had.co.nz/explore-intro.html)
@@ -966,7 +1036,7 @@ Pre-loaded packages work on launch
 For example, `plot()` is part of the `{graphics}` package, which ships with `R`
 --
 
-```{r, fig.height=5}
+```{r, echo=TRUE, fig.height=5}
 plot(x = 1:10, y = 1:10)
 ```
 
@@ -1007,7 +1077,7 @@ Most often, you will first install a package, then load it
 
 --
 
-You will only need to install a package one time (generally). After that, it is in your library, and only needs to be loaded
+You will only need to install a package **once** (generally). After that, it is in your library and only needs to be loaded
 
 --
 
@@ -1025,7 +1095,7 @@ Currently, the CRAN package repository features 18,000+ packages
 
 --
 
-* you will only need to do this the FIRST time you use the package
+* you will only need to do this the **FIRST** time you use the package
 * don’t keep this code line (you can run it in the console, or delete it from your script)
 * notices the quotes
 
@@ -1055,7 +1125,7 @@ On GitHub
 
 # Possibilities
 
-With just a basic knowledge of R you have access to thousands of packages 
+With just a basic knowledge of `R` you have access to thousands of packages 
 * Expanding on a daily basis
 * Provides access to cutting edge and specialized functionality for analysis, data visualization, and data preparation
 * Some of the most modern thinking on data analysis topics are often represented in these packages
@@ -1063,7 +1133,7 @@ With just a basic knowledge of R you have access to thousands of packages
 ---
 background-size: contain
 
-background-image: url("./images/packages.png")
+background-image: url("../images/packages.png")
 
 ---
 class: inverse, left, middle
@@ -1081,15 +1151,18 @@ class: inverse, left, middle
   + `data_name$variable_name`
   + `data_name["variable_name"]`
 
+---
+
+# Some data
+
+Let's load the `{tidyverse}`, and then we'll access some variables from the data sets within the packages
+* Look at the `gss_cat` data frame
+
 --
 
-Let's load the tidyverse, and then we'll access some variables from the datasets within some of those packages
-* Look at the gss_cat data frame
-
-```{r}
-# if you have never installed the {tidyverse} package, you will need to do that first
-#install.packages(“tidyverse”) 
-
+```{r, echo=TRUE}
+# install.packages(“tidyverse”) 
+## if you have never installed {tidyverse} you'll need to do that first
 library(tidyverse)
 
 gss_cat
@@ -1103,21 +1176,21 @@ Select the `marital` variable with `$`
 
 --
 
-```{r}
+```{r, echo=TRUE}
 gss_cat$marital
 ```
 
 ---
 
-# Look at the `str`ucture of an object
+## Look at the `str`ucture of an object
 
-```{r}
+```{r, echo=TRUE}
 str(gss_cat$marital)
 ```
 
 --
 
-```{r}
+```{r, echo=TRUE}
 str(gss_cat)
 ```
 
@@ -1125,7 +1198,7 @@ str(gss_cat)
 
 ## Because `gss_cat` is a `tibble`
 
-```{r}
+```{r, echo=TRUE}
 gss_cat
 ```
 
@@ -1134,12 +1207,12 @@ gss_cat
 # When to use `$`?
 
 * Often when you need to use `{base} R` 
-* Execute a funtion casually
+* Execute a function casually
 
 --
 
 .pull-left[
-```{r}
+```{r, echo=TRUE}
 table(gss_cat$marital)
 ```
 ]
@@ -1147,7 +1220,7 @@ table(gss_cat$marital)
 --
 
 .pull-right[
-```{r}
+```{r, echo=TRUE}
 hist(gss_cat$age)
 ```
 ]
@@ -1156,21 +1229,21 @@ hist(gss_cat$age)
 
 # Your turn
 
-Run `table()` on the `religion` variable
+Run `table()` on the *religion* variable
 
-Produce a `hist`ogram of the `tvhours` variable
+Produce a `hist`ogram of the *tvhours* variable
 
 ---
 
 # The pipe operator (`%>%`)
 
-* The `%>%` operator (Super + Shift + M) inserts the input from the left as the first argument in the next function
+* The `%>%` operator (`Ctrl` + `Shift` + `M`) inserts the input from the left as the first argument in the next function
 * To start, you can read it as, “then”
 * It is crucial for work in the `{tidyverse}`
 
 --
 
-```{r}
+```{r, echo=TRUE}
 gss_cat %>% 
   count(marital)
 ```
@@ -1187,7 +1260,7 @@ Chaining arguments is **efficient** and **easy to read**
 
 --
 
-```{r}
+```{r, echo=TRUE}
 gss_cat %>% 
   filter(relig == "Buddhism",
          age > 55) %>% 
@@ -1198,9 +1271,9 @@ gss_cat %>%
 
 --
 
-Equivalent to:
+#### Equivalent to:
 
-```{r, eval=FALSE}
+```{r, echo=TRUE, eval=FALSE}
 slice(arrange(select(filter(gss_cat, relig == "Buddhism", age > 55), age, partyid, rincome), age), 1:5)
 ```
 
@@ -1212,3 +1285,16 @@ class: inverse, left, middle
 ---
 
 # Before next class
+
+* Reading
+  + [Week 1 reading](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/schedule.html#week-1-introduction) (if you haven't already)
+  + [Project-oriented Workflow](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/)
+  + [R4DS Ch 8](https://r4ds.had.co.nz/workflow-projects.html)
+  + [R4DS 27](https://r4ds.had.co.nz/r-markdown.html)
+  + [here::here() Jenny Bryan](https://github.com/jennybc/here_here)
+  + [`{rio}` vignette](https://cran.r-project.org/web/packages/rio/vignettes/rio.html)
+* Assignments
+  + [A Quick Tour of the RStudio IDE](http://milton-the-cat.rocks/learnr/r/r_getting_started/#section-a-quick-tour-of-r-studio)
+  + [RStudio Primer: Programming basics](https://rstudio.cloud/learn/primers/1.2)
+  + [Codecademy: Introduction to R Syntax](https://www.codecademy.com/courses/learn-r/lessons/introduction-to-r/exercises/introduction)
+
