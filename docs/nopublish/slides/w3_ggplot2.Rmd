@@ -1,9 +1,7 @@
 ---
 title: "Week 3: Data Visualization"
 subtitle: "`{ggplot2}`"
-author: "Joe Nese"
-institute: "University of Oregon"
-date: "Fall 2021"
+author: "Joe Nese<br><span style = 'font-size: 50%;'>University of Oregon<br>Fall 2021</span>"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css

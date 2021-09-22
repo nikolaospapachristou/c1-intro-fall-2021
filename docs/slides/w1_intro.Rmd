@@ -1,9 +1,7 @@
 ---
 title: "Introduction to Data Science with `R`"
 subtitle: "EDLD 651"
-author: "Joe Nese"
-institute: "University of Oregon"
-date: "Fall 2021"
+author: "Joe Nese<br><span style = 'font-size: 50%;'>University of Oregon<br>Fall 2021</span>"
 output:
   xaringan::moon_reader:
     css: xaringan-themer.css
@@ -133,13 +131,20 @@ Please introduce yourself
   + No changing your answer!
 
 ---
-background-color: #cb4154
-# The Great Bean Experiment!
+background-color: #CC79A7
+class: center, middle
 
-content
+# The Great Bean Experiment!
 
 ---
 
+## Why is this important?
+
+* reproducibility
+* transparency
+* open data and code
+
+---
 ## Make a journal article!
 
 ### with `{rmarkdown}` or `{papaja}`
