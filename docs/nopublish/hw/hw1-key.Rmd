@@ -1,5 +1,5 @@
 ---
-title: "Lab 1"
+title: "Homework 1"
 author: "Your Name Here"
 output: html_document
 ---
@@ -25,6 +25,9 @@ If you get errors, you probably don't have one of the packages installed yet, so
 
 ```{r load-tidyverse, message = FALSE, warning = FALSE}
 library(tidyverse)
+library(here)
+library(rio)
+library(janitor)
 ```
 
 Note that you should get some messages printed out below that state all the packages that have been loaded. This is important to pay attention to. It says that both `{ggplot2}` and `{dplyr}` have been loaded, so you don't need explicit 
@@ -40,7 +43,9 @@ Use the code chunk below to:
 * Save each dataset as a separate object
 
 ```{r read-data}
+sesame <- import(here("data", "sesame13.sav"))
 
+star <- read_csv(here("data", "star.csv"))
 ```
 
 ### `{ggplot2}` Peek
@@ -59,12 +64,15 @@ Look at the help documentation for `geom_point()`. Use the help documentation to
 In the code chunk below create a second scatterplot with the *mpg* dataset, this time with the number of cylinders displayed on the *x*-axis and the city miles per gallon on the *y*-axis. Also change the color of the points to "gray70".
 
 ```{r second-plot}
+#?geom_point
 
+ggplot(mpg, aes(x = cyl, y = cty)) +
+  geom_point(color = "gray70")
 ```
 
 ### Inspecting Data
 
-The *diamonds* dataset is also included with *ggplot2*. The code below will show the first six rows of the dataset.
+The *diamonds* dataset is also included with `{ggplot2}`. The code below will show the first six rows of the dataset.
 
 ```{r head-diamonds}
 head(diamonds)
@@ -74,31 +82,40 @@ Look at the help documentation and then use the code below to change the number 
 
 ```{r head-diamonds15}
 
-head(diamonds, )
+head(diamonds, 15)
 ```
 
 Call a similar function that shows the last six rows of the dataset. (Note you may need to look at the same help documentation.)
 
 ```{r last-rows}
-
+tail(diamonds)
 ```
 
 Use any function you want to determine the dimensions of the dataset - i.e., the number of rows and columns.
 
 ```{r diamonds-dimensions}
+str(diamonds)
 
+diamonds
+
+nrow(diamonds)
+
+ncol(diamonds)
+
+dim(diamonds)
 ```
 
 Use the pipe operator, `%>%`, along with the `count()` function, to count the rows of each diamond color. 
 
 ```{r diamond-colors1}
-
+diamonds %>%
+  count(color) 
 ```
 
 Write the same code as above, but this time use `count()` without the pipe operator
 
 ```{r diamond-colors2}
-
+count(diamonds, color) 
 ```
 
 Be sure to add your name to the top of the document (line 3, in the YAML).

@@ -1,0 +1,103 @@
+---
+title: "Homework 6"
+author: ""
+output:
+  html_document
+---
+
+<br>
+<br>
+
+----
+
+#### Please submit Homework 6 as an .Rmd file **AND** as a rendered document (.pdf or .html)
+
+----
+
+<br>
+<br>
+
+#### 1. Create a new R Markdown document and modify the YAML to 
+* Include your name
+* Change the syntax highlighting to any scheme but the default. The options are `default`, `tango`, `pygments`, `kate`, `monochrome`, `espresso`, `zenburn`, `haddock`, and `textmate`. You can also use `NULL` if you want no highlighting.
+<br>
+<br>
+<br>
+
+#### 2. Create a code chunk that:
+* Loads all the packages you decide to use for the lab,
+* Sets a global chunk option to make all figures 6.5" wide and the height to a value that makes sense to you, and
+* Does not display the code, or any warnings or messages from the code, but evaluates every function/line of the code.
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE,
+                      warning = FALSE,
+                      fig.width = 6.5,
+                      fig.height = 4)
+library(rio)
+library(here)
+library(tidyverse)
+library(janitor)
+
+theme_set(theme_minimal())
+```
+<br>
+<br>
+<br>
+
+#### 3. Import the *ecls-k_samp.sav* dataset (stored on Canvas in *Files -> data*), and produce the plot below. Do not show the code you used (colors, themes, etc. don't matter here).
+
+```{r load-data, echo=FALSE}
+eclsk <- import(here("data" , "ecls-k_samp.sav")) %>%
+  characterize() %>%
+  clean_names() 
+
+eclsk %>%
+  filter(ethnic == "WHITE, NON-HISPANIC" |
+         ethnic == "BLACK OR AFRICAN AMERICAN, NON-HISPANIC" |
+         ethnic == "HISPANIC, RACE SPECIFIED" |
+         ethnic == "HISPANIC, RACE NOT SPECIFIED") %>%
+ggplot(aes(t1mscale, t2mscale)) +
+  geom_point() +
+  geom_smooth(aes(color = school_type),
+              method = "lm") +
+  facet_wrap(~ethnic)
+```
+
+<br>
+<br>
+<br>
+
+#### 4. Run The following lines of code to store the mean and standard deviation of `t1mscale`. Extend this code to calculate (in the same code chunk) the mean and standard deviation of `t2mscale`. Note this code assumes you read the **ecls-k** dataset in as an object called `eclsk` - you should substitute in whatever the name is for your data object. The code below also assumes you have used `clean_names` and one more thing about the data we talked about in class. 
+
+
+```{r means-sd, echo = TRUE}
+t1mean <- mean(eclsk$t1mscale, na.rm = TRUE)
+t1sd <- sd(eclsk$t1mscale, na.rm = TRUE)
+
+
+```
+<br>
+<br>
+<br>
+
+#### 5. Using the values you calculated above, use an inline code evaluation below to report the *means* and *SD*s for each of the two time points (`t1mscale` and `t2mscale`). Also report the difference between the means (i.e., the average gain).
+<br>
+<br>
+<br>
+
+#### 6. The following displays a regression model. Reproduce the equation.
+
+$$
+math_{t2_i} = \alpha + \beta_1(math_{t1_i}) + \beta_2(ethnic_{cat_i}) + \beta_3(schooltype_{cat_i}) + \beta_4(ethnic_{t1_i} \times schooltype_{cat_i}) + \epsilon
+$$
+<br>
+<br>
+<br>
+
+#### 7. Pretend you are trying to teach somebody how to load data. Describe the process below that we've discussed in class, including why it helps reproducibility, and echo chunks of code as necessary without actually evaluating any of it.
+- Include some text that is **bold** and some that is *italics.*
+
+
+

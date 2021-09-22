@@ -1,0 +1,84 @@
+---
+title: "Homework 10"
+output: 
+  html_document:
+    highlight: tango
+#    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(babynames)
+library(ggthemes)
+
+theme_set(theme_minimal())
+
+```
+
+#### 1. Create a new RStudio Project and modify the YAML to: 
+* Render to html
+* Change the syntax highlighting to any scheme but the default 
+* Include code folding
+
+
+#### 2. Working with **factors**
+* Get familiar with the `gss_cat` data within the `{forcats}` package.
+* Remove the rows with missing data in the *tvhours* column.
+* Calculate the mean *tvhours* by *marital status*.
+* Display the results as a point plot of average TV consumption by marital status (*tvhours* on the x-asix and *martial* on they y-asix).
+  + In your plot, `reorder` the levels of *marital* according to *tvhours*.
+* Give your plot meaningful axis labels and a title.
+
+```{r factors, include=FALSE}
+
+gss_cat %>%
+  drop_na(tvhours) %>%
+  group_by(marital) %>%
+  summarise(tvhours_mean = mean(tvhours)) %>%
+  ggplot(aes(tvhours_mean, fct_reorder(marital, tvhours_mean))) +
+  geom_point() +
+  labs(y = "Marital Status",
+       x = "TV Hours/Day",
+       title = "Mean TV Hours/Day by Marital Status")
+
+```
+
+
+#### 3. Using the `gss_cat` data within the `{forcats}` package:
+
+* Use any of the functions we talked about in class to display the levels of the *marital* variable.
+* `recode` or `collapse` the *marital* column into three categores: "Not married", "Married", and "No answer".
+* Calculate the mean *tvhours* by *marital status*.
+* Display the results as a column plot of average TV consumption by marital status (*martial* on the x-asix and *tvhours* on they y-asix).
+  + From left to right, the columns in your plot should read: "Not married", "Married", and "No answer".
+* Make your plot look a little nicer with some color, different theme, meaningful axis labels, and a title.
+  
+
+```{r, include=FALSE}
+
+levels(gss_cat$marital)
+table(gss_cat$marital)
+
+gss_cat %>% 
+  count(marital)
+
+gss_cat %>% 
+  mutate(marital = fct_collapse(marital,
+                                "Not married" = c("Never married", "Separated", "Divorced", "Widowed"),
+                                "Married" = c("Married"),
+                                "No anser" = c("No answer"))) %>% 
+  group_by(marital) %>% 
+  summarise(tvhours_mean = mean(tvhours, na.rm = TRUE)) %>%
+  ggplot(aes(fct_relevel(marital, "Not married", "Married"), tvhours_mean)) +
+  geom_col(aes(fill = marital)) +
+  scale_fill_colorblind() +
+  labs(y = "Marital Status",
+       x = "TV Hours/Day",
+       title = "Mean TV Hours/Day by Marital Status") +
+  theme(legend.position = "none")
+
+```
+
+This lab borrows from [Garrett Grolemund's](https://resources.rstudio.com/authors/garrett-grolemund) [Remaster the Tidyverse](https://github.com/rstudio-education/remaster-the-tidyverse/) materials. 

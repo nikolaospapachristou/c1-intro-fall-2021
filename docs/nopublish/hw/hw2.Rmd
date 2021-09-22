@@ -1,5 +1,5 @@
 ---
-title: "Lab 2"
+title: "Homework 2"
 author: "Your Name Here"
 output:
   pdf_document: default
