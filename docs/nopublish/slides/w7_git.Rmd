@@ -1,0 +1,865 @@
+---
+title: "Week 6: git & GitHub"
+subtitle: "Version Control"
+author: "Joe Nese<br><span style = 'font-size: 50%;'>University of Oregon<br>Fall 2021</span>"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+#      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  error = TRUE
+#  hiline = TRUE
+)
+library(xaringan)
+library(xaringanExtra)
+library(xaringanthemer)
+library(tidyverse)
+library(knitr)
+library(here)
+library(kableExtra)
+library(fontawesome)
+library(countdown)
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+
+style_duo_accent(
+  primary_color = "#1F4E79",
+  secondary_color = "#0072B2",
+  header_font_google = google_font("Atkinson Hyperlegible", "600"),
+  text_font_google   = google_font("Atkinson Hyperlegible", "300", "300i"),
+  code_font_google   = google_font("IBM Plex Mono"),
+  colors = c(
+    darkblue = "#0072B2",
+    lightblue = "#56B4E9",
+    darkorange = "#D55E00",
+    lightorange = "#E69f00",
+    yellow = "#f0e442",
+    green = "#009E73",
+    pink = "#CC79A7",
+    white = "#FFFFFF"
+  )
+)
+```
+
+```{r xaringanExtra-freezeframe, echo=FALSE}
+xaringanExtra::use_freezeframe()
+```
+
+---
+class: inverse, left, middle
+
+# git & GitHub
+## Week 7
+
+---
+
+# Agenda
+
+*
+
+**Learning Objectives**
+
+* ~~Understand~~ Introduce the basics of git and git terminology
+* Be able to create repos, commit changes, push, clone, and pull
+* Be prepared to collaborate on a project
+
+---
+
+# git & GitHub
+
+#### What are they?
+
+.pull-left[
+**git**
+```{r, echo=FALSE, out.width='10%'}
+knitr::include_graphics("https://git-scm.com/images/logos/logomark-orange@2x.png")
+```
+* a version control system
+* lives on your computer and keeps track of files and all changes made to them that you register with *commits*
+]
+
+.pull-right[
+**GitHub**
+```{r, echo=FALSE, out.width='10%'}
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/600px-Octicons-mark-github.svg.png")
+```
+* an online host for *repositories* of code and data
+* lives on the internet
+]
+
+.footnote[
+Credit [Nathan Brouwer](https://mobile.twitter.com/lobrowR)
+]
+
+---
+# git & GitHub
+
+#### Why are they important?
+
+**Backup**: Easy way to upload files and add notes about changes. Excellent way to keep all your R work backed-up on the cloud
+
+--
+
+**Version Control**: Complete history of all changes and why they were made, and multiple branches of history
+
+--
+
+**Open Access**: Open, transparent, and public science. Some journals allow GitHub sites to be used to host data and code to meet their open-access requirements
+
+--
+
+**Visibility**: GitHub makes it easy to make your open-access work visible to people who might be interested (collaborators, employers)
+
+--
+
+**Collaborative tool**: Git and GitHub are designed for collaboration (even if you’re the only one coding). Easy to share files between collaborators, allows for merging work and reconciling conflicts.
+
+--
+
+**Job Skill**: This is an important data science skill
+
+.footnote[
+Credit [Nathan Brouwer](https://mobile.twitter.com/lobrowR)
+]
+
+---
+# git & GitHub
+
+#### How?
+
+1. Install git
+2. Create a GitHub account (hopefully you all have done this)
+3. Get a GUI and/or learn the command-line tools
+  + I'm okay with either or both, as long as you (sort of) know what you're doing
+  + We’re going to use [GitKraken](https://www.gitkraken.com/) in this course 
+4. Develop a solid understanding of the underlying structure, so you know what you want to do even if you don't know how
+  + *commit*, *push*, *pull*, *fork*
+
+---
+background-image: url(https://res.cloudinary.com/practicaldev/image/fetch/s--t4yzzdh2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/pgwreddlj4a1m16bjnzm.jpg)
+background-size: contain
+
+---
+## git can be frustrating, but...
+
+It is transparent – mistakes and all
+Can be a powerful tool for collaboration
+* Communication between team members is important
+* Try to avoid merge conflicts
+  - One person working on one thing at a time
+  - Pull first each and every time!
+  - Push often/at logical points
+Excellent for reproducibility (a tenet of the data science pipeline)
+* Open data and code
+* Transparent 
+* Forking paths
+
+---
+## Notes on Open & Reproducible Research
+
+* Use scripting
+* Use dynamic documents 
+  + R Markdown is fantastic
+  + Better than Jupyter notebooks; see [here](https://docs.google.com/presentation/d/1n2RlMdmv1p25Xy5thJUhkKGvjtV-dkAIsUXP-AL4ffI/edit#slide=id.g362da58057_0_1) and [here](https://yihui.name/en/2018/09/notebook-war/)
+* Use Git/GitHub
+* Use open data whenever possible
+  + Consider ways you can make portions of the data open, if not all of it
+* Advanced – use tools that store software versions
+  + `{renv}` (Rstudio)
+  + `{target}` (formely drake)
+  + `{holepunch}` 
+
+---
+# All the things
+
+* **git** – a version control system that lives on your machine
+* **GitHub** – repo host that lives online, works with git
+* **GitKraken** – a GUI that lives on your machine and communicates with GitHub and git
+
+---
+# Version Control
+
+We can think of the changes as separate from the document
+
+You can then think about “playing back” different sets of changes on the base document, ultimately resulting in different versions of that document
+
+```{r, echo=FALSE, out.height='50%'}
+knitr::include_graphics("https://swcarpentry.github.io/git-novice/fig/play-changes.svg")
+```
+
+.footnote[
+[swcarpentry](https://swcarpentry.github.io/git-novice/01-basics/index.html)
+]
+
+---
+# Version Control
+
+This means there are many possible versions of the same document
+
+```{r, echo=FALSE, out.width='50%', fig.align="center"}
+knitr::include_graphics("https://swcarpentry.github.io/git-novice/fig/versions.svg")
+```
+
+.footnote[
+[swcarpentry](https://swcarpentry.github.io/git-novice/01-basics/index.html)
+]
+
+---
+# Version Control
+
+Unless there are conflicts, two changes from the same document can be merged together
+
+```{r, echo=FALSE, out.width='50%', fig.align="center"}
+knitr::include_graphics("https://swcarpentry.github.io/git-novice/fig/merge.svg")
+```
+
+.footnote[
+[swcarpentry](https://swcarpentry.github.io/git-novice/01-basics/index.html)
+]
+
+---
+# Let's talk about "how"
+
+* Understand the structure of git
+* Actual method of completing the tasks is up to you
+  + GUI? Command line? RStudio?
+* I’ve asked you to install [GitKraken](https://www.gitkraken.com/)
+  + Worth it to manage merge conflicts alone
+* If you’re already using something else, that’s ok!
+  + Let me know
+
+---
+background-color: #009E73
+
+# Terminology
+
+--
+
+#### Version Control System
+* A tool to help us track changes. git is one such system (but there are others)
+
+--
+
+#### repository (repo)
+* The files, full commit history, and associated metadata for a project
+
+--
+
+#### remote (repo)
+  + The cloud-based server hosting the repo (that's GitHub)
+
+#### local (repo)
+  + The (entire) repo you - and each collaborator - has on their local machine
+
+--
+
+```{r}
+knitr::include_graphics("images/git_1.png")
+```
+
+
+---
+class: inverse, left, middle
+
+## Let's connect GitHub and GitKraken
+
+---
+# Connect GitHub & GitKraken
+
+Go to GitKraken
+
+1. "Sign in with GitHub"
+2. "Continue with Authorization"
+3. You should see *“Success: GitHub and GitKraken are good to go!”* or something like that
+4. Check your email for an email from GitHub to verify (?)
+
+---
+# Open GitKraken
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/open_gk.png")
+```
+
+---
+# Connect GitHub and GitKraken
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/auth_gk.png")
+```
+
+---
+# Connect GitHub and GitKraken
+
+Check your email (associated with your GitHub account)
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/auth_gk.png")
+```
+
+---
+class: inverse, left, middle
+
+# Incorporating git/GitHub/GitKraken
+## into your data science workflow
+
+---
+# Proposed Workflow
+
+1. Create your RStudio Project (as usual)
+2. Open a **repo** on GitKraken
+3. Create new **repo** on GitHub
+4. Add **remote** on GitKraken
+
+---
+# 1. Create your RStudio Project (as usual)
+
+* Let’s make a new RStudio Project
+
+* Note the name you gave the project (folder)
+
+* *"Create a git repository"*
+  + If ✔️: Don't add `.gitignore` in GiKraken or GitHub  
+  + If 🚫: Add `.gitignore` in GitKraken **or** GitHub
+
+---
+# 1. Create your RStudio Project (as usual)
+
+* Let’s make a new RStudio Project
+
+* Note the name you gave the project (folder)
+
+* *"Create a git repository"*
+  + .bg-yellow[If ✔️: Don't add `.gitignore` in GiKraken or GitHub]
+  + If 🚫: Add `.gitignore` in GitKraken **or** GitHub
+
+---
+# 2. Open a repo on GitKraken
+
+**GitKraken**
+
+* Open a repo
+* Init
+* Local only
+
+---
+# Open a repo (GitKraken)
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gk_new.png")
+```
+
+---
+# Open a repo (GitKraken)
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gk_init.png")
+```
+
+---
+# Open a repo (GitKraken)
+
+* *"Name"*
+  + folder name where the Rproject lives
+* *"Initialize in"*
+  + Browse to the <u>parent</u> folder where your Rproject lives
+* *"Full path"*
+  + The full path should read to the path where your Rproject lives
+  + (it pastes the *"Initialize in"* path with the *"Name"*)
+* *"Default branch name"*
+  + "main"
+* *".gitignore Template"*
+  + .bg-ellow[If already created one with your project, leave empty]
+  + If none yet created, choose "R"
+* *"License (optional)"*
+  + MIT License
+
+---
+# Open a repo (GitKraken)
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gk_init2.png")
+```
+
+---
+# 3. Create new repo on GitHub
+
+**GitHub**
+
+(1) Create new Repo
+  + Repository name – same as your Project name
+  + Description – keep it brief, informative
+  + Public
+  + Do not initialize
+  + "None" 
+  + do **NOT** add `.gitignore` 
+  + do **NOT** add a license
+
+(2) Copy URL from GitHub
+
+---
+# 3. Create new repo on GitHub
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gh_new.png")
+```
+
+---
+# 3. Create new repo on GitHub
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gh_new2.png")
+```
+
+---
+# Copy URL from GitHub
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gh_new3.png")
+```
+
+---
+# 4. Back to GitKraken to Add Remote
+
+**GitKraken**
+
+Add REMOTE
+* Same Name used thus far
+* Click `r fa(name = "globe")` *"URL"*
+* Paste URL
+
+---
+# REMOTE
+
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gk_remote.png")
+```
+
+---
+# Paste URL into "Pull URL"
+
+* Same Name used thus far
+* Click `r fa(name = "globe")` *"URL"*
+* Paste URL
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gk_url.png")
+```
+
+---
+class: inverse, left, middle
+
+# Let's see what we've done
+
+---
+# Navigate to the folder
+
+* Where did you save your *local*?
+
+--
+
+.pull-left[
+If you don’t see the `.git` folder
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("images/show_hidden.png")
+```
+]
+
+---
+# Tracking
+
+* As long as the `.git` folder exists, the entire folder will be tracked
+* **Do not** create repos inside of repos
+* If you want a folder to show up, there needs to be something in it (e.g., a README.md)
+
+---
+# Ignoring files
+
+* When we created the .Rproj the repo, we started it with a `.gitignore` file
+* The `.gitignore` file tells the repo not to track certain files
+  + e.g., proprietary data
+* Not that important for now, but if you need to ignore a file in your repo for whatever reason, just put the name of the file(s) at the top of the `.gitignore` file
+* Or, create a folder in your .Rproj (e..g, `nopublish`) and put all your documents to be ignored in that file
+  + then on the first line of your `.gitignore` file, type: nopublish/*
+
+---
+# Lab 7
+
+Submit a link to the repo you created
+* Upload the link to Canvas
+* See me if you were unable to complete in class (for technical reasons etc.)
+
+It is ok if you leave today a ~~little~~ lot confused!
+
+---
+background-color: #009E73
+
+# Terminology
+
+--
+
+#### Stage
+* A file that is being prepared for a commit
+
+--
+
+#### Commit
+* Changes that have been made to the file(s)
+
+--
+
+#### Push
+* After you commit the changes you want, push them from the local to the remote
+
+--
+
+Half the battle is learning these terms
+
+.darkorange[[demo]]
+
+---
+background-image: url(images/bryan2.png)
+background-size: contain
+
+.footnote[
+Image from Bryan (2017)
+]
+
+---
+# Pull
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("images/pull.png")
+```
+
+
+* **Pull** before you start any collaborative work!!
+* **Pull** any accepted changes from the remote to your local
+
+--
+
+**Pull before you start any collaborative work!!**
+
+---
+# Collaborating
+
+Two methods
+
+1. Add users to a repo
+  + *Settings > Manage access > Invite a collaborator* (add user with username)
+2. Create an organization
+
+--
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("images/gh_neworg.png")
+```
+
+---
+# Collaborating
+
+Final Project
+* Add users to a repo
+
+1. One group member will Open a repo (like we just went over)
+  + Potentially the person who has the project data, but not necessarily
+2. Within the repo on GitHub
+  > *Settings*
+  > *Manage access*
+  > *Invite a collaborator*
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("images/gh_invite.png")
+```
+
+---
+# Collaborating
+
+* The collaborators will receive an email from GitHub
+* Accept the invitation
+* **Clone** the repo
+
+---
+# Cloning
+
+* Cloning means that you are downloading the repo
+* You can clone any repo you like (like the `{tidyverse}`)
+* For the final project, you will **clone** the repo you were invited to collaborate on
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("images/gh_clone.png")
+```
+
+---
+# Clone a repo
+
+(1) Go to the repo on GitHub
+
+(2) Click the green *"Code"* button near the top
+
+(3) Copy the URL 
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("images/gh_clone.png")
+```
+
+---
+# Clone a repo
+
+(4) Go to GitKraken
+
+(5) Clone > `r fa(name = "globe)` Clone with URL
+
+(6) Specify where it will live on your machine (*"Where to clone to"*)
+
+(7) Paste in the copied URL
+
+(8) Click *"Clone the repo!"*
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("images/gh_clone2.png")
+```
+
+---
+class: inverse, left, middle
+
+# Merge Conflict
+
+---
+background-image: url(https://www.meme-arsenal.com/memes/cce345428b0f8c83b92d4a0d958467f3.jpg)
+background-size: contain
+
+---
+# Merge Conflicts
+
+* Always **pull** before you start working!!
+* Try to stay in communication with your collaborators and don't work on the exact same thing at the same time
+* Use GitKraken to help manage merge conflicts that do come up
+
+---
+# Merge Conflicts
+
+* Remember to always **pull** first!!
+* GitKraken has a really nice GUI to resolve merge conflicts
+
+<video width="320" height="240">
+<source src="https://www.youtube.com/watch?v=R1iWJNyRpQE">
+</video>
+
+[link](https://www.youtube.com/watch?v=R1iWJNyRpQE)
+
+---
+# Merge Conflicts
+
+Let's give this a shot
+
+.darkorange[[demo]]
+
+---
+# Merge Conflict Activity (15 mins)
+
+1. Get a partner
+2. Partner1 open in GitHub the repo we made last class
+3. Partner1 add Partner2 as a collaborator in GitHub
+4. Partner2 clone the repo
+5. Partner1 make changes to the file in the repo, commit, and push
+6. Partner2 **do NOT pull**
+7. Partner2 make different changes to the same parts of the file
+  + Partner2 commit the changes. Try to push. What happens? Why?
+8. Use GitKraken to deal with the merge conflict
+
+```{r}
+countdown(minutes = 15, seconds = 0, bottom = 0, warn_when = 120)
+```
+
+---
+# Merge Conflict Activity (15 mins)
+
+(1) Partner1 open in GitHub the repo we made last class
+
+(2) Partner1 add Partner2 as a collaborator in GitHub
+
+(3) Partner2 open email associated with GitHub to accept invitation
+
+(4) Partner2 clone the repo
+  + **GitHub**
+  + Copy URL (hit clipboard icon)
+  + **GitKraken**
+  + Clone with URL
+  + Paste in URL
+  + Choose place where repo will live on your machine (local)
+
+---
+# Merge Conflict Activity (15 mins)
+
+(5) Partner1 open RRtudio
+  + Make a change to one file in the repo (how about an Rmd file)
+  + commit and push
+(6) Partner2 **do NOT pull**
+(7) Partner2 
+  + Make a different change to the same file in as above
+  + Partner2 commit the changes to local
+  + Try to push. 
+  + What happens? Why?
+(8) Use GitKraken to deal with the merge conflict
+
+---
+# Quick Recap
+
+Basic workflow
+* Create a project
+* Create a repo
+* Add collaborators
+* **pull**
+* Commit changes
+* Push changes to remote
+
+---
+Revisiting git terminology
+
+Talk with a neighbor about what each of these terms mean
+* clone
+* pull
+* stage
+* commit
+* push
+* repo
+* remote
+
+---
+class: inverse, left, middle
+
+# Final Project
+
+---
+# Final Project
+
+Final paper: R Markdown document
+
+**Final project must:**
+* Be fully reproducible
+  + This implies the data are open
+* Be a collaborative project hosted on GitHub
+* Move data from its raw "messy" format to a tidy data format
+* Include at least two exploratory plots
+* Include at least summary statistics of the data in tables, although fitted models are also encouraged
+
+---
+# Final Project - Dates
+
+* **Week 8  (11/24)**: Data prep script due
+* **Week 9  (12/1)**:  Peer review due
+* **Week 10 (12/8)**:  Final project presentations
+* **Week 11 (12/15)**: Final Paper due
+
+---
+## Final Project - Data Prep Script
+
+* Expected to be a work in progress
+* Provided to your peers so they can learn from you as much as you can learn from their feedback
+
+**Peer Review**
+
+* Understand the purpose of the exercise
+* Conducted as a professional product
+* Should be **very** encouraging 
+* Zero tolerance policy for inappropriate comments
+
+---
+# Final Project – Presentation
+
+Groups are expected to present for approximately 15 minutes (split evenly among members). Group order randomly assigned. 
+
+Presentation cover the following:
+* Share your journey (everyone, at least for a minute or two)
+* Discuss challenges you had along the way
+* Celebrate your successes
+* Discuss challenges you are still facing
+* Discuss substantive findings
+* Show off your cool figures!
+* Discuss next `R` hurdle you want to address
+
+---
+## Final Project – Presentation Scoring Rubric
+
+```{r, echo=FALSE}
+
+read_csv(here("rubrics", "final-presentation_rubric.csv")) %>% 
+  mutate(across(everything(), ~ifelse(is.na(.), "", .))) %>% 
+  kable(caption = "<b>Final Presentation Rubric</b>") %>% 
+  kable_classic(full_width = F) %>%
+  row_spec(6, bold = TRUE) %>% 
+  kable_styling(font_size = 14, position = "left")
+```
+
+---
+# Final Project – Paper
+
+* R Markdown document
+  + Abstract, Intro, Methods, Results, Discussion, References
+  + Should be brief: 3,500 words max 
+* No code displayed - should look similar to a manuscript being submitted for publication
+* Include at least 1 table
+* Include at least 2 plots
+* Should be fully open, reproducible, and housed on GitHub
+  + I should be able to clone your repository, open the R Studio Project, and reproduce the full manuscript (by knitting the R Markdown doc)
+
+---
+## Final Paper - Scoring Rubric
+
+```{r, echo=FALSE}
+
+read_csv(here("rubrics", "final-project_rubric.csv")) %>% 
+  mutate(`Points Possible` = ifelse(is.na(`Points Possible`), "", `Points Possible`)) %>% 
+  gt() %>% 
+  table_style() %>% 
+  fmt_markdown(columns = 1) %>% 
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+      ),
+    locations = cells_body(
+      columns = Criteria,
+      rows = c(1, 8, 12, 20)
+    )
+  ) %>% 
+  tab_header(
+    title = md("**Final Paper Rubric**"))
+  
+```
+
+---
+# Final Project
+
+The following functions: 
+* `pivot_longer()`
+* `mutate()`
+* `select()`
+* `filter()`
+* `pivot_wider()`
+* `group_by()`
+* `summarize()`
+
+

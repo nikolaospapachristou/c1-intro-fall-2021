@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 6: git &amp; GitHub</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Joe Nese University of Oregon Fall 2021" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <script src="libs/freezeframe/freezeframe.min.js"></script>
+    <script src="libs/xaringanExtra-freezeframe/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 6: git &amp; GitHub
+## Version Control
+### Joe Nese<br><span style="font-size: 50%;">University of Oregon<br>Fall 2021</span>
+
+---
+
+
+
+
+
+
+
+
+---
+class: inverse, left, middle
+
+# git &amp; GitHub
+## Week 7
+
+---
+
+# Agenda
+
+*
+
+**Learning Objectives**
+
+* ~~Understand~~ Introduce the basics of git and git terminology
+* Be able to create repos, commit changes, push, clone, and pull
+* Be prepared to collaborate on a project
+
+---
+
+# git &amp; GitHub
+
+#### What are they?
+
+.pull-left[
+**git**
+&lt;img src="https://git-scm.com/images/logos/logomark-orange@2x.png" width="10%" /&gt;
+* a version control system
+* lives on your computer and keeps track of files and all changes made to them that you register with *commits*
+]
+
+.pull-right[
+**GitHub**
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/600px-Octicons-mark-github.svg.png" width="10%" /&gt;
+* an online host for *repositories* of code and data
+* lives on the internet
+]
+
+.footnote[
+Credit [Nathan Brouwer](https://mobile.twitter.com/lobrowR)
+]
+
+---
+# git &amp; GitHub
+
+#### Why are they important?
+
+**Backup**: Easy way to upload files and add notes about changes. Excellent way to keep all your R work backed-up on the cloud
+
+--
+
+**Version Control**: Complete history of all changes and why they were made, and multiple branches of history
+
+--
+
+**Open Access**: Open, transparent, and public science. Some journals allow GitHub sites to be used to host data and code to meet their open-access requirements
+
+--
+
+**Visibility**: GitHub makes it easy to make your open-access work visible to people who might be interested (collaborators, employers)
+
+--
+
+**Collaborative tool**: Git and GitHub are designed for collaboration (even if you’re the only one coding). Easy to share files between collaborators, allows for merging work and reconciling conflicts.
+
+--
+
+**Job Skill**: This is an important data science skill
+
+.footnote[
+Credit [Nathan Brouwer](https://mobile.twitter.com/lobrowR)
+]
+
+---
+# git &amp; GitHub
+
+#### How?
+
+1. Install git
+2. Create a GitHub account (hopefully you all have done this)
+3. Get a GUI and/or learn the command-line tools
+  + I'm okay with either or both, as long as you (sort of) know what you're doing
+  + We’re going to use [GitKraken](https://www.gitkraken.com/) in this course 
+4. Develop a solid understanding of the underlying structure, so you know what you want to do even if you don't know how
+  + *commit*, *push*, *pull*, *fork*
+
+---
+background-image: url(https://res.cloudinary.com/practicaldev/image/fetch/s--t4yzzdh2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/pgwreddlj4a1m16bjnzm.jpg)
+background-size: contain
+
+---
+background-image: url(https://www.meme-arsenal.com/memes/cce345428b0f8c83b92d4a0d958467f3.jpg)
+background-size: contain
+
+---
+## git can be frustrating, but...
+
+It is transparent – mistakes and all
+Can be a powerful tool for collaboration
+* Communication between team members is important
+* Try to avoid merge conflicts
+  - One person working on one thing at a time
+  - Pull first each and every time!
+  - Push often/at logical points
+Excellent for reproducibility (a tenet of the data science pipeline)
+* Open data and code
+* Transparent 
+* Forking paths
+
+---
+## Notes on Open &amp; Reproducible Research
+
+* Use scripting
+* Use dynamic documents 
+  + R Markdown is fantastic
+  + Better than Jupyter notebooks; see [here](https://docs.google.com/presentation/d/1n2RlMdmv1p25Xy5thJUhkKGvjtV-dkAIsUXP-AL4ffI/edit#slide=id.g362da58057_0_1) and [here](https://yihui.name/en/2018/09/notebook-war/)
+* Use Git/GitHub
+* Use open data whenever possible
+  + Consider ways you can make portions of the data open, if not all of it
+* Advanced – use tools that store software versions
+  + `{renv}` (Rstudio)
+  + `{target}` (formely drake)
+  + `{holepunch}` 
+
+---
+# All the things
+
+* **git** – a version control system that lives on your machine
+* **GitHub** – repo host that lives online, works with git
+* **GitKraken** – a GUI that lives on your machine and communicates with GitHub and git
+
+---
+# Version Control
+
+We can think of the changes as separate from the document
+
+You can then think about “playing back” different sets of changes on the base document, ultimately resulting in different versions of that document
+
+&lt;img src="https://swcarpentry.github.io/git-novice/fig/play-changes.svg" width="100%" height="50%" /&gt;
+
+.footnote[
+[swcarpentry](https://swcarpentry.github.io/git-novice/01-basics/index.html)
+]
+
+---
+# Version Control
+
+This means there are many possible versions of the same document
+
+&lt;img src="https://swcarpentry.github.io/git-novice/fig/versions.svg" width="50%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+[swcarpentry](https://swcarpentry.github.io/git-novice/01-basics/index.html)
+]
+
+---
+# Version Control
+
+Unless there are conflicts, two changes from the same document can be merged together
+
+&lt;img src="https://swcarpentry.github.io/git-novice/fig/merge.svg" width="50%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+[swcarpentry](https://swcarpentry.github.io/git-novice/01-basics/index.html)
+]
+
+---
+# Let's talk about "how"
+
+* Understand the structure of git
+* Actual method of completing the tasks is up to you
+  + GUI? Command line? RStudio?
+* I’ve asked you to install [GitKraken](https://www.gitkraken.com/)
+  + Worth it to manage merge conflicts alone
+* If you’re already using something else, that’s ok!
+  + Let me know
+
+---
+background-color: #009E73
+
+# Terminology
+
+--
+
+#### Version Control System
+* A tool to help us track changes. git is one such system (but there are others)
+
+--
+
+#### repository (repo)
+* The files, full commit history, and associated metadata for a project
+
+--
+
+#### remote (repo)
+  + The cloud-based server hosting the repo (that's GitHub)
+
+#### local (repo)
+  + The (entire) repo you - and each collaborator - has on their local machine
+
+--
+
+
+```r
+knitr::include_graphics("images/git_1.png")
+```
+
+```
+## Error in knitr::include_graphics("images/git_1.png"): Cannot find the file(s): "images/git_1.png"
+```
+
+
+---
+class: inverse, left, middle
+
+## Let's connect GitHub and GitKraken
+
+---
+# Connect GitHub &amp; GitKraken
+
+Go to GitKraken
+
+1. "Sign in with GitHub"
+2. "Continue with Authorization"
+3. You should see *“Success: GitHub and GitKraken are good to go!”* or something like that
+4. Check your email for an email from GitHub to verify (?)
+
+---
+# Open GitKraken
+
+
+```
+## Error in knitr::include_graphics("images/open_gk.png"): Cannot find the file(s): "images/open_gk.png"
+```
+
+---
+# Connect GitHub and GitKraken
+
+
+```
+## Error in knitr::include_graphics("images/auth_gk.png"): Cannot find the file(s): "images/auth_gk.png"
+```
+
+---
+# Connect GitHub and GitKraken
+
+Check your email (associated with your GitHub account)
+
+
+```
+## Error in knitr::include_graphics("images/auth_gk.png"): Cannot find the file(s): "images/auth_gk.png"
+```
+
+---
+class: inverse, left, middle
+
+# Incorporating git/GitHub/GitKraken
+## into your data science workflow
+
+---
+# Proposed Workflow
+
+1. Create your RStudio Project (as usual)
+2. Open a **repo** on GitKraken
+3. Create new **repo** on GitHub
+4. Add **remote** on GitKraken
+
+---
+# 1. Create your RStudio Project (as usual)
+
+* Let’s make a new RStudio Project
+
+* Note the name you gave the project (folder)
+
+* *"Create a git repository"*
+  + If ✔️: Don't add `.gitignore` in GiKraken or GitHub  
+  + If 🚫: Add `.gitignore` in GitKraken **or** GitHub
+
+---
+# 1. Create your RStudio Project (as usual)
+
+* Let’s make a new RStudio Project
+
+* Note the name you gave the project (folder)
+
+* *"Create a git repository"*
+  + .bg-.yellow[If ✔️: Don't add `.gitignore` in GiKraken or GitHub]
+  + If 🚫: Add `.gitignore` in GitKraken **or** GitHub
+
+---
+# 2. Open a repo on GitKraken
+
+GitKraken
+
+* Open a repo
+* Init
+* Local only
+
+---
+# Open a repo (GitKraken)
+
+
+```
+## Error in knitr::include_graphics("images/gk_new.png"): Cannot find the file(s): "images/gk_new.png"
+```
+
+---
+# Open a repo (GitKraken)
+
+
+```
+## Error in knitr::include_graphics("images/gk_init.png"): Cannot find the file(s): "images/gk_init.png"
+```
+
+---
+# Open a repo (GitKraken)
+
+* *Name*
+  + folder name where the Rproject lives
+* *Initialize in*
+  + Browse to the &lt;u&gt;parent&lt;/u&gt; folder where your Rproject lives
+* *Full path*
+  + The full path should read to the path where your Rproject lives
+  + (it pastes the *Initialize in* path with the *Name*)
+* *Default branch name*
+  + "main"
+* *.gitignore Template *
+  + "R"
+* *License (optional)*
+  + MIT License
+
+---
+# Open a repo (GitKraken)
+
+
+```
+## Error in knitr::include_graphics("images/gk_init2.png"): Cannot find the file(s): "images/gk_init2.png"
+```
+
+---
+# 3. Create new repo on GitHub
+
+GitHub
+
+(1) Create new Repo
+  + Repository name – same as your Project name
+  + Description – keep it brief, informative
+  + Public
+  + Do not initialize
+  + "None" 
+  + do **NOT** add `.gitignore` 
+  + do **NOT** add a license
+
+(2) Copy URL from GitHub
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
