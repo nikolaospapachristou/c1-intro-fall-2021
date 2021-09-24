@@ -405,6 +405,7 @@ read_csv(here("rubrics", "final-project_rubric.csv")) %>%
   mutate(`Points Possible` = ifelse(is.na(`Points Possible`), "", `Points Possible`)) %>% 
   gt() %>% 
   table_style() %>% 
+  fmt_markdown(columns = 1) %>% 
   tab_style(
     style = list(
       cell_text(weight = "bold")
