@@ -127,6 +127,12 @@ We will also be using some content from the [Learn R](https://www.codecademy.com
 <br>
 
 ## Helpful People/Groups
+<br>
+<br>
+
+### learnR4free
+
+[learnR4free](https://www.learnr4free.com/en/index.html) includes all sorts of resources (including books, videos, interactive websites, papers) to learn `R` for free.
 
 ### R-Ladies
 Regardless of how you identify, but particularly if you identify as a woman or gender non-binary, I recommend connecting with the [R-Ladies](https://rladies.org/) group, which is now a global organization. They are an excellent organization of incredibly supportive individuals who routinely share great information. 

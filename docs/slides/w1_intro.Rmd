@@ -483,6 +483,8 @@ knitr::include_graphics("https://socviz.co/assets/dv-cover-pupress.jpg")
 
 # Resources
 
+* [learnR4free](https://www.learnr4free.com/en/index.html)
+  + all sorts of resources (books, videos, websites, papers) to learn `R` for free 
 * [R-Ladies](https://rladies.org/)
   + Global organization to promote gender diversity in the R community
 * [R-Ladies Portland](https://www.meetup.com/rladies-pdx/)
