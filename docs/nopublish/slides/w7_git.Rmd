@@ -690,7 +690,7 @@ Let's give this a shot
   + Partner2 commit the changes. Try to push. What happens? Why?
 8. Use GitKraken to deal with the merge conflict
 
-```{r}
+```{r, echo=FALSE}
 countdown(minutes = 15, seconds = 0, bottom = 0, warn_when = 120)
 ```
 
