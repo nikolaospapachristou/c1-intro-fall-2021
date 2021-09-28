@@ -716,7 +716,7 @@ Git might be frustrating, but we’ll get through it together!
 
 class: inverse, left, middle
 
-# Welcome to `R`!
+# Welcome to `R` !
 
 ---
 
