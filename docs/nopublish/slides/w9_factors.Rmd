@@ -35,7 +35,9 @@ library(janitor)
 library(kableExtra)
 library(palmerpenguins)
 library(countdown)
-
+library(DT)
+library(reactable)
+library(gtsummary)
 ```
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
@@ -736,7 +738,441 @@ Recode many levels into fewer levels
 `fct_lump()`
 
 --
-Recode levels into top n – 1 levels, plus “Other”
+Recode levels into top `n – 11 levels, plus "Other"
 
-Default is n = 2 levels (most frequent level plus “Other”)
+Default is `n = 2` levels (most frequent level plus "Other")
+
+---
+# Try it
+
+* Go back to your Lab 9 assignment
+* Reproduce the plot using `fct_relevel()` and `fct_recode()`
+
+---
+class: inverse, left, middle
+
+# Tables 
+## Quick intro
+
+---
+# Tables
+
+**Many options**
+
+* `knitr::kable()` for basic tables of any sort
+  + try `booktabs = TRUE` argument for APA-like table format
+  + Use `{kableExtra}` for extensions (example for [html](https://haozhu233.github.io/kableExtra/awesome_table_in_html.html) and [pdf](https://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf))
+* [`{gt}`](https://github.com/rstudio/gt)
+  + tidy- and APA-friendly (with effort)
+* [`{DT}`](https://rstudio.github.io/DT/)
+  + great for displaying a lot of data in a manageable way
+  + multiple pages, search and sort features, etc.
+* [`{reactable}`](https://glin.github.io/reactable/)
+  + great for displaying a lot of data in a manageable way
+  + multiple pages, search and sort features, etc.
+* [`{gtsummary}`](http://www.danieldsjoberg.com/gtsummary/)
+  + **amazing** for summary tables
+
+---
+# Table chunk options
+
+For many tables, you may have to specify `results = "asis"` or you can end up with wacky display
+
+````
+```{r, chunk_name, results = "asis"}`r ''`
+
+```
+````
+
+---
+
+```{r}
+penguins %>% 
+  group_by(species, year) %>% 
+  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
+  kable()
+```
+
+---
+
+```{r, results='asis'}
+penguins %>% 
+  group_by(species, year) %>% 
+  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
+  kable(caption = "kable() Table",  #<<
+        col.names = c("Species", "Year", "Bill Length", "Bill Depth", "Flipper Length", "Body Mass"), #<<
+        digits = 2, #<<
+        booktabs = TRUE) #<<
+```
+
+---
+
+```{r, results='asis'}
+penguins %>% 
+  group_by(species, year) %>% 
+  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
+  kable(caption = "kable() Table", 
+        col.names = c("Species", "Year", "Length (mm)", "Depth (mm)", "Length (mm)", "Body Mass (g)"), #<<
+        digits = 2, 
+        booktabs = TRUE) %>% 
+  kableExtra::row_spec(0:9, background = "white") %>% #<<
+  add_header_above(c(" " = 2, "Bill" = 2, "Flipper" = 1, " " = 1)) #<<
+```
+
+---
+```{r, results='asis'}
+penguins %>% 
+  group_by(species, year) %>% 
+  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
+  ungroup() %>% #<<
+  select(-species) %>% #<<
+  kable(caption = "kable() Table", 
+        col.names = c("Year", "Length (mm)", "Depth (mm)", "Length (mm)", "Body Mass (g)"), 
+        digits = 2, 
+        booktabs = TRUE) %>% 
+  kableExtra::row_spec(0:9, background = "white") %>% 
+  add_header_above(c(" " = 1, "Bill" = 2, "Flipper" = 1, " " = 1)) %>% 
+  pack_rows("Adelie", 1, 3) %>% #<<
+  pack_rows("Chinstrap", 4, 6) %>% #<<
+  pack_rows("Gentoo", 7, 9) #<<
+```
+
+
+---
+
+```{r, results='asis'}
+penguins %>% 
+  group_by(species, year) %>% 
+  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
+  gt() #<< 
+```
+
+---
+
+```{r, results='asis'}
+penguins %>% 
+  group_by(species, year) %>% 
+  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
+  gt() %>%
+  fmt_number( #<<
+    columns = 3:6, #<<
+    decimals = 1 #<<
+  ) %>% 
+  tab_header(
+    title = md("`{gt}` Table")
+  )
+```
+
+---
+
+```{r, results='asis'}
+penguins %>% 
+  group_by(species, year) %>% 
+  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
+  gt() %>%
+  fmt_number( 
+    columns = 3:6, 
+    decimals = 1 
+  ) %>% 
+  tab_header( #<<
+    title = md("`{gt}` Table")) #<<
+```
+
+---
+
+```{r, results='asis'}
+penguins %>% 
+  group_by(species, year) %>% 
+  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
+  gt() %>%
+  fmt_number( 
+    columns = 3:6, 
+    decimals = 1 
+  ) %>% 
+  tab_header(
+    title = md("`{gt}` Table")
+  ) %>% 
+  cols_label( #<<
+    year = "", #<<
+    bill_length_mm = "Bill Length", #<<
+    bill_depth_mm = "Bill Depth", #<<
+    flipper_length_mm = "Flipper Length", #<<
+    body_mass_g = "Body Mass") #<<
+```
+
+---
+
+```{r, results='asis'}
+penguins %>% 
+  group_by(species, year) %>% 
+  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
+  gt() %>%
+  fmt_number( 
+    columns = 3:6, 
+    decimals = 1 
+  ) %>% 
+  tab_header(
+    title = md("`{gt}` Table")
+  ) %>% 
+  cols_label( 
+    year = "", 
+    bill_length_mm = "Bill Length", 
+    bill_depth_mm = "Bill Depth", 
+    flipper_length_mm = "Flipper Length", 
+    body_mass_g = "Body Mass") %>% 
+  tab_style(
+    style = list(
+      cell_fill(color = "magenta"),
+      cell_text(color = "white")
+      ),
+    locations = cells_body(
+      rows = c(1, 4, 7))
+  )
+```
+
+---
+
+```{r}
+penguins %>% 
+  DT::datatable() #<<
+```
+
+---
+
+```{r}
+penguins %>% 
+  reactable::reactable() #<<
+```
+
+---
+
+```{r}
+penguins %>% 
+  reactable::reactable(filterable = TRUE, searchable = TRUE) #<<
+```
+
+---
+
+```{r}
+penguins %>% 
+  gtsummary::tbl_summary() #<<
+```
+
+---
+
+```{r}
+m <- lm(body_mass_g ~ 1 + bill_length_mm + flipper_length_mm,
+        data = penguins)
+
+m %>% 
+  gtsummary::tbl_regression()
+```
+
+---
+class: inverse, left, middle
+
+# Pull Requests 
+
+---
+# Peer Review of Data Prep Script
+
+#### Expectations
+
+Feedback:
+1. Note <u>at least three</u> areas of strength
+2. Note <u>at least one</u> thing you learned from reviewing their script
+3. Note <u>at least one and no more than three</u> areas for improvement
+
+--
+
+Making your code publicly available can feel daunting 
+* The purpose of this portion of the final project is to help us all learn from each other
+* We are all learning
+  + Be constructive in your feedback.   + Be kind
+* Under no circumstances will negative comments be tolerated 
+  + Any comments that could be perceived as negative, and outside the scope of the code, will result in an immediate score of zero
+  
+---
+# Peer Review GitHub Process
+
+1. Locate GitHub repo of assigned peer to review
+2. Fork the repo
+3. Clone the repo
+4. Provide script feedback
+  + edit the Rmd file directly
+  + edit code
+  + provide comments in code and/or text (`Ctrl/Command + Shift + C`)
+  + commit & push
+5. Create Pull Request (PR)
+* Write brief summary of the PR that includes
+  + >= 3 strengths
+  + >+ 1 thing you learned
+  + 1 to 3 three areas of improvement
+
+---
+# 1. Locate GitHub repo of assigned peer to review
+
+# PRINT TABLE WITH 
+
+| Name        | github url to review    |
+| ------------- |:-------------:| 
+| name      | url | 
+| name      | url      | 
+| name | url      | 
+
+---
+# 2. Fork the repo
+
+1. Navigate to the (host) GitHub repo
+2. Click Fork in the upper right corner
+3. Where to fork? – **Your GitHub account**
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gh_fork.png")
+```
+
+---
+# 3. Clone the repo
+
+1. Clone the repo
+  + copy the URL
+2. Open GitKraken
+  + *Clone with URL*
+  + Where will it live on your local machine?
+  + it's own folder, with no other RProjects
+
+---
+# 4. Provide script feedback
+
+* Open R Project in your **local**
+* Find the .Rmd document you will be reviewing
+  + it should be an Rmd document
+* Make your edits/comments
+  + edit code as you like
+  + include a comment for each edit!
+  + Provide comments in code **and/or** text (`Ctrl/Command + Shift + C`)
+* Commit as you go (if you are working on this across sessions/days)
+* **Push only when you are finished**
+
+---
+# 5. Create Pull Request (PR)
+
+(1) Navigate back to the (host) GitHub repo
+
+--
+
+(2) Click “Pull requests”
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gh_pr.png")
+```
+
+--
+
+(3) Click “New pull request”
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gh_newpr.png")
+```
+
+---
+# 5. Create Pull Request (PR)
+
+(4) Click *"Compare across forks"*
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gh_compareforks.png")
+```
+
+--
+
+Use drop-downs so that:
+* *host* repo is on **left**
+* *your* repo is on the **right**
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gh_compareforks2.png")
+```
+
+--
+
+You will be able view the changes you made to the .Rmd document
+
+---
+# 5. Create Pull Request (PR)
+
+(5) Click *"Create pull request"*
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gh_comparechanges.png")
+```
+
+---
+# 5. Create Pull Request (PR)
+
+Write a brief summary list of the PR that includes
+  + >= 3 strengths
+  + >+ 1 thing you learned
+  + 1 to 3 three areas of improvement
+  + **Use markdown formatting, headers or list!**
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gh_createpr1.png")
+```
+
+---
+# 5. Create Pull Request (PR)
+
+(6) Click *"Create pull request"* when you're done
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/gh_createpr2.png")
+```
+
+
+---
+# 5. Create Pull Request (PR)
+## Recap
+
+(1) Navigate back to the (host) GitHub repo
+
+(2) Click *"Pull requests"*
+
+(3) Click *"New pull request"*
+
+(4) Click *"Compare across forks"*
+* Use drop-downs so that:
+  + Host repo is on the left, your repo is on the right
+* View changes
+(5) Click *"Create pull request"*
+* Write brief summary list of the PR that includes
+  + >= 3 strengths
+  + >+ 1 thing you learned
+  + 1 to 3 three areas of improvement
+  + **Use markdown formatting, headers or list!**
+(6) Click *"Create pull request"*
+
+---
+# Reviewing your PRs
+
+You will get an email from GitHub
+
+1. Click on first link, for PR
+2. Click *"Commits"* tab
+3. Click on *"File changes"* to see changes
+4. Copy/paste all desired changes
+5. Don’t close *"Close PR"* just yet; I want to review
+
+---
+class: inverse, left, middle
+
+# Next time
+
+---
+
+
+
+
+
+
 

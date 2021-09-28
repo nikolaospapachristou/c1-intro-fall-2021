@@ -78,7 +78,7 @@ class: inverse, left, middle
 
 *
 
-**Overall Purpose**
+**Learning Objectives**
 
 * 
 

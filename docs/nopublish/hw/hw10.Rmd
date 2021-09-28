@@ -10,7 +10,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 
 library(tidyverse)
-library(babynames)
 library(ggthemes)
 
 theme_set(theme_minimal())
@@ -18,16 +17,18 @@ theme_set(theme_minimal())
 ```
 
 #### 1. Create a new RStudio Project and modify the YAML to: 
+
 * Render to html
 * Change the syntax highlighting to any scheme but the default 
 * Include code folding
 
 
-#### 2. Working with **factors**
+#### 2a. Reorder **factors**
+
 * Get familiar with the `gss_cat` data within the `{forcats}` package.
 * Remove the rows with missing data in the *tvhours* column.
 * Calculate the mean *tvhours* by *marital status*.
-* Display the results as a point plot of average TV consumption by marital status (*tvhours* on the x-asix and *martial* on they y-asix).
+* Display the results as a point plot of average TV consumption by marital status (*tvhours* on the *x*-axis and *martial* on they *y*-axis).
   + In your plot, `reorder` the levels of *marital* according to *tvhours*.
 * Give your plot meaningful axis labels and a title.
 
@@ -45,13 +46,19 @@ gss_cat %>%
 
 ```
 
+#### 2b. Working with **tables**
 
-#### 3. Using the `gss_cat` data within the `{forcats}` package:
+* Display the same results (mean *tvhours* by *marital status*) as a table using `kable()`.
+  + Change the column names.
+  + Round the mean *tvhours* to one decimal.
+  + Bold the row with the highest mean *tvhours*.
+
+#### 3a. Recode **factors**
 
 * Use any of the functions we talked about in class to display the levels of the *marital* variable.
-* `recode` or `collapse` the *marital* column into three categores: "Not married", "Married", and "No answer".
+* `recode` or `collapse` the *marital* column into three categories: "Not married", "Married", and "No answer".
 * Calculate the mean *tvhours* by *marital status*.
-* Display the results as a column plot of average TV consumption by marital status (*martial* on the x-asix and *tvhours* on they y-asix).
+* Display the results as a column plot of average TV consumption by marital status (*martial* on the *x*-axis and *tvhours* on they *y*-axis).
   + From left to right, the columns in your plot should read: "Not married", "Married", and "No answer".
 * Make your plot look a little nicer with some color, different theme, meaningful axis labels, and a title.
   
@@ -80,5 +87,12 @@ gss_cat %>%
   theme(legend.position = "none")
 
 ```
+
+#### 3b. Recode **tables**
+
+* Display the same results (mean *tvhours* by collapsed *marital status*) as a table using the `{gt}`.
+  + Change the column names.
+  + Round the mean *tvhours* to one decimal.
+  + Highlight in yellow the row with the lowest mean *tvhours*.
 
 This lab borrows from [Garrett Grolemund's](https://resources.rstudio.com/authors/garrett-grolemund) [Remaster the Tidyverse](https://github.com/rstudio-education/remaster-the-tidyverse/) materials. 

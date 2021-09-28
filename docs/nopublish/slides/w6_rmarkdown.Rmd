@@ -317,7 +317,27 @@ PC: `Ctrl + Alt + I`
 Mac: `Command + Alt + I`
 
 ---
-# Headings and Lists\*
+# Chunk Names
+
+* Use single word: `chunk1`
+* Or use hyphen (`-`) to separate words: `chunk-1` 
+* Do **not** use spaces: `chunk 1`
+* Do **not** use underscore `chunk_1`
+
+--
+
+Think kebabs, not snakes
+* `bar-plot-1`
+* `bar-plot-2`
+* `hist-plot-1`
+* `model-1`
+
+.footnote[
+[Allison Hill](https://apreshill.github.io/rmd4cdc/#100)
+]
+
+---
+# Headings and Lists
 
 .pull-left[
 ```{r, echo=FALSE, out.width='70%'}
