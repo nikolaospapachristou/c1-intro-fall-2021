@@ -25,6 +25,7 @@ library(tidyverse)
 library(knitr)
 library(here)
 library(kableExtra)
+library(gt)
 
 ```
 
@@ -32,9 +33,9 @@ library(kableExtra)
 style_duo_accent(
   primary_color = "#1F4E79",
   secondary_color = "#0072B2",
-  header_font_google = google_font("Atkinson Hyperlegible", "600"),
-  text_font_google   = google_font("Atkinson Hyperlegible", "300", "300i"),
-  code_font_google   = google_font("IBM Plex Mono"),
+  header_font_google = xaringanthemer::google_font("Atkinson Hyperlegible", "600"),
+  text_font_google   = xaringanthemer::google_font("Atkinson Hyperlegible", "300", "300i"),
+  code_font_google   = xaringanthemer::google_font("IBM Plex Mono"),
   colors = c(
     darkblue = "#0072B2",
     lightblue = "#56B4E9",
@@ -68,7 +69,7 @@ class: inverse, left, middle
 * Syllabus
 * Introduce `R`
 
-**Overall Purpose**
+**Learning Objectives**
 
 * Understand the course requirements
 * Get you excited about `R`!
@@ -90,7 +91,7 @@ class: inverse, left, middle
 
 * Creating norms of openness, understanding, and development
 * An opportunity for us to grow
-* Assumes positive intent
+* Assume positive intent
 * Critical for my work (and yours)
 
 .footnote[
@@ -128,7 +129,7 @@ Please introduce yourself
 * Do you have any `R` experience?
 * Tell me whatever you’d like me and the class to know (e.g., pronouns, circumstances)
 * How many beans are in the jar?
-  + No changing your answer!
+  + No changing your answer! *academic integrity!*
 
 ---
 background-color: #CC79A7
@@ -145,56 +146,66 @@ class: center, middle
 * open data and code
 
 ---
-## Make a journal article!
+## Create a journal article!
 
 ### with `{rmarkdown}` or `{papaja}`
 
 Like we just did!
 
 ---
-## Make slides with `{xaringan}`
+## Create slides! 
+
+### with `{xaringan}`
 
 Like these!
 
 ---
-## Make a website!
+## Create a website!
 
 ### with `{blogdown}`, `{distill}`, `{bookdown}`, `{rmarkdown}`
 
 .pull-left[
 [**For a project**](https://jnese.github.io/coreprosody/)
-```{r out.width = '50%'}
+
+```{r out.height = '50%'}
 knitr::include_graphics("images/coreprosody.png")
 ```
 ]
 
 .pull-right[
 [**For this class**](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/)
-```{r out.width = '50%'}
+
+```{r out.height = '50%'}
 knitr::include_graphics("images/edld651home.png")
 ```
 ]
 ---
 
-## Make a dashboard with `{flexdashboard}`!
+## Create a dashboard! 
 
-```{r out.width = '50%'}
+### with `{flexdashboard}`!
+
+```{r out.width = '100%'}
 knitr::include_graphics("images/dashboard-ex.png")
 ```
 
 ---
 
-## Make an app with `{shiny}`
+## Create an app! 
 
-```{r out.width = '50%'}
+### with `{shiny}`
+
+```{r out.width = '100%'}
 knitr::include_graphics("images/shiny-ex.png")
 ```
 
 ---
 
-## Make a poster with `{posterdown}`!
+## Create a poster! 
 
-```{r out.width = '80%'}
+### with `{posterdown}`!
+
+```{r out.width = '100%'}
 knitr::include_graphics("images/poster_ex.png")
 ```
 
@@ -233,6 +244,8 @@ class: center, middle
 --
 
 **Workflow!**
+* RStudio projects
+* `{here}`
 
 ---
 
@@ -250,7 +263,7 @@ This course, and much of the materials prepared and content presented, was origi
 
 --
 
-```{r out.width = '50%'}
+```{r out.width = '50%', fig.align='center'}
 knitr::include_graphics("https://media2.giphy.com/media/OcZp0maz6ALok/giphy.gif?cid=ecf05e47nmgpnfbcocno4uyal5vpv1orgvnyw028hqgsisak&rid=giphy.gif&ct=g")
 ```
 
@@ -276,7 +289,7 @@ knitr::include_graphics("images/feynman_teach.png")
 
 --
 
-```{r out.width = '80%'}
+```{r out.width = '80%', fig.align='center'}
 knitr::include_graphics("https://media0.giphy.com/media/g0KKEpxfjIPS7RpZPJ/giphy.gif?cid=ecf05e47gp0ldlgtsjg7b2bwvx5fa7x10j9taot0f8hsrdtp&rid=giphy.gif&ct=g")
 ```
 
@@ -298,7 +311,7 @@ knitr::include_graphics("images/feynman_fail.png")
 
 --
 
-```{r out.width = '80%'}
+```{r out.width = '80%', fig.align='center'}
 knitr::include_graphics("https://media0.giphy.com/media/26ybwvTX4DTkwst6U/giphy.gif?cid=ecf05e4784dexf3mrjfpve138d14ggn7x18kqt8fa4n17ua2&rid=giphy.gif&ct=g")
 ```
 
@@ -427,15 +440,15 @@ class: inverse, left, middle
 
 * schedule
 * slides (before each class)
-* assignments
+* assignments (after each class)
 * syllabus
-* data?
+* data
 
 **Canvas**
 
 * submit assignments
 * announcements
-* data
+* data?
 
 ---
 
@@ -453,7 +466,7 @@ https://happygitwithr.com/
 
 ---
 
-# Books not required (but possibly helpful)
+### Books not required (but possibly helpful)
 
 .pull-left[
 [https://clauswilke.com/dataviz/](https://clauswilke.com/dataviz/)
@@ -498,14 +511,14 @@ knitr::include_graphics("https://socviz.co/assets/dv-cover-pupress.jpg")
 # Resources (con't)
 
 * Twitter
-  + Very active community. Browse the [#rstats](https://twitter.com/hashtag/rstats?lang=en) hashtag, and/or see syllabus for some recommendations for follows.
+  + Very active community. Browse the [#rstats](https://twitter.com/hashtag/rstats?lang=en) hashtag, and/or see syllabus for some recommendations for follows
 * [RStudio Community](https://community.rstudio.com/)
   + Similar to [stackoverflow](https://stackoverflow.com/questions/tagged/r) but friendlier (great place to post questions)
   + Opinionated
   + RStudio-philosophy dominant (as is this class)
 * [R4DS](https://www.jessemaegan.com/post/r4ds-the-next-iteration/)
   + Online group of supportive people all trying to learn R, using the same book we will be using for this class
-  + [Tidy Tuesday](https://github.com/rfordatascience/tidytuesday): Data viz with open data each Tuesday. Follow along on Twitter [#tidytuesday](https://twitter.com/hashtag/tidytuesday?lang=en)
+  + [Tidy Tuesday](https://github.com/rfordatascience/tidytuesday): Data viz with open data each Tuesday, follow along on Twitter [#tidytuesday](https://twitter.com/hashtag/tidytuesday?lang=en)
 
 ---
 
@@ -520,8 +533,8 @@ knitr::include_graphics("https://socviz.co/assets/dv-cover-pupress.jpg")
 # Assignements
 
 **Homework (200 points)**
-* Homeworks – 10 labs, 10 points each (120 points)
-* Supplemental Learning
+* Homeworks – 10 at 10 points each (100 points)
+* Supplemental Learning - 10 at 10 points each (100 points)
   + RStudio Primers $\times$ 4
   + R-Bootcamp $\times$ 2
   + Codeacademy $\times$ 4
@@ -580,25 +593,41 @@ read_csv(here("rubrics", "grades_rubric.csv")) %>%
 
 # Final Project - Dates
 
-* Week 3  (10/20): Self-selected groups finalized
-* Week 5  (11/3):  Final Project Outline due
-* Week 8  (11/24): Data prep script due
-* Week 9  (12/1):  Peer review due
-* Week 10 (12/8):  Final project presentations
-* Week 11 (12/15): Final Paper due
+* **Week 3  (10/20)**: Self-selected groups finalized
+* **Week 5  (11/3)**:  Final Project Outline due
+* **Week 8  (11/24)**: Data prep script due
+* **Week 9  (12/1)**:  Peer review due
+* **Week 10 (12/8)**:  Final project presentations
+* **Week 11 (12/15)**: Final Paper due
 
 ---
 
-## Final Project - Paper Scoring Rubric
+### Final Project - Paper Scoring Rubric
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.height=4}
 
 read_csv(here("rubrics", "final-project_rubric.csv")) %>% 
   mutate(`Points Possible` = ifelse(is.na(`Points Possible`), "", `Points Possible`)) %>%
-  knitr::kable() %>% 
-  kableExtra::row_spec(c(1, 8, 12, 20), bold = TRUE) %>% 
-  kableExtra::kable_styling(font_size = 10)
-  
+  gt() %>% 
+  fmt_markdown(columns = everything()) %>%
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+      ),
+    locations = cells_body(
+      columns = everything(),
+      rows = c(1, 8, 12, 20)
+    )
+  ) %>%
+    tab_style(
+    style = list(
+      cell_fill(color = "white")),
+    locations = cells_body(
+      columns = c(1, 2))
+  ) %>% 
+  tab_options(column_labels.background.color = "#0072B2",
+              table.font.size = px(10),
+              container.height = pct(80))
 ```
 
 ---
@@ -687,7 +716,7 @@ Git might be frustrating, but we’ll get through it together!
 
 class: inverse, left, middle
 
-# Welcome to `R` 
+# Welcome to `R`!
 
 ---
 
@@ -704,19 +733,19 @@ class: inverse, left, middle
 
 class: center, middle
 
-![](../images/r-thought_1.png)
+![](./images/r-thought_1.png)
 
 ---
 
 class: center, middle
 
-![](../images/r-thought_2.png)
+![](./images/r-thought_2.png)
 
 ---
 
 class: center, middle
 
-![](../images/r-thought_3.png)
+![](./images/r-thought_3.png)
 
 ---
 
@@ -759,7 +788,7 @@ class: center, middle
 
 ### This is the `R` console
 
-![](../images/console.png)
+![](./images/console.png)
 
 ---
 
@@ -767,9 +796,10 @@ class: center, middle
 
 ## RStudio
 
-### This is the RStudio IDE _(Integrated Development Environment)_
+### This is the RStudio IDE 
+_(Integrated Development Environment)_
 
-![](../images/ide.png)
+![](./images/ide.png)
 
 ---
 
@@ -785,11 +815,11 @@ class: center, middle
 
 # `R` as a big calculator
 
-```{r}
+```{r, echo=TRUE}
 3 + 2
 ```
 
-```{r}
+```{r, echo=TRUE}
 3 / (3+2)
 ```
 
@@ -805,7 +835,7 @@ It is used to assign names to objects (like an `=` operator)
 
 --
 
-```{r}
+```{r, echo=TRUE}
 a <- 3
 b <- 2
 a
@@ -813,13 +843,13 @@ a
 
 --
 
-```{r}
+```{r, echo=TRUE}
 a + b
 ```
 
 --
 
-```{r}
+```{r, echo=TRUE}
 a / (a + b)
 ```
 
@@ -827,14 +857,14 @@ a / (a + b)
 
 # Re-assignment
 
-```{r}
+```{r, echo=TRUE}
 a <- 10
 a
 ```
 
 --
 
-```{r}
+```{r, echo=TRUE}
 a <- "EDLD 651"
 a
 ```
@@ -871,10 +901,18 @@ These objects can be extremely useful in programming
 # Objects
 
 Objects can also be:
-* variables, data sets, models, results, functions, figures, more…
+* variables
+* data sets
+* models
+* results
+* functions
+* figures
+* more...
 
 You can then use or manipulate these in different ways
-* e.g., plots, functions, operators (arithmetic, logical, comparison)
+* plots
+* functions
+* operators (arithmetic, logical, comparison)
 
 ---
 
@@ -883,10 +921,16 @@ You can then use or manipulate these in different ways
 Anything that carries out an operation in R is a function, even `+`
 
 Functions are generally followed by `()`
-* `**package::function()**`
+* **`package::function()`**
   + `sum()`
   + `lm()`
   + `sqrt()`
+
+--
+
+**`package::function()`**
+
+the package is also called the "namespace"
 
 ---
 
@@ -899,15 +943,15 @@ Functions are generally followed by `()`
 
 `?function_name()`  
 
-```{r, eval=FALSE}
-?mutate() #(mutate() is a function in the dplyr package)
+```{r, eval=FALSE, echo=TRUE}
+?mutate() #(mutate() is a function in the {dplyr} package)
 
 ?dplyr::mutate()
 ```
 
 ---
 
-background-image: url("../images/help_info.png")
+background-image: url("./images/help_info.png")
 
 .footnote[
 [https://socviz.co/](https://socviz.co/)
@@ -921,7 +965,7 @@ background-image: url("../images/help_info.png")
 * Your classmates!
 * Me
   + Appointment by email
-  + If you email me with a question, provide your R file
+  + If you email me with a question, provide your `R` files & data
 * Google
 
 ---
@@ -930,7 +974,7 @@ background-image: url("../images/help_info.png")
 
 (Isaac Asimov, really)
 
-![](../images/feynman_learning.png)
+![](./images/feynman_learning.png)
 
 ---
 class: inverse, left, middle
@@ -941,10 +985,11 @@ class: inverse, left, middle
 
 # Install Check
 
-Install
+[Installs](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/installs.html)
 * [R](https://cloud.r-project.org/)
 * [Rstudio](https://www.rstudio.com/products/rstudio/#Desktop)
 * [Git](https://www.git-scm.com/download)
+* [GitKraken](https://www.gitkraken.com/download)
 
 Also
 * [Register for GitHub account](https://github.com)
@@ -964,7 +1009,7 @@ class: inverse, left, middle
 
 General
 * Workspace
-  + “*Restore .RData into workspace at startup*” -- **Uncheck**
+  + "*Restore .RData into workspace at startup*" -- **Uncheck**
   + "*Save workspace to .RData on exit:*" -- **Never**
 * History
   + "*“Always save history (even when not saving .RData)*" -- **Check**
@@ -1008,7 +1053,7 @@ class: inverse, left, middle
 
 # The data science pipeline
 
-![](../images/ds_pipeline.png)
+![](./images/ds_pipeline.png)
 
 .footnote[
 [R4DS](https://r4ds.had.co.nz/explore-intro.html)
@@ -1140,7 +1185,7 @@ With just a basic knowledge of `R` you have access to thousands of packages
 ---
 background-size: contain
 
-background-image: url("../images/packages.png")
+background-image: url("./images/packages.png")
 
 ---
 class: inverse, left, middle
@@ -1244,7 +1289,7 @@ Produce a `hist`ogram of the *tvhours* variable
 
 # The pipe operator (`%>%`)
 
-* The `%>%` operator (`Ctrl` + `Shift` + `M`) inserts the input from the left as the first argument in the next function
+* The `%>%` operator (`Ctrl + Shift + M`) inserts the input from the left as the first argument in the next function
 * To start, you can read it as, “then”
 * It is crucial for work in the `{tidyverse}`
 
