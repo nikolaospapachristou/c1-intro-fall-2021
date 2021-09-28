@@ -1,0 +1,742 @@
+---
+title: "Week 9: Factors, Tables, Pull Requests"
+subtitle: "Miscellany"
+author: "Joe Nese<br><span style = 'font-size: 50%;'>University of Oregon<br>Fall 2021</span>"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+#      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  error = TRUE
+#  hiline = TRUE
+)
+library(xaringan)
+library(xaringanExtra)
+library(tidyverse)
+library(knitr)
+library(here)
+library(janitor)
+library(kableExtra)
+library(palmerpenguins)
+library(countdown)
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+
+style_duo_accent(
+  primary_color = "#1F4E79",
+  secondary_color = "#0072B2",
+  header_font_google = google_font("Atkinson Hyperlegible", "600"),
+  text_font_google   = google_font("Atkinson Hyperlegible", "300", "300i"),
+  code_font_google   = google_font("IBM Plex Mono"),
+  colors = c(
+    darkblue = "#0072B2",
+    lightblue = "#56B4E9",
+    darkorange = "#D55E00",
+    lightorange = "#E69f00",
+    yellow = "#f0e442",
+    green = "#009E73",
+    pink = "#CC79A7",
+    gray = "999999",
+    white = "#FFFFFF",
+    black = "#000000"
+  )
+  #inverse_header_color = "#FFFFFF"
+)
+```
+
+```{r xaringanExtra-freezeframe, echo=FALSE}
+xaringanExtra::use_freezeframe()
+```
+
+---
+class: inverse, left, middle
+
+# Factors, Tables, Pull Requests 
+## Week 9
+
+---
+
+# Agenda
+
+*
+
+**Overall Purpose**
+
+* 
+
+---
+# First: Revisiting git
+
+Talk with neighbor. What do these terms mean?
+Talk about them in the order you would encounter them in your workflow 
+
+* clone
+* pull
+* stage
+* commit
+* push
+* repo
+* remote
+
+```{r, echo=FALSE}
+countdown(minutes = 3, seconds = 0, bottom = 0, warn_when = 30)
+```
+
+---
+
+class: inverse, left, middle
+
+# Factors
+## Just the basics
+
+---
+# When do we really want factors?
+
+Generally two reasons to declare a factor
+
+1. Only finite number of categories
+  + Treatment/control
+  + Income categories
+  + Performance levels
+  + etc.
+2. Use in modeling
+
+---
+# Creating factos
+
+Imagine you have a vector of months
+
+```{r}
+months_4 <- c("Dec", "Apr", "Jan", "Mar")
+```
+
+--
+
+We could store this as a string, but there are issues with this
+* There are only 12 possible months
+  + factors will help us weed out values that don't conform to our predefined levels, which helps safeguard against typos, etc.
+* You can't sort this vector in a meaningful way
+  + default is alphabetic sorting
+
+--
+
+```{r}
+sort(months_4)
+```
+
+---
+# Define it as a factor
+
+```{r}
+months_4 <- factor(months_4, levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
+months_4
+```
+
+--
+
+Now we can sort
+
+```{r}
+sort(months_4)
+```
+
+---
+# Accessing and modifying levels
+
+Uset the `levels()` function
+
+--
+
+```{r}
+levels(months_4)
+```
+
+---
+# Provides an error check of sorts
+
+```{r, warning=TRUE}
+months_4[5] <- "Jam"
+```
+
+--
+
+```{r}
+months_4
+```
+
+---
+# What if we don’t specify levels?
+
+If you define a factor without specifying the levels, it will assign them alphabetically
+
+```{r, results='hide'}
+mnths <- factor(c("Dec", "Apr", "Jan", "Mar"))
+```
+
+--
+
+```{r}
+mnths
+```
+
+---
+<p style="float: right;"><img src="https://raw.githubusercontent.com/tidyverse/forcats/master/man/figures/logo.png" width="100" height="100"></p>
+# [`{forcats}`](https://forcats.tidyverse.org/)
+
+* When working with factors, we can use the `{forcats}` package
+  + `for cat`egorical variables
+  + anagram of factors
+--
+
+* Part of the `{tidyverse}` so should be good to go
+--
+
+* All functions start with `fct_`
+  + use the autofill in RStudio
+
+---
+# Change level order – `fct_inorder()`
+
+#### In order they are entered
+```{r}
+(mnths <- factor(c("Dec", "Apr", "Jan", "Mar")))
+```
+
+--
+
+```{r}
+mnths %>% 
+  factor(., levels = c("Jan", "Mar", "Apr", "Dec")) %>% 
+  sort(.)
+```
+
+---
+# Change level order – `fct_inorder()`
+
+#### In order they are entered
+```{r}
+(mnths <- factor(c("Dec", "Apr", "Jan", "Mar")))
+```
+
+--
+
+```{r}
+mnths %>% 
+  factor(., levels = c("Jan", "Mar", "Apr", "Dec")) %>% 
+  fct_inorder() %>% #<<
+  sort(.)
+```
+
+---
+# Change level order – `fct_infreq()`
+
+#### In order of frequency
+
+```{r}
+c("b", "b", "c", "a", "a", "a") %>% 
+    fct_infreq() #<<
+```
+
+--
+
+This can be particularly useful for plotting
+
+---
+# Investigate factors
+
+* `{tidyverse}` gives you convenient way to evaluate factors
+  + `count()`
+  + `geom_bar()` or `geom_col())` with `{ggplot2}`
+
+* But don't forget about the base function `unique()`
+  + e.g., `unique(df$factor_variable)`
+
+---
+# General Social Survey (GSS)
+
+```{r}
+forcats::gss_cat
+```
+
+---
+
+```{r}
+gss_cat %>% 
+    count(partyid)
+```
+
+--
+
+```{r}
+levels(gss_cat$partyid)
+```
+
+---
+
+```{r}
+ggplot(gss_cat, aes(partyid)) +
+    geom_bar()
+```
+
+---
+
+.black[`ggplot(gss_cat, aes(`].pink[`fct_infreq(`].black[`partyid`].pink[`)`]`.black[)) +`] 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.black[`geom_bar()`]
+    
+```{r, echo=FALSE}
+ggplot(gss_cat, aes(fct_infreq(partyid))) +
+    geom_bar()
+```
+
+---
+# Change level order – `fct_reorder()`
+
+#### Reorder according to another variable
+
+`fct_reorder(`
+&nbsp;&nbsp;`.f,` : a factor or character vector
+&nbsp;&nbsp;`.x,` : the levels of .f are reordered so that the values of .fun(.x) are in ascending order
+&nbsp;&nbsp;`.fun =` : summary function
+&nbsp;&nbsp;`...,` : other arguments passed on to .fun. A common argument is na.rm = TRUE
+&nbsp;&nbsp;`.desc = FALSE` : order in descending order?
+`)`
+
+---
+# Change level order – `fct_infreq()`
+
+#### Change level order by hand 
+  + *probably one I use most*
+
+`fct_relevel(variable_name, "first_level", "second_level", "third_level", ...)`
+
+---
+# Change level order – `fct_reorder()`
+
+#### Reorder according to another variable
+
+```{r}
+(relig_summary <- gss_cat %>%
+  group_by(relig) %>%
+  summarise(tvhours = mean(tvhours, na.rm = TRUE),
+            n = n()))
+```
+
+---
+
+```{r}
+ggplot(relig_summary, aes(tvhours, relig)) + 
+  geom_point()
+```
+
+---
+.black[`ggplot(relig_summary, aes(tvhours, `].pink[`fct_reorder(`].black[`relig, `.pink[`tvhours)`].black[`)) + `]
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.black[`geom_point()`]
+
+```{r, echo=FALSE}
+ggplot(relig_summary, aes(tvhours, fct_reorder(relig, tvhours))) + 
+  geom_point()
+```
+
+---
+# Or `mutate()` the factor reorder
+
+```{r}
+relig_summary %>% 
+  mutate(relig = fct_reorder(relig, tvhours)) %>% #<<
+  ggplot(aes(tvhours, relig)) + 
+  geom_point()
+```
+
+---
+# Quick aside for error bars
+
+```{r}
+(relig_summary_eb <- gss_cat %>%
+  group_by(relig) %>%
+  summarise(tvhours_mean = mean(tvhours, na.rm = TRUE),
+            tvhours_se   = sqrt(var(tvhours, na.rm = TRUE) / 
+                                  length(na.omit(tvhours))),
+            n = n()))
+```
+
+---
+# Quick aside for error bars
+
+```{r}
+(relig_summary_eb <- gss_cat %>%
+  group_by(relig) %>%
+  summarise(tvhours_mean = mean(tvhours, na.rm = TRUE), #<<
+            tvhours_se   = sqrt(var(tvhours, na.rm = TRUE) / 
+                                  length(na.omit(tvhours))),
+            n = n()))
+```
+
+---
+# Quick aside for error bars
+
+```{r}
+(relig_summary_eb <- gss_cat %>%
+  group_by(relig) %>%
+  summarise(tvhours_mean = mean(tvhours, na.rm = TRUE),
+            tvhours_se   = sqrt(var(tvhours, na.rm = TRUE) / #<<
+                                  length(na.omit(tvhours))), #<<
+            n = n()))
+```
+
+---
+# Quick aside for error bars
+
+```{r}
+(relig_summary_eb <- gss_cat %>%
+  group_by(relig) %>%
+  summarise(tvhours_mean = mean(tvhours, na.rm = TRUE),
+            tvhours_se   = sqrt(var(tvhours, na.rm = TRUE) / 
+                                  length(na.omit(tvhours))),
+            n = n())) #<<
+```
+
+---
+# Quick aside for error bars
+
+```{r}
+ggplot(relig_summary_eb, 
+       aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + 
+  geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se,
+                     xmax = tvhours_mean + 1.96 * tvhours_se),
+                 color = "cornflowerblue") +
+  geom_point()
+```
+
+---
+# Quick aside for error bars
+
+```{r}
+ggplot(relig_summary_eb, #<<
+       aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + 
+  geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se,
+                     xmax = tvhours_mean + 1.96 * tvhours_se),
+                 color = "cornflowerblue") +
+  geom_point()
+```
+
+---
+# Quick aside for error bars
+
+```{r}
+ggplot(relig_summary_eb, 
+       aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + #<<
+  geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se,
+                     xmax = tvhours_mean + 1.96 * tvhours_se),
+                 color = "cornflowerblue") +
+  geom_point()
+```
+
+---
+# Quick aside for error bars
+
+```{r}
+ggplot(relig_summary_eb, 
+       aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + 
+  geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se, #<<
+                     xmax = tvhours_mean + 1.96 * tvhours_se), #<<
+                 color = "cornflowerblue") + #<<
+  geom_point()
+```
+
+---
+# Quick aside for error bars
+
+```{r}
+ggplot(relig_summary_eb, 
+       aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + 
+  geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se,
+                     xmax = tvhours_mean + 1.96 * tvhours_se),
+                 color = "cornflowerblue") +
+  geom_point() #<<
+```
+
+---
+# Modifying factor levels – `fct_recode()`
+
+#### Make modifying factors more explicit
+
+`fct_recode(var_name, "new level" = "old level"...`
+
+```{r, eval=FALSE}
+gss_cat %>%
+  mutate(partyid = fct_recode(partyid,
+    "Republican, strong" = "Strong republican", #<<
+    "Republican, weak" = "Not str republican", #<<
+    "Independent, near rep" = "Ind,near rep", #<<
+    "Independent, near dem" = "Ind,near dem", #<<
+    "Democrat, weak" = "Not str democrat", #<<
+    "Democrat, strong" = "Strong democrat")) %>% #<<
+  count(partyid)
+```
+
+---
+# Modifying factor levels – `fct_recode()`
+
+#### Make modifying factors more explicit
+
+`fct_recode(var_name, "new level" = "old level"...`
+
+```{r, echo=FALSE}
+gss_cat %>%
+  mutate(partyid = fct_recode(partyid,
+    "Republican, strong" = "Strong republican", #<<
+    "Republican, weak" = "Not str republican", #<<
+    "Independent, near rep" = "Ind,near rep", #<<
+    "Independent, near dem" = "Ind,near dem", #<<
+    "Democrat, weak" = "Not str democrat", #<<
+    "Democrat, strong" = "Strong democrat")) %>% #<<
+  count(partyid)
+```
+
+---
+# Collapsing levels – `fct_recode()`
+
+`fct_recode()` can also be used to collapse levels easily
+
+```{r, eval=FALSE}
+gss_cat %>%
+  mutate(partyid = fct_recode(partyid,
+    "Republican, strong"    = "Strong republican",
+    "Republican, weak"      = "Not str republican",
+    "Independent, near rep" = "Ind,near rep",
+    "Independent, near dem" = "Ind,near dem",
+    "Democrat, weak"        = "Not str democrat",
+    "Democrat, strong"      = "Strong democrat",
+    "Other"                 = "No answer", #<<
+    "Other"                 = "Don't know", #<<
+    "Other"                 = "Other party")) %>% #<<
+  count(partyid)
+```
+
+---
+# Collapsing levels – `fct_recode()`
+
+`fct_recode()` can also be used to collapse levels easily
+
+```{r, echo=FALSE}
+gss_cat %>%
+  mutate(partyid = fct_recode(partyid,
+    "Republican, strong"    = "Strong republican",
+    "Republican, weak"      = "Not str republican",
+    "Independent, near rep" = "Ind,near rep",
+    "Independent, near dem" = "Ind,near dem",
+    "Democrat, weak"        = "Not str democrat",
+    "Democrat, strong"      = "Strong democrat",
+    "Other"                 = "No answer", #<<
+    "Other"                 = "Don't know", #<<
+    "Other"                 = "Other party")) %>% #<<
+  count(partyid)
+```
+
+---
+# Collapsing levels – `fct_collapse()`
+
+`fct_collapse()` is one of the more useful functions in `{forcats}`
+
+* Collapse all categories into Republican, Democrat, Independent, or Other
+
+```{r}
+gss_cat %>%
+  mutate(partyid = fct_collapse(partyid, #<<
+    	Other = c("No answer", "Don't know", "Other party"),
+    	Rep = c("Strong republican", "Not str republican"),
+    	Ind = c("Ind,near rep", "Independent", "Ind,near dem"),
+    	Dem = c("Not str democrat", "Strong democrat")
+  )) %>%
+  count(partyid)
+```
+
+---
+# Collapsing levels – `fct_lump()`
+
+#### `fct_lump()` – "lump" a bunch of categories together
+
+* Default behavior creates an “Other" group that includes all but the largest group (i.e., lumps the factor into two groups)
+* Can also take optional `n argument, where `n` represents the number of groups to collapse into
+
+```{r}
+gss_cat %>% 
+    mutate(rel = fct_lump(relig)) %>% #<<
+    count(rel)
+```
+
+---
+# Collapsing levels – `fct_lump()`
+
+Collapse to 10 religious groups: top 9 groups plus "Other"
+
+```{r}
+gss_cat %>% 
+    mutate(rel = fct_lump(relig, n = 10)) %>% #<<
+    count(rel)
+```
+
+---
+
+```{r, eval=FALSE}
+set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10)
+)
+```
+
+---
+
+```{r, eval=FALSE}
+set.seed(3000) #<<
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10) #<<
+)
+```
+
+---
+
+```{r}
+set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10)
+) %>% 
+  ggplot(aes(month, suspensions)) +
+  geom_col()
+```
+
+---
+
+```{reval=FALSE}
+set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10)
+) %>% 
+  mutate(month = fct_relevel(month, #<<
+                    "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May")) #<<
+```
+
+---
+```{r}
+set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10)
+) %>% 
+  mutate(month = fct_relevel(month,
+                    "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May")) %>% 
+  ggplot(aes(month, suspensions)) +
+  geom_col()
+```
+
+---
+# Missing levels
+
+```{r}
+levels(gss_cat$race)
+```
+
+--
+
+```{r}
+gss_cat %>% 
+  count(race)
+```
+
+--
+
+```{r}
+table(gss_cat$race)
+```
+
+---
+# Missing levels
+
+```{r}
+ggplot(gss_cat, aes(race)) +
+    geom_bar()
+```
+
+---
+# Missing levels
+
+```{r}
+ggplot(gss_cat, aes(race)) +
+    geom_bar() +
+    scale_x_discrete(drop = FALSE) #<<
+```
+
+---
+# Review
+
+`fct_inorder()`
+
+--
+* Levels ordered as entered
+
+--
+
+`fct_infreq()`
+
+--
+Change level order in order of frequency (largest first)
+
+--
+
+`fct_relevel()`
+
+--
+Change level order by hand
+
+--
+
+`fct_reorder()`
+
+--
+Change level order according to another variable
+
+--
+
+`fct_recode()`
+
+--
+Recode (collapse) levels into new named levels
+
+--
+`fct_collapse()`
+
+--
+Recode many levels into fewer levels
+
+--
+
+`fct_lump()`
+
+--
+Recode levels into top n – 1 levels, plus “Other”
+
+Default is n = 2 levels (most frequent level plus “Other”)
+
