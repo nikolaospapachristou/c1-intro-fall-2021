@@ -14,12 +14,17 @@ knitr::opts_chunk$set(echo = FALSE,
 
 Please complete the following **five** items before our first class. 
 
+<br>
+<br>
 
 ## (1) Install R*
 
 #### https://cloud.r-project.org/ 
 
 Install `R` from CRAN, the Comprehensive R Archive Network
+
+<br>
+<br>
 
 ## (2) Install RStudio*
 
@@ -33,12 +38,17 @@ If you upgrade `R`, you will need to update any packages you have installed. The
 
 This will only look for updates on CRAN. So if you use a package that lives only on GitHub or if you want a development version from GitHub, you will need to update it manually via `devtools::install_github()`
 
+<br>
+<br>
 
 ## (3) Register a GitHub account
 
 #### https://github.com
 
 Before you register for your free GitHub account, please read this [username advice](https://happygitwithr.com/github-acct.html) from Jenny Bryan.
+
+<br>
+<br>
 
 ## (4) Install Git
 
@@ -89,6 +99,9 @@ knitr::include_graphics("img/install_5.png")
 ```{r out.width = '50%'}
 knitr::include_graphics("img/install_6.png")
 ```
+
+<br>
+<br>
 
 ## (5) Install GitKraken
 
