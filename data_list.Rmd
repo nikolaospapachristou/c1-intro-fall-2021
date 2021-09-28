@@ -37,7 +37,7 @@ datas <- tibble(
  file = list.files(here("data")), 
  name = fs::path_ext_remove(list.files(here("data")))
 ) %>% 
-  mutate(heading = paste0("### ", name),
+  mutate(heading = paste0("### ", file),
          dl = map2(file, name,
                     ~data_makr_fx(.x, .y))
          )
