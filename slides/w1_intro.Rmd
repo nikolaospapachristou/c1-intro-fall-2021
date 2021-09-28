@@ -15,7 +15,9 @@ output:
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 
-knitr::opts_chunk$set(echo = FALSE,
+knitr::opts_chunk$set(fig.width=9, fig.height=3.5, fig.retina=3,
+                      out.width = "100%",
+                      echo = FALSE,
                       message = FALSE,
                       warning = FALSE)
 
