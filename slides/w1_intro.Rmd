@@ -169,7 +169,7 @@ Like these!
 .pull-left[
 [**For a project**](https://jnese.github.io/coreprosody/)
 
-```{r, out.height='50%'}
+```{r}
 knitr::include_graphics("images/coreprosody.png")
 ```
 ]
@@ -177,7 +177,7 @@ knitr::include_graphics("images/coreprosody.png")
 .pull-right[
 [**For this class**](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/)
 
-```{r, out.height='50%'}
+```{r}
 knitr::include_graphics("images/edld651home.png")
 ```
 ]
