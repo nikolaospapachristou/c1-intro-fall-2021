@@ -169,7 +169,8 @@ Like these!
 .pull-left[
 [**For a project**](https://jnese.github.io/coreprosody/)
 
-```{r}
+![](./images/coreprosody.png)
+```{r, eval=FALSE}
 knitr::include_graphics("images/coreprosody.png")
 ```
 ]
