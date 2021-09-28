@@ -39,7 +39,7 @@ This is the great bean experiment! An under-powered (mediocre) scientific replic
 
 
 ```{r}
-truth <- 1276
+truth <- 3992
 
 dta <- read_csv(here("nopublish", "bean_data.csv")) %>% 
   mutate(id = ifelse(uo_id %% 2 == 0, "even", "odd"),
@@ -154,7 +154,7 @@ So to answer our research question...
 if(abs(mean(dta$guess, na.rm = TRUE) - truth) < abs(slice(dta, which.min(abs(dist))) %>% pull(guess) - truth)) {
    cat("Hypothosis confirmed! The class average was more accurate than any one person!")
 } else if (abs(mean(dta$guess, na.rm = TRUE) - truth) > abs(slice(dta, which.min(abs(dist))) %>% pull(guess) - truth)) {
-   cat(paste0("**Hypthosis rejected! ", slice(dta, which.min(abs(dist))) %>% pull(first), "'s guess was closer than the class average!**")) 
+   cat(paste0("**Hypthosis rejected! ", slice(dta, which.min(abs(dist))) %>% pull(first), "'s guess was closer than the class average! Replication crisis?**")) 
 } else if (abs(mean(dta$guess, na.rm = TRUE) - truth) == abs(slice(dta, which.min(abs(dist))) %>% pull(guess) - truth)) {
   cat(paste0("What?! It was a tie! ", slice(dta, which.min(abs(dist))) %>% pull(first), "'s guess was the same as the class average!"))
 }
