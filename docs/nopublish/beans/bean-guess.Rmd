@@ -41,7 +41,7 @@ This is the great bean experiment! An under-powered (mediocre) scientific replic
 ```{r}
 truth <- 3992
 
-dta <- read_csv(here("nopublish", "bean_data.csv")) %>% 
+dta <- read_csv(here("nopublish", "beans", "bean_data.csv")) %>% 
   mutate(id = ifelse(uo_id %% 2 == 0, "even", "odd"),
          initials = paste0(str_sub(first, 1, 1), str_sub(last, 1, 2)),
          dist = guess - truth) %>% 

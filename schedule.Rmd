@@ -43,13 +43,14 @@ sched <- read_xlsx(here::here("nopublish", "schedule.xlsx"), sheet = "schedule")
   mutate(
     Reading = paste0(Reading, "(", reading_link, ")"),
     Slides = paste0(Slides, "(", slides_link, ")"),
-    Lecture = paste0(Lecture, "(", lecture_link, ")"),
+    Lecture = paste0(Lecture, "(", lecture_link, ")", "<br>", "Passcode: ", lecture_passcode),
     Assigned = paste0(Assigned, "(", assigned_link, ")"),
     Due = paste0(Due, "(", due_link, ")"),
     Date = format(as.Date(Date), "%b-%d")
     ) %>% 
-    select(-ends_with("link"), -ends_with("shortcut"), -Topic, -screenshot) %>% 
+  select(-ends_with("link"), -ends_with("shortcut"), -c(Topic, screenshot, lecture_passcode)) %>% 
   mutate(across(everything(), ~ifelse(. == "NA(NA)", NA_character_, .))) %>% 
+  mutate(Lecture = ifelse(str_detect(Lecture, "fas"), Lecture, NA_character_)) %>% 
   mutate(across(everything(), ~str_remove(., "\\(NA\\)"))) %>% 
   nest(data = c(Date, Reading, Slides, Lecture, Assigned, Due)) 
 
@@ -77,6 +78,7 @@ tbl_fx <- function(n){
 ## Week 1: Introduction
 
 ```{r}
+
 tbl_fx(1) %>% 
   tab_footnote(
     footnote = md("This is a brief older version. For the longer, updated version, see [here](https://style.tidyverse.org/). You don’t need to read this longer version."),

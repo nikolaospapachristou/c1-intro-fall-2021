@@ -131,7 +131,7 @@ Please introduce yourself
 * Do you have any `R` experience?
 * Tell me whatever you’d like me and the class to know (e.g., pronouns, circumstances)
 * How many beans are in the jar?
-  + No changing your answer! *academic integrity!*
+  + No changing your answer! *Academic integrity!*
 
 ---
 background-color: #CC79A7
@@ -432,7 +432,7 @@ class: inverse, left, middle
   + leverage appropriate functions for introductory data science tasks
   + prepare data using scripts and reproducible workflows
 * Use version control with `R` via git and GitHub
-* Use R Markdown to create reproducible dynamic reports, including APA manuscripts
+* Use R Markdown to create reproducible dynamic reports
 * Understand and create different types of data visualizations
 
 ---
@@ -876,7 +876,7 @@ a
 
 # Data Types
 
-Objects can be a variety of types
+Data can be a variety of types
 
 --
 
@@ -921,10 +921,10 @@ You can then use or manipulate these in different ways
 
 # `R` Functions
 
-Anything that carries out an operation in R is a function, even `+`
+Anything that carries out an operation in `R` is a function, even `+`
 
 Functions are generally followed by `()`
-* **`package::function()`**
+* **`function()`**
   + `sum()`
   + `lm()`
   + `sqrt()`
@@ -1352,4 +1352,9 @@ class: inverse, left, middle
   + [A Quick Tour of the RStudio IDE](http://milton-the-cat.rocks/learnr/r/r_getting_started/#section-a-quick-tour-of-r-studio)
   + [RStudio Primer: Programming basics](https://rstudio.cloud/learn/primers/1.2)
   + [Codecademy: Introduction to R Syntax](https://www.codecademy.com/courses/learn-r/lessons/introduction-to-r/exercises/introduction)
+
+
+```{r, eval=FALSE}
+xaringanBuilder::build_pdf(here::here("slides", "w1_intro.Rmd"), complex_slides = TRUE)
+```
 
