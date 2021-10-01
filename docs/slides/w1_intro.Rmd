@@ -1353,3 +1353,8 @@ class: inverse, left, middle
   + [RStudio Primer: Programming basics](https://rstudio.cloud/learn/primers/1.2)
   + [Codecademy: Introduction to R Syntax](https://www.codecademy.com/courses/learn-r/lessons/introduction-to-r/exercises/introduction)
 
+
+```{r, eval=FALSE}
+xaringanBuilder::build_pdf(here::here("slides", "w1_intro.Rmd"), complex_slides = TRUE)
+```
+
