@@ -70,6 +70,7 @@
   --pink: #CC79A7;
   --gray: 999999;
   --white: #FFFFFF;
+  --black: #000000;
 }
 
 html {
@@ -328,5 +329,11 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 }
 .bg-white {
   background-color: var(--white);
+}
+.black {
+  color: var(--black);
+}
+.bg-black {
+  background-color: var(--black);
 }
 

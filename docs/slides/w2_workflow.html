@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 2: Workflow</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Joe Nese University of Oregon Fall 2021" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 2: Workflow
+## .R &amp; .Rmd, Projects, Read Data
+### Joe Nese<br><span style="font-size: 50%;">University of Oregon<br>Fall 2021</span>
+
+---
+
+
+
+
+
+
+---
+## Housekeeping
+
+* covid
+* assignments
+* breaks
+
+---
+class: inverse, left, middle
+
+# Workflow
+## Week 2
+
+---
+
+# Agenda
+
+* Project Oriented Workflow
+  + RStudio Projects
+  + File paths
+  + Reading in data
+  + Scripts (.R &amp; .Rmd)
+  + Loading packages
+* Looking at data
+* The pipe `%&gt;%`
+
+**Learning Objectives**
+
+* Open an RStudio Project
+* Understand file paths
+* Learn two ways to read data
+* Establish good workflow habits
+
+---
+class: inverse, left, middle
+
+# RStudio Projects
+
+---
+
+# RStudio Projects (.RProj)
+
+An RStudio project - .Rproj - is basically a folder to house all the files for your project
+* scripts
+* products
+* data
+* figures
+
+--
+
+**Advantages**
+
+* Work with several projects at the same time (several projects open)
+  + these are self-contained!
+
+* Can save the history of your commands after quitting
+
+* Can specify version control system (e.g., Git)
+
+* Previously edited code tabs are restored upon opening
+
+* The current working directory is set to the project directory
+
+---
+
+# What's a working directory?
+
+Where you're at on your computer
+
+You *can* change your working directory with `setwd("path/to/files")`...
+
+...**BUT** I strongly urge you to avoid that
+
+Instead, we’re going to use RStudio Projects and the `{here}` package
+
+You can `list.files(`*path*`)` to see the contents of your project directory (i.e., what your computer "sees")
+
+--
+
+* See where you're currently at by looking at the top of the console
+* Or run `getwd()` in the console
+--
+
+![](./images/directory.png)
+---
+
+# What's different with .Rproj?
+
+Your working directory is immediately wherever your project is located
+
+This is true for whoever is accessing the project
+
+Use the `{here}` package to specify **paths**
+* You can read/save data (and figures, products, etc.) which we'll talk about more later
+
+---
+
+.pull-left[
+### `setwd()`
+
+Sets working directly
+
+* `setwd()` ONLY works for you
+* Can’t share it out without A LOT of code editing
+* `setwd()` makes it difficult to work on other projects with different directories
+  + You have to remember to change it
+  + Or work leaks across projects (objects, data, packages)
+
+Instead: **`here()`**
+]
+
+--
+
+.pull-right[
+### `rm(list = ls())`
+
+Removes objects in environment
+
+* Does NOT create a fresh R process
+* Only deletes user-created objects
+* Packages are still loaded!
+* Options that have been reset in code still exist
+* Your script is not self-contained!
+* Not friendly to your collaborators! (deletes their objects)
+
+&lt;br&gt;
+
+Instead: **Session &gt; Restart R** (`Ctrl/Command + Shift + F10`)
+]
+
+---
+background-size: contain
+
+background-image: url("./images/hadley-tweet_1.png")
+
+---
+
+# Project Oriented Workflow
+
+Solution: Write every script assuming it will be run in a fresh `R` process
+
+* Do not save `.RData` when you quit `R` and don’t load `.RData` when you start `R`
+
+* Daily work habit: 
+  + Restart `R` very often and re-run your developing script from the top
+  + Use the RStudio menu item: **Session &gt; Restart R** (`Ctrl/Command + Shift + F10`)
+
+---
+class: inverse, left, middle
+
+# Workflow
+
+---
+
+## Let’s start by making a new project
+
+1. Make a new .RProj
+2. Add folders
+  + "data"
+  + "scripts"
+3. Read in data
+4. Create scripts
+5. Load packages
+
+---
+class: inverse, left, middle
+
+# RStudio Project
+
+---
+
+# 1. Make a new .RProj
+
+Let’s name it: "my_first_project"
+* notice the naming convention
+  + no caps
+  + no spaces
+  + no special characters (e.g., `?`, `!`, `"`, `#`)
+  + "`_`" and "`-`" are ok
+  
+--
+  
+Choose a location for it
+* An .RProj will need its own folder, with no other projects in it!
+* Projects in Dropbox often lead to unexpected occurences
+
+--
+
+I'll just save "my_first_project" to my desktop
+
+**.darkorange[[demo]]**
+
+---
+class: inverse, left, middle
+
+# Organize
+
+---
+
+# 2. Create folders
+
+Let’s make two folder in different ways (either is fine)
+
+**data**
+* where we will store all our project-related data
+* let’s create that in Rstudio
+
+**scripts**
+* where we will hold all our scripts (.R or .Rmd files)
+* let’s create that in the folder on our machine
+
+**.darkorange[[demo]]**
+
+---
+class: inverse, left, middle
+
+# Reading Data
+
+---
+# Dowload data
+
+Let’s save the following data files into our project "data" folder
+
+*go [here](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/data_list.html) to download*
+
+1. ecls-k_samp.sav
+2. Fatality.txt
+3. Project_Reads_Scores.csv
+
+---
+
+# Reading data into `R` 
+
+You just need one thing:
+
+1. **where** the data is located
+
+--
+
+This is most often just a path on you machine
+
+--
+
+We'll be talking about two data reading packages
+
+1. `{rio}`
+2. `{readr}`
+
+---
+&lt;div&gt;
+    &lt;p style="float: right;"&gt;&lt;img src="https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/here.png" width="150" height="150"&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;h1&gt;Data Location?&lt;/h1&gt;&lt;/p&gt;
+&lt;/div&gt;
+
+### We’ll use the `{here}` package
+
+`{here}` uses the top-level directory of a project to easily build **paths** to files
+
+* Allows you to worry about paths a little less
+* Helps reproducibility
+* Your final project!
+
+Think of `here()` simply as a function to print a path
+
+This **path** can be the **location** of your data
+
+--
+
+**path** = **location**
+
+.footnote[
+Art: [Allison Horst](https://www.allisonhorst.com/)
+]
+
+---
+# [`{here}`](https://here.r-lib.org/)
+
+Think of `here()` simply as a function to print a path
+
+First, install/load the package
+
+
+```r
+# In the console: 
+# install.packages("here")
+# Then, load the package
+library(here)
+```
+
+---
+
+# [`{here}`](https://here.r-lib.org/)
+
+Think of `here()` simply as a function to print a path
+
+Run this code in your project (console is fine)
+
+
+```r
+here()
+```
+
+--
+
+This is the "top level" directory of our project
+
+---
+# [`{here}`](https://here.r-lib.org/)
+
+Think of `here()` simply as a function to print a path
+
+Run this code in your project (console is fine)
+
+
+
+
+```r
+here()
+```
+
+```
+## [1] "C:/Users/jnese/Desktop/BRT/Teaching/Intro-Data-Science/c1-intro-fall-2021"
+```
+
+--
+
+This is the "top level" directory of **my** project
+
+---
+# [`{here}`](https://here.r-lib.org/)
+
+Think of `here()` simply as a function to print a path
+
+Run this code in your project (console is fine)
+
+
+```r
+here()
+```
+
+
+```r
+here("data")
+```
+
+--
+
+This is the path to the "data" folder in our project directory
+
+---
+
+# [`{here}`](https://here.r-lib.org/)
+
+Think of `here()` simply as a function to print a path
+
+Run this code in your project (console is fine)
+
+
+```r
+here()
+```
+
+
+```r
+here("data")
+```
+
+**Question:** What was the difference in the output between these?
+
+--
+
+**Question:** What will the following produce?
+
+
+```r
+here("data", "ecls-k_samp.sav")
+```
+
+---
+
+### Let's see files are in our "data" folder
+
+`list.files(here("data"))`
+
+You can also use the *Files* tab in RStudio
+
+--
+
+Use `here()` to access data or any file in your project
+
+--
+
+`here()` is simply a function to print a path
+
+--
+
+**.darkorange[[demo]]**
+
+---
+# `{rio}`
+
+* `{rio}` is a wrapper around many different packages that import/export data in different formats
+* Great package
+* Most of the time "it just works" regardless of the source file type
+  + this might not impress you, but it really should! 
+  + any package that turns a complex task into a simple procedure and “just works” is invaluable
+
+---
+# [`import()`](https://cran.r-project.org/web/packages/rio/vignettes/rio.html)
+
+.darkorange[`import`]`(`.darkblue[`file`]`,` .pink[`format`]`,` .green[`setclass`], `...)`
+
+.darkblue[`file`]       = character string naming a file
+
+--
+
+.pink[`format`]         = (**optional**) character string of file format; e.g., `","` for comma-separated values
+
+.green[`setclass`]      = (**optional**) character vector specifying one or more classes to set on the import. Default is `"data.frame"`. We would probably prefer `"tbl_df"` for a `tibble`
+
+---
+
+# 3a. Read in data
+
+Try it!
+
+
+```r
+library(rio)
+
+# .sav
+eclsk &lt;- import(here("data", "ecls-k_samp.sav"), setclass = "tbl_df")
+
+# .txt
+fatality &lt;- import(here("data", "Fatality.txt")) %&gt;% 
+  as_tibble()
+
+#.csv
+exam1 &lt;- import(here("data", "Project_Reads_Scores.csv")) %&gt;% 
+  as_tibble()
+```
+
+---
+
+### You can even read directly from the web 😲
+
+#### Fatality.txt
+
+
+```r
+import("https://raw.githubusercontent.com/uo-datasci-specialization/c1-intro-fall-2021/master/data/Fatality.txt",
+       setclass = "tbl_df")
+```
+
+```
+## # A tibble: 336 x 10
+##    state  year mrall beertax  mlda jaild comserd vmiles unrate perinc
+##    &lt;int&gt; &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+##  1     1  1982  2.13   1.54   19   no    no        7.23  14.4  10544.
+##  2     1  1983  2.35   1.79   19   no    no        7.84  13.7  10733.
+##  3     1  1984  2.34   1.71   19   no    no        8.26  11.1  11109.
+##  4     1  1985  2.19   1.65   19.7 no    no        8.73   8.90 11333.
+##  5     1  1986  2.67   1.61   21   no    no        8.95   9.80 11662.
+##  6     1  1987  2.72   1.56   21   no    no        9.17   7.80 11944 
+##  7     1  1988  2.49   1.50   21   no    no        9.67   7.20 12369.
+##  8     4  1982  2.50   0.215  19   yes   yes       6.81   9.90 12309.
+##  9     4  1983  2.27   0.206  19   yes   yes       6.59   9.10 12694.
+## 10     4  1984  2.83   0.297  19   yes   yes       6.71   5    13266.
+## # ... with 326 more rows
+```
+
+---
+# [`export()`](https://cran.r-project.org/web/packages/rio/vignettes/rio.html)
+
+Save data just as easily with `export()`
+
+--
+#### You need two things:
+
+1. .green[What] to export?
+2. .darkblue[Where] to export it?
+
+.darkorange[`export`]`(`.green[`x`]`,` .darkblue[`file`]`,` .pink[`format`]`, ...)`
+
+.green[`x`]      = data frame (tibble) to be written into a file
+
+.darkblue[`file`] = character string naming a file
+
+---
+# [`export()`](https://cran.r-project.org/web/packages/rio/vignettes/rio.html)
+
+Save data just as easily with `export()`
+
+#### You need two things:
+
+1. .green[What] to export?
+2. .darkblue[Where] to export it?
+
+.darkorange[`export`]`(`.green[`x`]`,` .darkblue[`file`]`,` .pink[`format`]`, ...)`
+
+.green[`x`]      = data frame (tibble) to be written into a file
+
+.darkblue[`file`] = character string naming a file
+
+
+```r
+export(exam1, here("data", "exam1.sav"))
+
+export(exam1, here("data", "exam1.txt"))
+
+export(exam1, here("data", "exam1.dta"))
+```
+
+---
+# `convert()`
+
+Another really useful feature is `convert()`, which just takes a file of one type and converts it to another
+
+Say your advisor uses SPSS, but their colleague uses Stata (and you use `R` 😎)
+
+---
+# `convert()`
+
+Another really useful feature is `convert()`, which just takes a file of one type and converts it to another
+
+Say your advisor uses SPSS, but their colleague uses Stata (and you use `R` 😎)
+
+Just run one line of code!
+
+.darkorange[`convert`]`(`.lightblue[`in_file`]`,` .darkblue[`out_file`]`, ...)`
+
+.lightblue[`in_file`] = character string naming an input file
+
+.darkblue[`out_file`] = character string naming an output file
+
+.darkorange[`convert`]`(here("data", `.lightblue[`ecls-k_samp.sav`])),&lt;br&gt;
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;nbsp;`(here("data", `.darkblue[`ecls-k_samp.dta`]))
+
+---
+
+# How is this all working?
+
+`{rio}` wraps a variety of faster, more stream-lined packages than those provided by base `R` 
+* `{data.table}` for delimited formats
+* `{haven}` for SAS, Stata, and SPSS files
+* `{readxl}` and `{openxlsx}` for reading and writing Excel workbooks
+* `data.table::fread()` for text-delimited files to automatically determine the file format regardless of the extension
+  + also *very* fast
+--
+
+* again, "just works"
+
+---
+
+# Maintaining labels
+
+**Question: How many of you or your colleagues use SPSS or Stata?**
+
+--
+
+In SPSS, numeric data are often encoded with labels
+
+`{rio}` and `{haven}` allow you to transform the data into the character/factor version
+
+`{rio}` and `{haven}` store metadata from rich file formats (SPSS, Stata, etc.) in variable-level attributes in a consistent form regardless of file type or underlying import function 
+* `rio::characterize()` converts a single variable or all variables in the data that have *label* attributes into character vectors
+* `rio::factorize()` does the same but returns factor variables
+
+---
+
+
+```r
+eclsk %&gt;%
+  select(child_id, k_type:sex) %&gt;%
+  head()
+```
+
+--
+
+
+```
+## # A tibble: 6 x 4
+##   child_id k_type school_type   sex
+*##   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1 0842021C      1           0     0
+## 2 0905002C      1           1     0
+## 3 0150012C      1           1     1
+## 4 0556009C      1           1     1
+## 5 0089013C      1           0     0
+## 6 1217001C      0           0     1
+```
+
+---
+
+```r
+eclsk %&gt;%
+  select(child_id, k_type:sex) %&gt;%
+  head()
+```
+
+---
+
+
+```r
+eclsk %&gt;%
+* characterize() %&gt;%
+  select(child_id, k_type:sex) %&gt;%
+  head()
+```
+
+--
+
+
+```
+## # A tibble: 6 x 4
+##   child_id k_type   school_type sex   
+*##   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt; 
+## 1 0842021C full-day public      male  
+## 2 0905002C full-day private     male  
+## 3 0150012C full-day private     female
+## 4 0556009C full-day private     female
+## 5 0089013C full-day public      male  
+## 6 1217001C half-day public      female
+```
+
+--
+
+
+```r
+eclsk %&gt;%
+  select(child_id, k_type:sex) %&gt;%
+  head()
+```
+
+```
+## # A tibble: 6 x 4
+##   child_id k_type school_type   sex
+*##   &lt;chr&gt;     &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1 0842021C      1           0     0
+## 2 0905002C      1           1     0
+## 3 0150012C      1           1     1
+## 4 0556009C      1           1     1
+## 5 0089013C      1           0     0
+## 6 1217001C      0           0     1
+```
+
+---
+
+# [`{readr}`](https://readr.tidyverse.org/)
+
+* Great package; most of the time "it just works" regardless of the source file type
+* Loads with `{tidyverse}`
+* Default loads data as a `tibble`
+  + this is nice!
+--
+&lt;br&gt;
+&lt;br&gt;
+* [`read_csv()`](https://readr.tidyverse.org/reference/read_delim.html):   comma separated (CSV) files
+* [`read_tsv()`](https://readr.tidyverse.org/reference/read_delim.html):   tab separated files
+* [`read_delim()`](https://readr.tidyverse.org/reference/read_delim.html): general delimited files
+* [`read_fwf()`](https://readr.tidyverse.org/reference/read_fwf.html):   fixed width files
+* [`read_table()`](https://readr.tidyverse.org/reference/read_table.html): tabular files where columns are separated by white-space
+* [`read_log()`](https://readr.tidyverse.org/reference/read_log.html):   web log files
+
+---
+# [`read_csv()`](https://readr.tidyverse.org/reference/read_delim.html)
+
+You just need one thing:
+
+1. **where** the data is located
+
+
+.darkorange[`read_csv`]`(`.darkblue[`file`]`, ...)`
+
+.darkblue[`file`]       = a **path** to a file, a connection, or literal data (either a single string or a raw vector)
+
+--
+
+**And how do we get a path string?**
+
+---
+
+# 3b. Read in data
+
+Try it!
+
+
+```r
+library(tidyverse)
+
+# {haven} package
+eclsk &lt;- haven::read_sav(here("data", "ecls-k_samp.sav"))
+
+# read_table() for space separated data
+fatality &lt;- read_table(here("data", "Fatality.txt")) 
+
+#read_csv(), the one I most often use
+exam1 &lt;- read_csv(here("data", "Project_Reads_Scores.csv"))
+
+# read directly from the web, in this case a .csv
+web &lt;- read_csv("https://github.com/datalorax/ncme_18/raw/master/data/pubschls.csv")
+```
+
+---
+# [`write_*()`](https://readr.tidyverse.org/reference/index.html)
+
+Save data just as easily with `write_*()`
+
+#### You need two things:
+1. .green[What] to export?
+2. .darkblue[Where] to export it?
+
+--
+
+* For example:
+
+.darkorange[`write_csv`]`(`.green[`x`]`,` .darkblue[`file`]`, ...)`
+
+.green[`x`]      = data frame (tibble) to be written into a file
+
+.darkblue[`file`] = character string naming a file to write to
+
+---
+# [`write_*()`](https://readr.tidyverse.org/reference/index.html)
+
+Save data just as easily with `write_*()`
+
+#### You need two things:
+1. .green[What] to export?
+2. .darkblue[Where] to export it?
+
+--
+
+* For example:
+
+.darkorange[`write_csv`]`(`.green[`x`]`,` .darkblue[`file`]`, ...)`
+
+.green[`x`]      = data frame (tibble) to be written into a file
+
+.darkblue[`file`] = character string naming a file to write to
+
+#### Basically
+
+`write_*(what, "where")`
+
+
+```r
+write_csv(exam1, here("data", "exam1.csv"))
+```
+
+---
+class: inverse, left, middle
+
+# Scripts
+
+---
+
+# .R
+
+.R is `R` script (code) file
+
+*File* &gt; *New File* &gt; *R Script*
+
+* Everything is code
+* Text - comments! - need to begin with "`#`"
+  + Comments are a **great** habit!
+  + Use them to document the what &amp; why of your code
+
+Run code
+* `Ctrl/Command + Enter`
+* Highlight specific code, `Ctrl/Command + Enter`
+* Put mouse on line, `Ctrl/Command + Enter`, and it will execute the all connected (piped) code
+
+--
+
+**.darkorange[[demo]]**
+
+---
+
+# Quick Peek
+
+### What is R Markdown?
+
+* An authoring framework for data science
+* A document format (.Rmd)
+* An `R` package named `{rmarkdown}`
+* A file format for making dynamic documents with `R`
+* A tool for integrating prose, code, and results
+* A computational document
+* Everything
+
+-.footnote[
+Source: [Allison Hill](https://apreshill.github.io/rmd4cdc/#11)
+]
+
+---
+
+# Quick Peek
+
+### What is R Markdown?
+
+* An authoring framework for data science
+* .bg-yellow[A document format (.Rmd)]
+* An `R` package named `{rmarkdown}`
+* A file format for making dynamic documents with `R`
+* A tool for integrating prose, code, and results
+* A computational document
+* Everything
+
+-.footnote[
+Source: [Allison Hill](https://apreshill.github.io/rmd4cdc/#11)
+]
+
+---
+
+# .Rmd
+
+.Rmd is a document format file that combines code **AND** prose
+* *File* &gt; *New File* &gt; *R Markdown...*
+
+--
+
+Code goes into **"code chunks"**
+
+````
+```{r}
+# comment
+
+data %&gt;% 
+  select(id, read, math)
+```
+````
+
+--
+
+Prose goes outside the code chunks
+
+--
+
+**.darkorange[[demo]]**
+
+---
+
+# .R &amp; .Rmd
+
+* Both are great
+* Serve different purposes
+
+--
+
+Organization tip
+* .Rmd with headers
+* .R with `# Header ----`
+
+**.darkorange[[demo]]**
+
+---
+class: inverse, left, middle
+
+# Packages
+
+---
+
+# Packages
+
+--
+
+**First** the package must be *installed* on your machine
+
+`install.packages(“package_name”)`
+
+--
+
+* you will only need to do this the first time you want to use the package
+* **never** keep this code line (you can run it in the console, or delete it from your script)
+* notices the quotes
+
+--
+
+Any time you want to use a package it should be *loaded*
+
+`library(package_name)`
+
+--
+
+* you will do this each time you use the package in your scripts
+* notices no quotes
+
+---
+
+# [`{janitor}`](https://github.com/sfirke/janitor) 
+
+### A fantastic package! 
+
+&lt;div&gt;
+    &lt;p style="float: right;"&gt;&lt;img src="https://raw.githubusercontent.com/sfirke/janitor/main/man/figures/logo_small.png" width="100" height="100"&gt;&lt;/p&gt;
+    &lt;p&gt;Cleaning up common problems&lt;/p&gt;
+&lt;/div&gt;
+
+* `remove_empty_rows()`
+* `remove_empty_cols()`
+* `excel_numeric_to_date()`
+  + changes numeric dates imported from Excel to actual dates
+* `tabyl()`
+  + frequency table with *n* and *%*
+--
+
+* `clean_names()`
+  + styles **column names** (NOT data itself) with "snake_case": lower case and underscore between words
+  + can choose other "`*_case`"
+
+
+.right[
+ &lt;p style="float: right;"&gt;&lt;img src="https://raw.githubusercontent.com/sfirke/janitor/main/man/figures/logo_small.png" width="50" height="50"&gt; 
+]
+
+---
+class: inverse, left, middle
+
+# Let's put it all together
+
+---
+# New script
+
+Let's work Within the "my_first_project" .RProj 
+
+(1) Open a new R Markdown file 
+  
+**.darkorange[[demo]]**
+  
+(2) Clean it up
+  + Modify the YAML
+  + Save the file as "practice.Rmd" in the **scripts** folder
+  + Knit it!
+
+**.darkorange[[demo]]**
+
+---
+# practice.Rmd script
+
+* Let's remove all chunks after the first (`setup`)
+* This is what you will do with .Rmd going forward
+
+---
+# Reading in data
+
+(1) What packages will we use to read in data?
+* `library(here)`
+* `library(rio)`
+* `library(tidyverse)`
+* `library(janitor)`
+
+
+
+(2) Read in the [Penguins.csv](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/data_list.html) data
+* Let's name the data "*penguins*"
+* Three options
+
+
+```r
+# rio::import()
+penguins &lt;- import(here("data", "Penguins.csv"), setclass = "tbl_df")
+
+penguins &lt;- import(here("data", "Penguins.csv"))
+
+# readr::read_csv()
+penguins &lt;- read_csv(here("data", "Penguins.csv")) 
+```
+
+```
+## Rows: 344 Columns: 8
+```
+
+```
+## -- Column specification ------------------------------------------------------------------------------------------------------------------------
+## Delimiter: ","
+## chr (3): Species, Island, Sex
+## dbl (5): Bill Length (mm), Bill Depth (mm), Flipper Length (mm), Body Mass (g), Year
+```
+
+```
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+---
+
+# What do our data look like?
+
+
+```r
+penguins
+```
+
+```
+## # A tibble: 344 x 8
+##    Species Island    `Bill Length (mm)` `Bill Depth (mm)` `Flipper Length (mm)` `Body Mass (g)` Sex     Year
+##    &lt;chr&gt;   &lt;chr&gt;                  &lt;dbl&gt;             &lt;dbl&gt;                 &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+##  1 Adelie  Torgersen               39.1              18.7                   181            3750 male    2007
+##  2 Adelie  Torgersen               39.5              17.4                   186            3800 female  2007
+##  3 Adelie  Torgersen               40.3              18                     195            3250 female  2007
+##  4 Adelie  Torgersen               NA                NA                      NA              NA &lt;NA&gt;    2007
+##  5 Adelie  Torgersen               36.7              19.3                   193            3450 female  2007
+##  6 Adelie  Torgersen               39.3              20.6                   190            3650 male    2007
+##  7 Adelie  Torgersen               38.9              17.8                   181            3625 female  2007
+##  8 Adelie  Torgersen               39.2              19.6                   195            4675 male    2007
+##  9 Adelie  Torgersen               34.1              18.1                   193            3475 &lt;NA&gt;    2007
+## 10 Adelie  Torgersen               42                20.2                   190            4250 &lt;NA&gt;    2007
+## # ... with 334 more rows
+```
+
+--
+
+Or use `View()` to take a look at the full data in RStudio
+
+
+```r
+View(penguins)
+```
+
+
+---
+
+# `clean_names()`
+
+
+```r
+# re-assign the "reads" object by reading the data in again
+penguins &lt;- read_csv(here("data", "Penguins.csv")) %&gt;% 
+  clean_names()
+
+# or just work with the existing "penguins" object
+penguins &lt;- penguins %&gt;% 
+  clean_names()
+```
+
+&lt;img src="https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/janitor_clean_names.png" width="50%" height="50%" class="center"&gt;
+
+---
+
+## Looking at the data `str`ucture
+
+`str`ucture 
+
+```r
+str(penguins)
+```
+
+```
+## spec_tbl_df [344 x 8] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ species          : chr [1:344] "Adelie" "Adelie" "Adelie" "Adelie" ...
+##  $ island           : chr [1:344] "Torgersen" "Torgersen" "Torgersen" "Torgersen" ...
+##  $ bill_length_mm   : num [1:344] 39.1 39.5 40.3 NA 36.7 39.3 38.9 39.2 34.1 42 ...
+##  $ bill_depth_mm    : num [1:344] 18.7 17.4 18 NA 19.3 20.6 17.8 19.6 18.1 20.2 ...
+##  $ flipper_length_mm: num [1:344] 181 186 195 NA 193 190 181 195 193 190 ...
+##  $ body_mass_g      : num [1:344] 3750 3800 3250 NA 3450 ...
+##  $ sex              : chr [1:344] "male" "female" "female" NA ...
+##  $ year             : num [1:344] 2007 2007 2007 2007 2007 ...
+##  - attr(*, "spec")=
+##   .. cols(
+##   ..   Species = col_character(),
+##   ..   Island = col_character(),
+##   ..   `Bill Length (mm)` = col_double(),
+##   ..   `Bill Depth (mm)` = col_double(),
+##   ..   `Flipper Length (mm)` = col_double(),
+##   ..   `Body Mass (g)` = col_double(),
+##   ..   Sex = col_character(),
+##   ..   Year = col_double()
+##   .. )
+##  - attr(*, "problems")=&lt;externalptr&gt;
+```
+
+---
+
+## Looking at the data properties
+
+`dim`ensions (rows `\(\times\)` columns)
+
+
+```r
+dim(penguins)
+```
+
+```
+## [1] 344   8
+```
+
+--
+
+
+```r
+nrow(penguins)
+```
+
+```
+## [1] 344
+```
+
+```r
+ncol(penguins)
+```
+
+```
+## [1] 8
+```
+
+---
+
+# `head()`
+
+#### View the six first elements
+
+
+```r
+head(penguins)
+```
+
+```
+## # A tibble: 6 x 8
+##   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g sex     year
+##   &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 Adelie  Torgersen           39.1          18.7               181        3750 male    2007
+## 2 Adelie  Torgersen           39.5          17.4               186        3800 female  2007
+## 3 Adelie  Torgersen           40.3          18                 195        3250 female  2007
+## 4 Adelie  Torgersen           NA            NA                  NA          NA &lt;NA&gt;    2007
+## 5 Adelie  Torgersen           36.7          19.3               193        3450 female  2007
+## 6 Adelie  Torgersen           39.3          20.6               190        3650 male    2007
+```
+
+--
+
+
+```r
+head(penguins$flipper_length_mm)
+```
+
+```
+## [1] 181 186 195  NA 193 190
+```
+
+---
+
+## Another cool package `{skimr}`
+
+
+```r
+library(skimr)
+
+skim(penguins)
+```
+
+.darkorange[[demo]]
+
+---
+
+# The pipe operator (`%&gt;%`)
+
+* The `%&gt;%` operator (`Super + Shift + M`) 
+  + .bg-yellow[inserts the input as the first argument in the next function]
+* To start, you can read it as "then"
+* It is crucial for work in the `{tidyverse}`
+
+--
+
+.pull-left[
+ 
+
+```r
+penguins %&gt;% 
+  count(species)
+```
+
+```
+## # A tibble: 3 x 2
+##   species       n
+##   &lt;chr&gt;     &lt;int&gt;
+## 1 Adelie      152
+## 2 Chinstrap    68
+## 3 Gentoo      124
+```
+]
+--
+
+.pull-right[
+Or with `{janitor}`
+
+
+```r
+penguins %&gt;% 
+  tabyl(species)
+```
+
+```
+##    species   n   percent
+##     Adelie 152 0.4418605
+##  Chinstrap  68 0.1976744
+##     Gentoo 124 0.3604651
+```
+]
+
+--
+
+Let's look at `?count` and `?tabyl`
+
+---
+
+# Why use `%&gt;%`
+
+Chaining arguments is **efficient** and **easy to read**
+
+--
+
+
+```r
+penguins %&gt;% 
+  filter(species == "Adelie",
+         bill_length_mm &gt; 40) %&gt;% 
+  select(island, bill_length_mm, body_mass_g) %&gt;% 
+  arrange(bill_length_mm) %&gt;% 
+  slice(1:3)
+```
+
+```
+## # A tibble: 3 x 3
+##   island    bill_length_mm body_mass_g
+##   &lt;chr&gt;              &lt;dbl&gt;       &lt;dbl&gt;
+## 1 Biscoe              40.1        4300
+## 2 Torgersen           40.2        3450
+## 3 Dream               40.2        3975
+```
+
+--
+
+Equivalent to:
+
+
+```r
+slice(arrange(select(filter(penguins, species == "Adelie", bill_length_mm &gt; 40), island, bill_length_mm, body_mass_g), bill_length_mm), 1:3)
+```
+
+---
+
+# The %&gt;% cont.
+
+The `%&gt;%` works so well in the `{tidyverse}` because .bg-yellow[the first argument in (nearly) all functions is the data (tibble)]
+
+So you don't need to name the data each time
+
+--
+
+.pull-left[
+So this:
+
+
+```r
+penguins %&gt;% 
+  count(sex)
+```
+
+```
+## # A tibble: 3 x 2
+##   sex        n
+##   &lt;chr&gt;  &lt;int&gt;
+## 1 female   165
+## 2 male     168
+## 3 &lt;NA&gt;      11
+```
+]
+--
+
+.pull-right[
+Is equivalent to this:
+
+
+```r
+count(penguins, sex)
+```
+
+```
+## # A tibble: 3 x 2
+##   sex        n
+##   &lt;chr&gt;  &lt;int&gt;
+## 1 female   165
+## 2 male     168
+## 3 &lt;NA&gt;      11
+```
+]
+
+---
+class: inverse, left, middle
+
+# Next time
+
+---
+
+# Homework Notes
+
+Script on website
+* Download **Homework 1** from the course [Schedule](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/schedule.html) or [Assignments](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/assignments.html) page
+* Work with this .Rmd file
+
+Submit a rendered .html file to Canvas
+* *Assignments &gt; Homeworks &gt; HW 1*
+
+You **may** need to install [`{tinytext}`](https://yihui.name/tinytex/) to get your .Rmd file to render to an .html file
+* If you want to try this, read the embedded link above first
+* If you are having trouble contact me
+
+---
+# Before next class
+
+* Reading
+  + [R4DS Ch 3](https://r4ds.had.co.nz/data-visualisation.html#introduction-1)
+* Supplemental Learning
+  + [RStudio Primer: Data Visualization Basics](https://rstudio.cloud/learn/primers/1.1)
+  + [Rbootcamp: Ch 2](https://r-bootcamp.netlify.app/chapter2)
+  + [Codecademy: Introduction to Visualization with R](https://www.codecademy.com/courses/learn-r/lessons/intro-visualization-ggplot2-r/exercises/introduction)
+* Homework
+  + **Homework 1**
+* Final project
+  + &lt;p style="color:red;"&gt;Finalize Groups&lt;/p&gt;		
+  
+---
+class: inverse, left, middle
+
+---
+
+# How do we access variables?
+
+* Generally, in this course, with `{tidyverse}` tools
+* Sometimes with `$` or with `[]`
+  + `data_name$variable_name`
+  + `data_name["variable_name"]`
+
+---
+
+# Selecting varaibles
+
+Select the `species` variable with `$`
+
+--
+
+
+```r
+penguins$species
+```
+
+```
+##   [1] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [12] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [23] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [34] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [45] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [56] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [67] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [78] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [89] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [100] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [111] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [122] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [133] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [144] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Gentoo"    "Gentoo"   
+## [155] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [166] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [177] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [188] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [199] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [210] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [221] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [232] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [243] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [254] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [265] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [276] "Gentoo"    "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [287] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [298] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [309] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [320] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [331] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [342] "Chinstrap" "Chinstrap" "Chinstrap"
+```
+
+---
+
+## Look at the `str`ucture of a variable
+
+
+```r
+str(penguins$species)
+```
+
+```
+##  chr [1:344] "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" ...
+```
+
+--
+
+## Or and object
+
+
+```r
+str(penguins)
+```
+
+```
+## spec_tbl_df [344 x 8] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ species          : chr [1:344] "Adelie" "Adelie" "Adelie" "Adelie" ...
+##  $ island           : chr [1:344] "Torgersen" "Torgersen" "Torgersen" "Torgersen" ...
+##  $ bill_length_mm   : num [1:344] 39.1 39.5 40.3 NA 36.7 39.3 38.9 39.2 34.1 42 ...
+##  $ bill_depth_mm    : num [1:344] 18.7 17.4 18 NA 19.3 20.6 17.8 19.6 18.1 20.2 ...
+##  $ flipper_length_mm: num [1:344] 181 186 195 NA 193 190 181 195 193 190 ...
+##  $ body_mass_g      : num [1:344] 3750 3800 3250 NA 3450 ...
+##  $ sex              : chr [1:344] "male" "female" "female" NA ...
+##  $ year             : num [1:344] 2007 2007 2007 2007 2007 ...
+##  - attr(*, "spec")=
+##   .. cols(
+##   ..   Species = col_character(),
+##   ..   Island = col_character(),
+##   ..   `Bill Length (mm)` = col_double(),
+##   ..   `Bill Depth (mm)` = col_double(),
+##   ..   `Flipper Length (mm)` = col_double(),
+##   ..   `Body Mass (g)` = col_double(),
+##   ..   Sex = col_character(),
+##   ..   Year = col_double()
+##   .. )
+##  - attr(*, "problems")=&lt;externalptr&gt;
+```
+
+---
+
+## Because `penguins` is a `tibble`
+
+
+```r
+penguins
+```
+
+```
+## # A tibble: 344 x 8
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g sex     year
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750 male    2007
+##  2 Adelie  Torgersen           39.5          17.4               186        3800 female  2007
+##  3 Adelie  Torgersen           40.3          18                 195        3250 female  2007
+##  4 Adelie  Torgersen           NA            NA                  NA          NA &lt;NA&gt;    2007
+##  5 Adelie  Torgersen           36.7          19.3               193        3450 female  2007
+##  6 Adelie  Torgersen           39.3          20.6               190        3650 male    2007
+##  7 Adelie  Torgersen           38.9          17.8               181        3625 female  2007
+##  8 Adelie  Torgersen           39.2          19.6               195        4675 male    2007
+##  9 Adelie  Torgersen           34.1          18.1               193        3475 &lt;NA&gt;    2007
+## 10 Adelie  Torgersen           42            20.2               190        4250 &lt;NA&gt;    2007
+## # ... with 334 more rows
+```
+
+---
+
+# When to use `$`?
+
+* Often when you need to use `{base} R` 
+* Execute a function casually
+
+--
+
+.pull-left[
+
+```r
+table(penguins$species)
+```
+
+```
+## 
+##    Adelie Chinstrap    Gentoo 
+##       152        68       124
+```
+]
+
+--
+
+.pull-right[
+
+```r
+hist(penguins$body_mass_g)
+```
+
+![](w2_workflow_files/figure-html/unnamed-chunk-43-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Your turn
+
+Run `table()` on the `island` variable
+
+Produce a `hist`ogram of the `bill_length_mm ` variable
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
