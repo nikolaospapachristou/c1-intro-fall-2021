@@ -44,7 +44,8 @@ sched <- read_xlsx(here::here("nopublish", "schedule.xlsx"), sheet = "schedule")
     Reading = paste0(Reading, "(", reading_link, ")"),
     Slides = paste0(Slides, "(", slides_link, ")"),
     Lecture = paste0(Lecture, "(", lecture_link, ")", "<br>", "Passcode: ", lecture_passcode),
-    Assigned = paste0(Assigned, "(", assigned_link, ")"),
+    Assigned = ifelse(str_detect(Assigned, "Homework"), Assigned,
+                      paste0(Assigned, "(", assigned_link, ")")),
     Due = paste0(Due, "(", due_link, ")"),
     Date = format(as.Date(Date), "%b-%d")
     ) %>% 
@@ -96,6 +97,8 @@ tbl_fx(1) %>%
 <br>
 
 ## Week 2: Workflow
+
+<a href="C:/Users/jnese/Desktop/BRT/Teaching/Intro-Data-Science/c1-intro-fall-2021/homeworks/hw1.Rmd" download>Download link</a>
 
 ```{r}
 tbl_fx(2)
