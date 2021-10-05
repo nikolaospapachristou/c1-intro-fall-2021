@@ -1,12 +1,12 @@
 ---
 title: "Syllabus"
-subtitle: "EDLD 651: Introduction to Data Science with R"
-author: "(CRN: 16923; 3 credit hours)"
+author: '(CRN: 16923; 3 credit hours)'
 date: "Fall 2021"
-output:
+output: 
   html_document:
-    toc: true
-    toc_float: true
+    toc: yes
+    toc_float: yes
+subtitle: 'EDLD 651: Introduction to Data Science with R'
 ---
 
 ```{r setup, include=FALSE}
@@ -197,13 +197,15 @@ sched <- read_xlsx(here::here("nopublish", "schedule.xlsx"), sheet = "schedule")
   mutate(
     Reading = paste0(Reading, "(", reading_link, ")"),
     Slides = paste0(Slides, "(", slides_link, ")"),
-    Lecture = paste0(Lecture, "(", lecture_link, ")"),
-    Assigned = paste0(Assigned, "(", assigned_link, ")"),
+    Lecture = paste0(Lecture, "(", lecture_link, ")", "<br>", "Passcode: ", lecture_passcode),
+    Assigned = ifelse(str_detect(Assigned, "Homework"), Assigned,
+                      paste0(Assigned, "(", assigned_link, ")")),
     Due = paste0(Due, "(", due_link, ")"),
     Date = format(as.Date(Date), "%b-%d")
     ) %>% 
-    select(-ends_with("link"), -ends_with("shortcut"), -Topic, -screenshot) %>% 
+  select(-ends_with("link"), -ends_with("shortcut"), -c(Topic, screenshot, lecture_passcode)) %>% 
   mutate(across(everything(), ~ifelse(. == "NA(NA)", NA_character_, .))) %>% 
+  mutate(Lecture = ifelse(str_detect(Lecture, "fas"), Lecture, NA_character_)) %>% 
   mutate(across(everything(), ~str_remove(., "\\(NA\\)"))) %>% 
   nest(data = c(Date, Reading, Slides, Lecture, Assigned, Due)) 
 
