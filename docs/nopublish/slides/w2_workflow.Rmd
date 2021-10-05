@@ -48,6 +48,15 @@ style_duo_accent(
 ```
 
 ---
+## Housekeeping
+
+* covid
+* assignments
+* 
+
+---
+
+---
 class: inverse, left, middle
 
 # Workflow
@@ -66,8 +75,11 @@ class: inverse, left, middle
 * Looking at data
 * The pipe `%>%`
 
-**Overall Purpose**
+**Learning Objectives**
 
+* Open an RStudio Project
+* Understand file paths
+* Learn two ways to read data
 * Establish good workflow habits
 
 ---
@@ -112,7 +124,7 @@ You *can* change your working directory with `setwd("path/to/files")`...
 
 Instead, we’re going to use RStudio Projects and the `{here}` package
 
-You can `list.files(`*path*`)` to see the contents of your pr0ject directory (i.e., what your computer "sees")
+You can `list.files(`*path*`)` to see the contents of your project directory (i.e., what your computer "sees")
 
 --
 
@@ -155,7 +167,7 @@ Instead: **`here()`**
 * Your script is not self-contained!
 * Not friendly to your collaborators! (deletes their objects)
 
-Instead: **Session > Restart R** (Ctrl/Command + Shift + F10)
+Instead: **Session > Restart R** (`Ctrl/Command + Shift + F10`)
 ]
 
 ---
@@ -173,7 +185,7 @@ Solution: Write every script assuming it will be run in a fresh `R` process
 
 * Daily work habit: 
   + Restart `R` very often and re-run your developing script from the top
-  + Use the RStudio menu item: Session > Restart R (Ctrl/Command + Shift + F10)
+  + Use the RStudio menu item: *Session > Restart R* (`Ctrl/Command + Shift + F10`)
 
 ---
 class: inverse, left, middle
@@ -182,7 +194,7 @@ class: inverse, left, middle
 
 ---
 
-# Let’s start by making a new project
+## Let’s start by making a new project
 
 1. Make a new .RProj
 2. Create folders
@@ -218,7 +230,7 @@ Choose a location for it
 
 Let's just save "my_first_project" on our desktops
 
-**.darkorange[demo]**
+**.darkorange[[demo]]**
 
 ---
 class: inverse, left, middle
@@ -239,7 +251,7 @@ Let’s make two folder in different ways (either is fine)
 * where we will hold all our scripts (.R or .Rmd files)
 * let’s create that in the folder on our machine
 
-**.darkorange[demo]**
+**.darkorange[[demo]]**
 
 ---
 class: inverse, left, middle
@@ -247,8 +259,11 @@ class: inverse, left, middle
 # Reading Data
 
 ---
+# Dowload data
 
 Let’s save the following data files into our project "data" folder
+
+*go [here](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/data_list.html) to download*
 
 1. ecls-k_samp.sav
 2. Fatality.txt
@@ -264,7 +279,7 @@ You need one thing:
 
 --
 
-This is often just a path on you machine
+This is most often just a path on you machine
 
 --
 
@@ -274,14 +289,14 @@ We'll be talking about two data reading packages
 2. `{readr}`
 
 ---
+<div>
+    <p style="float: right;"><img src="https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/here.png" width="150" height="150"></p>
+    <p><h1>Data Location</h1></p>
+</div>
 
-# Data Location
+<br>
+<br>
 
-.left-column[
-![](https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/here.png)
-]
-
-.right-column[
 ### We’ll use the `{here}` package
 
 `{here}` uses the top-level directory of a project to easily build paths to files
@@ -292,14 +307,11 @@ We'll be talking about two data reading packages
 
 Think of `here()` simply as a function to print a path
 
-] 
-
 .footnote[
 Art: [Allison Horst](https://www.allisonhorst.com/)
 ]
 
 ---
-
 # [`{here}`](https://here.r-lib.org/)
 
 Think of `here()` simply as a function to print a path
@@ -307,9 +319,9 @@ Think of `here()` simply as a function to print a path
 Try the following code:
 
 ```{r, eval=FALSE}
-# Install the package (in the console)
-# install.packages("here") 
-#  Then, load the package
+# In the console: 
+# install.packages("here")
+# Then, load the package
 library(here)
 ```
 
@@ -324,7 +336,6 @@ here()
 This is the "top level" directory of our project
 
 ---
-
 # [`{here}`](https://here.r-lib.org/)
 
 Think of `here()` simply as a function to print a path
@@ -332,9 +343,38 @@ Think of `here()` simply as a function to print a path
 Try the following code:
 
 ```{r, eval=FALSE}
-# Install the package (in the console)
-# install.packages("here") 
-#  Then, load the package
+# In the console: 
+# install.packages("here")
+# Then, load the package
+library(here)
+```
+
+```{css, echo=FALSE}
+pre {
+  max-width: 100%;
+  overflow-x: scroll;
+}
+```
+
+```{r}
+here()
+```
+
+--
+
+This is the "top level" directory of our project
+
+---
+# [`{here}`](https://here.r-lib.org/)
+
+Think of `here()` simply as a function to print a path
+
+Try the following code:
+
+```{r, eval=FALSE}
+# In the console: 
+# install.packages("here")
+# Then, load the package
 library(here)
 ```
 
@@ -342,7 +382,7 @@ library(here)
 here()
 ```
 
-```{r, eval=FALSE}
+```{r}
 here("data")
 ```
 
@@ -359,9 +399,9 @@ Think of `here()` simply as a function to print a path
 Try the following code:
 
 ```{r, eval=FALSE}
-# Install the package (in the console)
-# install.packages("here") 
-#  Then, load the package
+# In the console: 
+# install.packages("here")
+# Then, load the package
 library(here)
 ```
 
@@ -401,7 +441,7 @@ Use `here()` to access data or any file in your project
 
 --
 
-**.darkorange[demo]**
+**.darkorange[[demo]]**
 
 ---
 
@@ -412,8 +452,13 @@ Use `here()` to access data or any file in your project
 * This might not impress you, but it really should! 
 * Any package that “just works” and turns a complex task into a simple procedure is invaluable
 
----
+```{css, echo=FALSE}
+pre {
+  max-width: 100%;
+}
+```
 
+---
 # [`import()`](https://cran.r-project.org/web/packages/rio/vignettes/rio.html)
 
 .darkorange[`import`]`(`.darkblue[`file`]`,` .pink[`format`]`,` .green[`setclass`], `...)`
@@ -449,10 +494,10 @@ exam1 <- import(here("data", "Project_Reads_Scores.csv")) %>%
 
 ### You can even read directly from the web 😲
 
-### change link
+#### Fatality.txt
 
 ```{r}
-import("https://github.com/datalorax/ncme_18/raw/master/data/pubschls.csv",
+import("https://raw.githubusercontent.com/uo-datasci-specialization/c1-intro-fall-2021/master/data/Fatality.txt",
        setclass = "tbl_df")
 ```
 
@@ -461,6 +506,12 @@ import("https://github.com/datalorax/ncme_18/raw/master/data/pubschls.csv",
 # [`export()`](https://cran.r-project.org/web/packages/rio/vignettes/rio.html)
 
 Save data just as easily with `export()`
+
+--
+
+#### You need two things:
+1. **What** to export?
+2. **Where** to export it?
 
 .darkorange[`export`]`(`.gray[`x`]`,` .darkblue[`file`]`,` .pink[`format`]`, ...)`
 
@@ -521,13 +572,15 @@ Just run one line of code!
 
 **Question: How many of you or your colleagues use SPSS or Stata?**
 
+--
+
 In SPSS, numeric data are often encoded with labels
 
-`{rio}` (and `{haven}`) allow you to transform the data into the character/factor version
+`{rio}` and `{haven}` allow you to transform the data into the character/factor version
 
 `{rio}` stores metadata from rich file formats (SPSS, Stata, etc.) in variable-level attributes in a consistent form regardless of file type or underlying import function 
-* `characterize()` converts a single variable or all variables in the data that have *label* attributes into character vectors
-* `factorize()` does the same but returns factor variables
+* `rio::characterize()` converts a single variable or all variables in the data that have *label* attributes into character vectors
+* `rio::factorize()` does the same but returns factor variables
 
 ---
 
@@ -539,7 +592,14 @@ eclsk %>%
 
 --
 
-```{r, highlight.output = c(3)}
+```{r, echo=FALSE, highlight.output = c(3)}
+eclsk %>%
+  select(child_id, k_type:sex) %>%
+  head()
+```
+
+---
+```{r, eval=FALSE}
 eclsk %>%
   select(child_id, k_type:sex) %>%
   head()
@@ -556,9 +616,17 @@ eclsk %>%
 
 --
 
-```{r, highlight.output = c(3)}
+```{r, echo=FALSE, highlight.output = c(3)}
 eclsk %>%
   characterize() %>% #<<
+  select(child_id, k_type:sex) %>%
+  head()
+```
+
+--
+
+```{r, highlight.output = c(3)}
+eclsk %>%
   select(child_id, k_type:sex) %>%
   head()
 ```
@@ -588,6 +656,10 @@ eclsk %>%
 
 .darkblue[`file`]       = a **path** to a file, a connection, or literal data (either a single string or a raw vector)
 
+--
+
+And how do we get a path string?
+
 ---
 
 # 3b. Read in data
@@ -616,6 +688,12 @@ web <- read_csv("https://github.com/datalorax/ncme_18/raw/master/data/pubschls.c
 # [`write_*()`](https://readr.tidyverse.org/reference/index.html)
 
 Save data just as easily with `write_*()`
+
+#### You need two things:
+1. **What** to export?
+2. **Where** to export it?
+
+--
 
 * For example:
 
@@ -653,13 +731,13 @@ class: inverse, left, middle
   + Comments are a **great** habit; use them!
 
 Run code
-* Ctrl/Command + Enter
-* Highlight specific code, Ctrl/Command + Enter
-* Put mouse on line, Ctrl/Command + Enter, and it will execute the all connected (piped) code
+* `Ctrl/Command + Enter`
+* Highlight specific code, `Ctrl/Command + Enter`
+* Put mouse on line, `Ctrl/Command + Enter`, and it will execute the all connected (piped) code
 
 --
 
-**.darkorange[demo]**
+**.darkorange[[demo]]**
 
 ---
 
@@ -723,7 +801,7 @@ Prose goes outside the code chunks
 
 --
 
-**.darkorange[demo]**
+**.darkorange[[demo]]**
 
 ---
 
@@ -738,7 +816,7 @@ Organization tip
 * .Rmd with headers
 * .R with `# Header ----`
 
-**.darkorange[demo]**
+**.darkorange[[demo]]**
 
 ---
 class: inverse, left, middle
@@ -793,7 +871,7 @@ Any time you want to use a package it should be *loaded*
 
 * `clean_names()`
   + styles **column names** (NOT data itself) with "snake_case" - lower case "_" between words
-  + can choose other "*_case"
+  + can choose other "`*_case`"
 
 
 .right[
@@ -811,22 +889,22 @@ class: inverse, left, middle
 
 Let's work Within the "my_first_project" .RProj 
 
-1. Open a new R Markdown file 
+(1) Open a new R Markdown file 
   
-  **.darkorange[demo]**
+**.darkorange[[demo]]**
   
-2.Clean it up
+(2) Clean it up
   + Modify the YAML
   + Remove all code chunks **except** the first one
-  + Save the file as "practice.Rmd"
+  + Save the file as "practice.Rmd" in the **scripts** folder
 
-**.darkorange[demo]**
+**.darkorange[[demo]]**
 
 ---
 
 # Reading in data
 
-1. What packages will we want to read in data?
+(1) What packages will we use to read in data?
 * `library(here)`
 * `library(rio)`
 * `library(tidyverse)`
@@ -836,11 +914,11 @@ Let's work Within the "my_first_project" .RProj
 library(janitor)
 ```
 
-2. Read in the data
-* Let's name the data "reads" (because it is reading data)
+(2) Read in the data
+* Let's name the data "*penguins*"
 * Three options
 
-```{r}
+```{r, results='hide'}
 # rio::import()
 penguins <- import(here("data", "Penguins.csv"), setclass = "tbl_df")
 
@@ -869,7 +947,7 @@ View(penguins)
 
 ---
 
-# clean_names()
+# `clean_names()`
 
 ```{r, message=FALSE}
 # re-assign the "reads" object by reading the data in again
@@ -887,15 +965,26 @@ penguins <- penguins %>%
 
 # Looking at the data `str`ucture
 
+`str`ucture 
+```{r}
+str(penguins)
+```
+
+---
+
+# Looking at the data properties
+
 `dim`ensions (rows $\times$ columns)
 
 ```{r}
 dim(penguins)
 ```
 
-`str`ucture 
+--
+
 ```{r}
-str(penguins)
+nrow(penguins)
+ncol(penguins)
 ```
 
 ---
@@ -904,31 +993,150 @@ str(penguins)
 
 #### View the six first elements
 
---
-
-In a data frame
-
 ```{r}
 head(penguins)
 ```
 
 --
 
-Or in a vector
 ```{r}
 head(penguins$flipper_length_mm)
 ```
 
-
 ---
 
-# Another cool package `{skimr}`
+## Another cool package `{skimr}`
 
-```{r, results='asis'}
+```{r, results='hide'}
 library(skimr)
 
 skim(penguins)
 ```
+
+---
+
+# The pipe operator (`%>%`)
+
+* The `%>%` operator (`Super + Shift + M`) 
+  + .bg-yellow[inserts the input as the first argument in the next function]
+* To start, you can read it as "then"
+* It is crucial for work in the `{tidyverse}`
+
+--
+
+.pull-left[
+ 
+```{r}
+penguins %>% 
+  count(species)
+```
+]
+--
+
+.pull-right[
+Or with `{janitor}`
+
+```{r}
+penguins %>% 
+  tabyl(species)
+```
+]
+
+--
+
+Let's look at `?count` and `?tabyl`
+
+---
+
+# Why use `%>%`
+
+Chaining arguments is **efficient** and **easy to read**
+
+--
+
+```{r}
+penguins %>% 
+  filter(species == "Adelie",
+         bill_length_mm > 40) %>% 
+  select(island, bill_length_mm, body_mass_g) %>% 
+  arrange(bill_length_mm) %>% 
+  slice(1:3)
+```
+
+--
+
+Equivalent to:
+
+```{r, eval=FALSE}
+slice(arrange(select(filter(penguins, species == "Adelie", bill_length_mm > 40), island, bill_length_mm, body_mass_g), bill_length_mm), 1:3)
+```
+
+---
+
+# The %>% cont.
+
+The `%>%` works so well in the `{tidyverse}` because .bg-yellow[the first argument in (nearly) all functions is the data (tibble)]
+
+So you don't need to name the data each time
+
+--
+
+.pull-left[
+So this:
+
+```{r}
+penguins %>% 
+  count(sex)
+```
+]
+--
+
+.pull-right[
+Is equivalent to this:
+
+```{r}
+count(penguins, sex)
+```
+]
+
+---
+# Let's work with our .Rmd file????
+
+---
+class: inverse, left, middle
+
+# Next time
+
+---
+
+# Lab Notes
+
+Script on website
+* 
+
+Submit an .html file to Canvas
+* *Assignments > Homeworks > HW 1*
+
+You **may** need to install [`{tinytext}`](https://yihui.name/tinytex/) to get your .Rmd file to render to an .html file
+* If you want to try this, read the embedded link above first
+* If you are having trouble contact me
+
+---
+# Before next class
+
+* Reading
+  + [R4DS Ch 3](https://r4ds.had.co.nz/data-visualisation.html#introduction-1)
+* Supplemental Learning
+  + [RStudio Primer: Data Visualization Basics](https://rstudio.cloud/learn/primers/1.1)
+  + [Rbootcamp: Ch 2](https://r-bootcamp.netlify.app/chapter2)
+  + [Codecademy: Introduction to Visualization with R](https://www.codecademy.com/courses/learn-r/lessons/intro-visualization-ggplot2-r/exercises/introduction)
+* Homework
+  + [Homework 1]()
+* Final project
+  + <p style="color:red;">Finalize Groups</p>		
+  
+---
+class: inverse, left, middle
 
 ---
 
@@ -1007,100 +1215,3 @@ Run `table()` on the `island` variable
 Produce a `hist`ogram of the `bill_length_mm ` variable
 
 ---
-
-# The pipe operator (`%>%`)
-
-* The `%>%` operator (Super + Shift + M) inserts the input from the left as the first argument in the next function
-* To start, you can read it as, “then”
-* It is crucial for work in the `{tidyverse}`
-* We will talk about this a lot in this class
-
---
-
-.pull-left[
- 
-```{r}
-penguins %>% 
-  count(species)
-```
-]
---
-
-.pull-right[
-Or with `{janitor}`
-
-```{r}
-penguins %>% 
-  tabyl(species)
-```
-]
-
----
-
-# Why use `%>%`
-
-Chaining arguments is **efficient** and **easy to read**
-
---
-
-```{r}
-penguins %>% 
-  filter(species == "Adelie",
-         bill_length_mm > 40) %>% 
-  select(island, bill_length_mm, body_mass_g) %>% 
-  arrange(bill_length_mm) %>% 
-  slice(1:5)
-```
-
---
-
-Equivalent to:
-
-```{r, eval=FALSE}
-slice(arrange(select(filter(penguins, species == "Adelie", bill_length_mm > 40), island, bill_length_mm, body_mass_g), bill_length_mm), 1:5)
-```
-
----
-
-# The %>% cont.
-
-The `%>%` works so well in the `{tidyverse}` because the first argument in (nearly) all functions is the data (tibble)
-
-So you don't need to name the data each time
-
---
-
-So this:
-
-```{r}
-penguins %>% 
-  count(sex)
-```
-
---
-
-Is equivalent to this:
-
-```{r}
-count(penguins, sex)
-```
-
----
-class: inverse, left, middle
-
-# Next time
-
----
-
-# Lab Notes
-
-Script on Canvas
-* *Files > labs_assigned > lab1*
-
-Submit an .html file to Canvas
-* *Assignments > labs > lab1*
-
-You may need to install [`{tinytext}`](https://yihui.name/tinytex/) to get your .Rmd file to render to an .html file
-* If you want to try this, read the embedded link above first
-* If you are having trouble contact me
-

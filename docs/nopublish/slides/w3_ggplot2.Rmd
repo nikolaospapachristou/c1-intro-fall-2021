@@ -43,7 +43,7 @@ style_duo_accent(
     lightblue = "#56B4E9",
     darkorange = "#D55E00",
     lightorange = "#E69f00",
-    yellow = "f0e442",
+    yellow = "#f0e442",
     green = "#009E73",
     pink = "#CC79A7",
     gray = "999999",
