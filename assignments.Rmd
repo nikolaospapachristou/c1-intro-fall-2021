@@ -42,7 +42,8 @@ table_style <- function(data) {
 dta <- read_xlsx(here::here("nopublish", "schedule.xlsx"), sheet = "assignments") %>% 
   mutate(
     across(starts_with("Date"), ~format(as.Date(.), "%b-%d")),
-    Assigned = paste0(Assigned, "(", assigned_link, ")"),
+    Assigned = ifelse(str_detect(Assigned, "Homework"), Assigned,
+                      paste0(Assigned, "(", assigned_link, ")")),
     Key = paste0(Key, "(", key_link, ")"),
     across(everything(), ~str_remove(., "\\(NA\\)"))
   ) %>% 
@@ -93,7 +94,7 @@ dta %>%
 ```{r}
 dta %>% 
   filter(type == "supplemental") %>% 
-  select(-assigned_link, -type, -Week) %>%
+  select(-c(assigned_link, type, Week), -contains("ey")) %>%
   mutate(Screenshot = ifelse(str_detect(Screenshot, "href", negate = TRUE), paste0("**", Screenshot, "**"), Screenshot)) %>% 
   gt() %>% 
   table_style() %>% 
@@ -108,7 +109,7 @@ dta %>%
 ```{r}
 dta %>% 
   filter(type == "final") %>% 
-  select(-c(assigned_link, type, Week, Screenshot)) %>% 
+  select(-c(assigned_link, type, Week, Screenshot), -contains("ey")) %>% 
   gt() %>% 
   table_style()
 ```
