@@ -26,6 +26,7 @@ class: center, middle, inverse, title-slide
 ## Housekeeping
 
 * covid
+* syllabus corrected
 * assignments
 * breaks
 
@@ -192,7 +193,17 @@ class: inverse, left, middle
 # RStudio Project
 
 ---
+# 1. Make a new .RProj
 
+*File* &gt; *New Project...*
+
+or
+
+upper right of RStudio IDE by the `R` cube
+
+down arrow &gt; *New Project...*
+
+---
 # 1. Make a new .RProj
 
 Let’s name it: "my_first_project"
@@ -975,6 +986,16 @@ Let's work Within the "my_first_project" .RProj
 * `library(janitor)`
 
 
+```
+## 
+## Attaching package: 'janitor'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     chisq.test, fisher.test
+```
 
 (2) Read in the [Penguins.csv](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/data_list.html) data
 * Let's name the data "*penguins*"
@@ -996,10 +1017,10 @@ penguins &lt;- read_csv(here("data", "Penguins.csv"))
 ```
 
 ```
-## -- Column specification ------------------------------------------------------------------------------------------------------------------------
+## -- Column specification --------------------------------------------------------
 ## Delimiter: ","
 ## chr (3): Species, Island, Sex
-## dbl (5): Bill Length (mm), Bill Depth (mm), Flipper Length (mm), Body Mass (g), Year
+## dbl (5): Bill Length (mm), Bill Depth (mm), Flipper Length (mm), Body Mass (...
 ```
 
 ```
@@ -1019,19 +1040,20 @@ penguins
 
 ```
 ## # A tibble: 344 x 8
-##    Species Island    `Bill Length (mm)` `Bill Depth (mm)` `Flipper Length (mm)` `Body Mass (g)` Sex     Year
-##    &lt;chr&gt;   &lt;chr&gt;                  &lt;dbl&gt;             &lt;dbl&gt;                 &lt;dbl&gt;           &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
-##  1 Adelie  Torgersen               39.1              18.7                   181            3750 male    2007
-##  2 Adelie  Torgersen               39.5              17.4                   186            3800 female  2007
-##  3 Adelie  Torgersen               40.3              18                     195            3250 female  2007
-##  4 Adelie  Torgersen               NA                NA                      NA              NA &lt;NA&gt;    2007
-##  5 Adelie  Torgersen               36.7              19.3                   193            3450 female  2007
-##  6 Adelie  Torgersen               39.3              20.6                   190            3650 male    2007
-##  7 Adelie  Torgersen               38.9              17.8                   181            3625 female  2007
-##  8 Adelie  Torgersen               39.2              19.6                   195            4675 male    2007
-##  9 Adelie  Torgersen               34.1              18.1                   193            3475 &lt;NA&gt;    2007
-## 10 Adelie  Torgersen               42                20.2                   190            4250 &lt;NA&gt;    2007
-## # ... with 334 more rows
+##    Species Island    `Bill Length (mm)` `Bill Depth (mm)` `Flipper Length (mm)`
+##    &lt;chr&gt;   &lt;chr&gt;                  &lt;dbl&gt;             &lt;dbl&gt;                 &lt;dbl&gt;
+##  1 Adelie  Torgersen               39.1              18.7                   181
+##  2 Adelie  Torgersen               39.5              17.4                   186
+##  3 Adelie  Torgersen               40.3              18                     195
+##  4 Adelie  Torgersen               NA                NA                      NA
+##  5 Adelie  Torgersen               36.7              19.3                   193
+##  6 Adelie  Torgersen               39.3              20.6                   190
+##  7 Adelie  Torgersen               38.9              17.8                   181
+##  8 Adelie  Torgersen               39.2              19.6                   195
+##  9 Adelie  Torgersen               34.1              18.1                   193
+## 10 Adelie  Torgersen               42                20.2                   190
+## # ... with 334 more rows, and 3 more variables: Body Mass (g) &lt;dbl&gt;, Sex &lt;chr&gt;,
+## #   Year &lt;dbl&gt;
 ```
 
 --
@@ -1142,14 +1164,15 @@ head(penguins)
 
 ```
 ## # A tibble: 6 x 8
-##   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g sex     year
-##   &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
-## 1 Adelie  Torgersen           39.1          18.7               181        3750 male    2007
-## 2 Adelie  Torgersen           39.5          17.4               186        3800 female  2007
-## 3 Adelie  Torgersen           40.3          18                 195        3250 female  2007
-## 4 Adelie  Torgersen           NA            NA                  NA          NA &lt;NA&gt;    2007
-## 5 Adelie  Torgersen           36.7          19.3               193        3450 female  2007
-## 6 Adelie  Torgersen           39.3          20.6               190        3650 male    2007
+##   species island bill_length_mm bill_depth_mm flipper_length_~ body_mass_g sex  
+##   &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;
+## 1 Adelie  Torge~           39.1          18.7              181        3750 male 
+## 2 Adelie  Torge~           39.5          17.4              186        3800 fema~
+## 3 Adelie  Torge~           40.3          18                195        3250 fema~
+## 4 Adelie  Torge~           NA            NA                 NA          NA &lt;NA&gt; 
+## 5 Adelie  Torge~           36.7          19.3              193        3450 fema~
+## 6 Adelie  Torge~           39.3          20.6              190        3650 male 
+## # ... with 1 more variable: year &lt;dbl&gt;
 ```
 
 --
@@ -1371,38 +1394,64 @@ penguins$species
 ```
 
 ```
-##   [1] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-##  [12] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-##  [23] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-##  [34] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-##  [45] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-##  [56] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-##  [67] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-##  [78] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-##  [89] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-## [100] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-## [111] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-## [122] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-## [133] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
-## [144] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Gentoo"    "Gentoo"   
-## [155] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
-## [166] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
-## [177] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
-## [188] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
-## [199] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
-## [210] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
-## [221] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
-## [232] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
-## [243] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
-## [254] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
-## [265] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
-## [276] "Gentoo"    "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
-## [287] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
-## [298] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
-## [309] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
-## [320] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
-## [331] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
-## [342] "Chinstrap" "Chinstrap" "Chinstrap"
+##   [1] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##   [7] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [13] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [19] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [25] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [31] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [37] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [43] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [49] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [55] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [61] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [67] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [73] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [79] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [85] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [91] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+##  [97] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [103] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [109] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [115] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [121] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [127] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [133] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [139] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [145] "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"    "Adelie"   
+## [151] "Adelie"    "Adelie"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [157] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [163] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [169] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [175] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [181] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [187] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [193] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [199] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [205] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [211] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [217] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [223] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [229] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [235] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [241] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [247] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [253] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [259] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [265] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [271] "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"    "Gentoo"   
+## [277] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [283] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [289] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [295] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [301] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [307] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [313] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [319] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [325] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [331] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [337] "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap" "Chinstrap"
+## [343] "Chinstrap" "Chinstrap"
 ```
 
 ---
@@ -1415,7 +1464,7 @@ str(penguins$species)
 ```
 
 ```
-##  chr [1:344] "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" ...
+##  chr [1:344] "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" "Adelie" ...
 ```
 
 --
@@ -1462,19 +1511,19 @@ penguins
 
 ```
 ## # A tibble: 344 x 8
-##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g sex     year
-##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;
-##  1 Adelie  Torgersen           39.1          18.7               181        3750 male    2007
-##  2 Adelie  Torgersen           39.5          17.4               186        3800 female  2007
-##  3 Adelie  Torgersen           40.3          18                 195        3250 female  2007
-##  4 Adelie  Torgersen           NA            NA                  NA          NA &lt;NA&gt;    2007
-##  5 Adelie  Torgersen           36.7          19.3               193        3450 female  2007
-##  6 Adelie  Torgersen           39.3          20.6               190        3650 male    2007
-##  7 Adelie  Torgersen           38.9          17.8               181        3625 female  2007
-##  8 Adelie  Torgersen           39.2          19.6               195        4675 male    2007
-##  9 Adelie  Torgersen           34.1          18.1               193        3475 &lt;NA&gt;    2007
-## 10 Adelie  Torgersen           42            20.2               190        4250 &lt;NA&gt;    2007
-## # ... with 334 more rows
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           NA            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
+## # ... with 334 more rows, and 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;
 ```
 
 ---
@@ -1519,6 +1568,11 @@ Run `table()` on the `island` variable
 Produce a `hist`ogram of the `bill_length_mm ` variable
 
 ---
+
+
+```r
+xaringanBuilder::build_pdf(here::here("slides", "w2_workflow.Rmd"), complex_slides = TRUE)
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

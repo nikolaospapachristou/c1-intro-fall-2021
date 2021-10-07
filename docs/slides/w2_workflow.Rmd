@@ -51,6 +51,7 @@ style_duo_accent(
 ## Housekeeping
 
 * covid
+* syllabus corrected
 * assignments
 * breaks
 
@@ -217,7 +218,17 @@ class: inverse, left, middle
 # RStudio Project
 
 ---
+# 1. Make a new .RProj
 
+*File* > *New Project...*
+
+or
+
+upper right of RStudio IDE by the `R` cube
+
+down arrow > *New Project...*
+
+---
 # 1. Make a new .RProj
 
 Let’s name it: "my_first_project"
@@ -1248,3 +1259,7 @@ Run `table()` on the `island` variable
 Produce a `hist`ogram of the `bill_length_mm ` variable
 
 ---
+
+```{r, eval=FALSE}
+xaringanBuilder::build_pdf(here::here("slides", "w2_workflow.Rmd"), complex_slides = TRUE)
+```
