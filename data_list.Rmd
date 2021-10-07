@@ -23,7 +23,7 @@ library(knitr)
 data_makr_fx <- function(file, name){
   download_file(
   path = here("data", file),
-  output_name = file,
+  output_name = name,
   button_label = paste0("Download ", name ," data"),
   button_type = "primary",
   has_icon = TRUE,
