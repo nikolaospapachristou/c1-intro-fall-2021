@@ -19,6 +19,8 @@ knitr::opts_chunk$set(echo = FALSE,
                       message = FALSE,
                       warning = FALSE)
 
+foo <- xfun::embed_file(here::here("homeworks", "hw1.Rmd"), text = "Homework 1")
+
 table_style <- function(data) {
   data %>%
     opt_table_lines(extent = "none") %>%
@@ -56,6 +58,7 @@ due_links <- read_xlsx(here::here("nopublish", "schedule.xlsx"), sheet = "schedu
   mutate(link_due = map2_chr(due_link, Due, 
                          ~paste0("\ ", xfun::embed_file(path = here("homeworks", .x), text = .y)))) %>%
   select(-due_link) 
+
 
 sched_1 <- read_xlsx(here::here("nopublish", "schedule.xlsx"), sheet = "schedule") %>% 
   mutate(

@@ -70,13 +70,17 @@ tibble::tribble(
 <br>
 
 ## Homework Assignments
-Each homework assignment is worth 10 points, and require your **“best honest effort”**, which includes contactime me if you need help. Please do not turn in partial work. Instead, please ask for help and, if needed, an extension on the deadline.
+Each homework assignment is worth 10 points, and require your **“best honest effort”**, which includes contact me me if you need help. Please do not turn in partial work. Instead, please ask for help and, if needed, an extension on the deadline.
 <br>
 <br>
 
 ```{r}
 dta %>% 
   filter(type == "homework") %>% 
+  mutate(Assigned = map2_chr(assigned_link, Assigned, 
+                         ~ifelse(is.na(.x),
+                                 .y,
+                           paste0("\ ", xfun::embed_file(path = here::here("homeworks", .x), text = .y))))) %>% 
   select(`Date Assigned`, `Date Due`, Assigned, Key, Points) %>% 
   gt() %>% 
   table_style() %>% 

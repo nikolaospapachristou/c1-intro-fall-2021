@@ -1161,7 +1161,7 @@ Script on website
 Submit a rendered .html file to Canvas
 * *Assignments > Homeworks > HW 1*
 
-You **may** need to install [`{tinytext}`](https://yihui.name/tinytex/) to get your .Rmd file to render to an .html file
+You **may** need to install [`{tinytex}`](https://yihui.name/tinytex/) to get your .Rmd file to render to an .html file
 * If you want to try this, read the embedded link above first
 * If you are having trouble contact me
 

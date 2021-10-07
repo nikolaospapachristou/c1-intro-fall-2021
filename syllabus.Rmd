@@ -193,21 +193,52 @@ table_style <- function(data) {
     )
 }
 
-sched <- read_xlsx(here::here("nopublish", "schedule.xlsx"), sheet = "schedule") %>% 
+assign_links <- read_xlsx(here::here("nopublish", "schedule.xlsx"), sheet = "schedule") %>%
+  select(Assigned, assigned_link) %>%
+  drop_na() %>% 
+  filter(str_detect(Assigned, "Homework")) %>%
+  mutate(link_assign = map2_chr(assigned_link, Assigned, 
+                         ~paste0("\ ", xfun::embed_file(path = here("homeworks", .x), text = .y)))) %>%
+  select(-assigned_link) 
+
+due_links <- read_xlsx(here::here("nopublish", "schedule.xlsx"), sheet = "schedule") %>%
+  select(Due, due_link) %>%
+  drop_na() %>% 
+  filter(str_detect(Due, "Homework")) %>%
+  mutate(link_due = map2_chr(due_link, Due, 
+                         ~paste0("\ ", xfun::embed_file(path = here("homeworks", .x), text = .y)))) %>%
+  select(-due_link) 
+
+sched_1 <- read_xlsx(here::here("nopublish", "schedule.xlsx"), sheet = "schedule") %>% 
   mutate(
     Reading = paste0(Reading, "(", reading_link, ")"),
     Slides = paste0(Slides, "(", slides_link, ")"),
     Lecture = paste0(Lecture, "(", lecture_link, ")", "<br>", "Passcode: ", lecture_passcode),
-    Assigned = ifelse(str_detect(Assigned, "Homework"), Assigned,
+    Assigned = ifelse(str_detect(Assigned, "Homework"), 
+                      Assigned,
                       paste0(Assigned, "(", assigned_link, ")")),
-    Due = paste0(Due, "(", due_link, ")"),
+    Due = ifelse(str_detect(Due, "Homework"), 
+                      Due,
+                      paste0(Due, "(", due_link, ")")),
     Date = format(as.Date(Date), "%b-%d")
     ) %>% 
   select(-ends_with("link"), -ends_with("shortcut"), -c(Topic, screenshot, lecture_passcode)) %>% 
   mutate(across(everything(), ~ifelse(. == "NA(NA)", NA_character_, .))) %>% 
   mutate(Lecture = ifelse(str_detect(Lecture, "fas"), Lecture, NA_character_)) %>% 
-  mutate(across(everything(), ~str_remove(., "\\(NA\\)"))) %>% 
-  nest(data = c(Date, Reading, Slides, Lecture, Assigned, Due)) 
+  mutate(across(everything(), ~str_remove(., "\\(NA\\)")))  
+
+
+sched <- left_join(sched_1, assign_links) %>%
+  left_join(due_links) %>% 
+  mutate(
+    Assigned = case_when(
+      str_detect(Assigned, "Homework") & str_detect(link_assign, "href") ~ link_assign, 
+      TRUE ~ Assigned),
+    Due = case_when(
+      str_detect(Due, "Homework") & str_detect(link_due, "href") ~ link_due, 
+      TRUE ~ Due)) %>%
+  select(-c(link_assign, link_due)) %>% 
+  nest(data = c(Date, Reading, Slides, Lecture, Assigned, Due))
 
 tbl_fx <- function(n){
   sched %>% 
