@@ -66,6 +66,14 @@ xaringanExtra::use_freezeframe()
 ```
 
 ---
+background-color: #CC79A7
+class: left, middle
+
+# [New Media and Culture](https://newmediaculture.uoregon.edu/)
+
+### UO graduate certificate program
+
+---
 class: inverse, left, middle
 
 # Data Wrangling with `{dplyr}`

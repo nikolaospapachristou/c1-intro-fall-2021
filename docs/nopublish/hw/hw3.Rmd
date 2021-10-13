@@ -18,7 +18,7 @@ library(ISLR)
 
 2. Run the following lines of code to read about and view the data we'll use for this lab.
 
-- Comment out line 26 after you run it, but puting a `#` at the start of the line.
+- Comment out line 26 after you run it, but putting a `#` at the start of the line.
 
 ```{r gsscat, eval = FALSE}
 str(gss_cat)

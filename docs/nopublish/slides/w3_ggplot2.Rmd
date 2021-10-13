@@ -67,11 +67,25 @@ class: inverse, left, middle
 
 # Agenda
 
-*
+`{gplot2}`
+* syntax components
+* continuous data
+* categorical data
+* themes
+* facets
+* labels
+* color vs. fill
 
-**Overall Purpose**
 
-* 
+**Learning Objectives**
+
+* Understand the necessary syntax components for `[ggplot2}`
+* Understand multiple ways to display continuous and categorical data
+* Recognize ways to modify visualizations
+  + color
+  + transparency
+  + facet
+  + labels
 
 ---
 class: inverse, left, middle
