@@ -15,7 +15,8 @@ output:
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 
-knitr::opts_chunk$set(message = FALSE,
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
                       warning = FALSE,
                       cache = TRUE,
                       fig.width = 12)
@@ -36,9 +37,9 @@ library(xaringanthemer)
 style_duo_accent(
   primary_color = "#1F4E79",
   secondary_color = "#0072B2",
-  header_font_google = google_font("Atkinson Hyperlegible", "600"),
-  text_font_google   = google_font("Atkinson Hyperlegible", "300", "300i"),
-  code_font_google   = google_font("IBM Plex Mono"),
+  header_font_google = xaringanthemer::google_font("Atkinson Hyperlegible", "600"),
+  text_font_google   = xaringanthemer::google_font("Atkinson Hyperlegible", "300", "300i"),
+  code_font_google   = xaringanthemer::google_font("IBM Plex Mono"),
   colors = c(
     darkblue = "#0072B2",
     lightblue = "#56B4E9",
@@ -64,8 +65,6 @@ class: inverse, left, middle
 
 # Agenda
 
-<p style="color:red;">Finalize Groups</p>	
-  
 `{ggplot2}`
 * syntax
 * continuous data visualizations
@@ -96,7 +95,7 @@ class: inverse, left, middle
 
 # [`{datapasta}`](https://github.com/MilesMcBain/datapasta)
 
-* Copy and paste data to and from R
+* Copy and paste data to and from `R`
 * VERY handy!
 * Good for [reprex](https://github.com/tidyverse/reprex) 
   + posting questions on Rstudio Community or stackoverflow
@@ -151,7 +150,7 @@ background-image: url("https://www.tidyverse.org/images/tidyverse-default.png")
 ---
 class: inverse, left, middle
 
-# `{ggplot2}`
+# `{ggplot2}` 
 
 ---
 
@@ -177,23 +176,24 @@ The `{ggplot2}` package is one of the most popular `R` packages, and there are m
   + Can be helpful, perhaps more so after a little experience
 * [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
 * [R Graph Gallery](https://www.r-graph-gallery.com/index.html)
+  + past students have really liked this one
 
 ---
 
 # Components
 
-**Every ggplot plot has three components**
+**Every `ggplot` plot has three components**
 
-1. data
+1. **data**
   + the `data` used to produce the plot
-2. aesthetic mappings (`aes`)
+2. **aesthetic mappings (`aes`)**
   + between variables and visual properties 
-3. layer(s) 
+3. **layer(s)**
   + usually through the `geom_*()` function to produce geometric shapes to be rendered
 
 --
 
-**`{ggplot}` always takes a data frame (tibble) as the first argument**
+**`ggplot()` always takes a data frame (tibble) as the first argument**
 
 ---
 # Basic syntax
@@ -214,30 +214,33 @@ The `{ggplot2}` package is one of the most popular `R` packages, and there are m
 
 --
 
-.lightorange[geom_function()] = the `geom`etrics of the plot; the ".lightorange[function]" here represents any of the geom offerings
+.lightorange[geom_function()] = the `geom`etrics of the plot; the ".lightorange[function]" here represents any of the `geom_*` offerings
 
 --
 
 .footnote[
-.pink[+] = note the .pink[+] and <ins>NOT</ins> the `%>%`
+note the .pink[+] and <ins>NOT</ins> the `%>%`
 ]
 
 ---
 
 # `{ggplot2}` template
 
-ggplot(.green["data"], aes(.green["mappings"])) + <br>
-&emsp;&emsp;&emsp;&emsp;.green["geom_*function*"]()
+ggplot(.green[data], aes(.green[mappings])) + <br>
+&emsp;&emsp;&emsp;&emsp;.green[geom_*function*]()
 
 --
 
-or
+<br>
+or equivalently
+<br>
+<br>
 
 --
 
-.green["data"] %>% <br>
-&emsp;ggplot(aes(.green["mappings"])) + <br>
-&emsp;.green["geom_*function*"]()
+.green[data] %>% <br>
+&emsp;ggplot(aes(.green[mappings])) + <br>
+&emsp;.green[geom_*function*]()
 
 
 ---
@@ -251,7 +254,7 @@ or
 
 .darkorange[[run the following]]
 
-```{r}
+```{r, echo=TRUE}
 library(tidyverse)
 library(palmerpenguins)
 
@@ -310,7 +313,7 @@ How would you change the color of the points?
 How would you find out about changing the color of the points?
 
 ---
-# Color
+# `color`
 
 ```{r peng-2, fig.show='hide'}
 ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
@@ -352,7 +355,7 @@ ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
 Change the `method` to `"lm"`
 
 ---
-# Let's do this together
+# Let's do this one together
 
 Look at the help page – `?geom_smooth` 
 
@@ -498,7 +501,7 @@ class: inverse, left, middle
   
 `theme_set(theme_minimal())`
 
-  + I put this in the `setup` chunk
+  + I often put this in the `setup` chunk
 
 ---
 
@@ -608,7 +611,7 @@ ggplot(economics, aes(date, unemploy)) +
   geom_point()
 ```
 
-.darkorange[try it!]
+.darkorange[[try it!]]
 
 --
 
@@ -619,7 +622,7 @@ It would work better on a plot with fewer time points, but you get the idea
 class: inverse, left, middle
 
 # Labels
-## `labs`
+## "`labs`"
 
 ---
 
@@ -713,7 +716,7 @@ ggplot(penguins, aes(bill_length_mm, body_mass_g, color = species)) + # 'color =
   theme_minimal() +
   labs(x = "Bill Length (mm)",
        y = "Body Mass (g)",
-       color = "Species") # 'color = '
+       color = "Species!") # 'color = '
 ```
 
 ```{r ref.label = 'axes-6', echo = FALSE, fig.height=4, fig.width=8}
@@ -727,7 +730,7 @@ class: inverse, left, middle
 ---
 # Faceting
 
-* One of the most powerful features of `{ggplot}`
+* One of the most powerful features of `{ggplot2}`
 * Produce *n* plots by a specific variable
 
 * `facet_wrap()`
@@ -769,7 +772,7 @@ ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
 ```
 
 ---
-## Alternative specification (`vars()`)
+## Alternative specification - `vars()`
 
 ```{r, eval=FALSE}
 ggplot(penguins, aes(bill_length_mm, body_mass_g)) + 
@@ -982,7 +985,7 @@ ggplot(d, aes(x = grad_total, y = major_category)) +
 ---
 # Density  Ridges
 
-```{r, fig.height=4, fig.width=8}
+```{r}
 ggplot(penguins, aes(bill_length_mm , species)) +
   geom_density_ridges()
 ```
@@ -990,7 +993,7 @@ ggplot(penguins, aes(bill_length_mm , species)) +
 ---
 # `fill` 
 
-```{r, fig.height=4, fig.width=8}
+```{r}
 ggplot(penguins, aes(bill_length_mm , species)) +
   geom_density_ridges(aes(fill = factor(year)))
 ```
@@ -1018,9 +1021,9 @@ ggplot(penguins, aes(bill_length_mm , species)) +
 ```
 
 ---
-# Same fill function, different option
+## Same fill function, different "`option`"
 
-```{r}
+```{r, fig.height=4, fig.width=8}
 ggplot(penguins, aes(bill_length_mm , species)) +
   geom_density_ridges(aes(fill = factor(year)),
                       alpha = 0.7) +
@@ -1065,18 +1068,6 @@ head(mpg)
 ```
 
 ---
-# Bar Charts
-
-
-```{r}
-summarized_mpg <- mpg %>% 
-  group_by(class) %>% 
-  count()
-
-head(summarized_mpg)
-```
-
----
 # Bar/Col Charts
 
 .pull-left[
@@ -1102,9 +1093,21 @@ head(summarized_mpg)
 
 *mpg* data
 
-```{r}
+```{r, fig.height=5, fig.width=10}
 ggplot(mpg, aes(class)) + # one variable in the `aes()`
   geom_bar() # counts the rows per class
+```
+
+---
+# *summarized_mpg* data
+
+
+```{r}
+summarized_mpg <- mpg %>% 
+  group_by(class) %>% 
+  count()
+
+head(summarized_mpg)
 ```
 
 ---
@@ -1112,7 +1115,7 @@ ggplot(mpg, aes(class)) + # one variable in the `aes()`
 
 *summarized_mpg* data
 
-```{r}
+```{r, fig.height=5, fig.width=10}
 ggplot(summarized_mpg, aes(class, n)) + # two variables in the `aes()`
   geom_col() # data has the rows per class in "n"
 ```
@@ -1195,8 +1198,8 @@ ggplot(summarized_mpg, aes(class)) +
 ---
 ## Change the order of the *x*-axis
 
-* We'll talk about automated methods more later
-* Basically - define *x*-axis variable as a factor with levels in the order you want
+* We'll talk about betters methods for this when we talk about `factors` in Week 9
+* Basically - define *x*-axis variable as a `factor` with levels in the order you want
 
 --
 
@@ -1215,6 +1218,8 @@ mean_hmiles %>%
   geom_col()
 ```
 ]
+
+--
 
 .pull-right[
 ```{r}
@@ -1368,3 +1373,6 @@ class: inverse, left, middle
 
 ---
 
+```{r, eval=FALSE}
+xaringanBuilder::build_pdf(here::here("slides", "w3_ggplot2.Rmd"), complex_slides = TRUE)
+```

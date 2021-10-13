@@ -32,8 +32,6 @@ class: inverse, left, middle
 
 # Agenda
 
-&lt;p style="color:red;"&gt;Finalize Groups&lt;/p&gt;	
-  
 `{ggplot2}`
 * syntax
 * continuous data visualizations
@@ -64,7 +62,7 @@ class: inverse, left, middle
 
 # [`{datapasta}`](https://github.com/MilesMcBain/datapasta)
 
-* Copy and paste data to and from R
+* Copy and paste data to and from `R`
 * VERY handy!
 * Good for [reprex](https://github.com/tidyverse/reprex) 
   + posting questions on Rstudio Community or stackoverflow
@@ -119,7 +117,7 @@ background-image: url("https://www.tidyverse.org/images/tidyverse-default.png")
 ---
 class: inverse, left, middle
 
-# `{ggplot2}`
+# `{ggplot2}` 
 
 ---
 
@@ -145,23 +143,24 @@ The `{ggplot2}` package is one of the most popular `R` packages, and there are m
   + Can be helpful, perhaps more so after a little experience
 * [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/)
 * [R Graph Gallery](https://www.r-graph-gallery.com/index.html)
+  + past students have really liked this one
 
 ---
 
 # Components
 
-**Every ggplot plot has three components**
+**Every `ggplot` plot has three components**
 
-1. data
+1. **data**
   + the `data` used to produce the plot
-2. aesthetic mappings (`aes`)
+2. **aesthetic mappings (`aes`)**
   + between variables and visual properties 
-3. layer(s) 
+3. **layer(s)**
   + usually through the `geom_*()` function to produce geometric shapes to be rendered
 
 --
 
-**`{ggplot}` always takes a data frame (tibble) as the first argument**
+**`ggplot()` always takes a data frame (tibble) as the first argument**
 
 ---
 # Basic syntax
@@ -182,30 +181,33 @@ The `{ggplot2}` package is one of the most popular `R` packages, and there are m
 
 --
 
-.lightorange[geom_function()] = the `geom`etrics of the plot; the ".lightorange[function]" here represents any of the geom offerings
+.lightorange[geom_function()] = the `geom`etrics of the plot; the ".lightorange[function]" here represents any of the `geom_*` offerings
 
 --
 
 .footnote[
-.pink[+] = note the .pink[+] and &lt;ins&gt;NOT&lt;/ins&gt; the `%&gt;%`
+note the .pink[+] and &lt;ins&gt;NOT&lt;/ins&gt; the `%&gt;%`
 ]
 
 ---
 
 # `{ggplot2}` template
 
-ggplot(.green["data"], aes(.green["mappings"])) + &lt;br&gt;
-&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;.green["geom_*function*"]()
+ggplot(.green[data], aes(.green[mappings])) + &lt;br&gt;
+&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;.green[geom_*function*]()
 
 --
 
-or
+&lt;br&gt;
+or equivalently
+&lt;br&gt;
+&lt;br&gt;
 
 --
 
-.green["data"] %&gt;% &lt;br&gt;
-&amp;emsp;ggplot(aes(.green["mappings"])) + &lt;br&gt;
-&amp;emsp;.green["geom_*function*"]()
+.green[data] %&gt;% &lt;br&gt;
+&amp;emsp;ggplot(aes(.green[mappings])) + &lt;br&gt;
+&amp;emsp;.green[geom_*function*]()
 
 
 ---
@@ -229,15 +231,14 @@ head(penguins)
 
 ```
 ## # A tibble: 6 x 8
-##   species island bill_length_mm bill_depth_mm flipper_length_~ body_mass_g sex  
-##   &lt;fct&gt;   &lt;fct&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;int&gt;       &lt;int&gt; &lt;fct&gt;
-## 1 Adelie  Torge~           39.1          18.7              181        3750 male 
-## 2 Adelie  Torge~           39.5          17.4              186        3800 fema~
-## 3 Adelie  Torge~           40.3          18                195        3250 fema~
-## 4 Adelie  Torge~           NA            NA                 NA          NA &lt;NA&gt; 
-## 5 Adelie  Torge~           36.7          19.3              193        3450 fema~
-## 6 Adelie  Torge~           39.3          20.6              190        3650 male 
-## # ... with 1 more variable: year &lt;int&gt;
+##   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g sex     year
+##   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt; &lt;fct&gt;  &lt;int&gt;
+## 1 Adelie  Torgersen           39.1          18.7               181        3750 male    2007
+## 2 Adelie  Torgersen           39.5          17.4               186        3800 female  2007
+## 3 Adelie  Torgersen           40.3          18                 195        3250 female  2007
+## 4 Adelie  Torgersen           NA            NA                  NA          NA &lt;NA&gt;    2007
+## 5 Adelie  Torgersen           36.7          19.3               193        3450 female  2007
+## 6 Adelie  Torgersen           39.3          20.6               190        3650 male    2007
 ```
 
 ---
@@ -292,7 +293,7 @@ How would you change the color of the points?
 How would you find out about changing the color of the points?
 
 ---
-# Color
+# `color`
 
 
 ```r
@@ -339,7 +340,7 @@ ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
 Change the `method` to `"lm"`
 
 ---
-# Let's do this together
+# Let's do this one together
 
 Look at the help page – `?geom_smooth` 
 
@@ -498,7 +499,7 @@ class: inverse, left, middle
   
 `theme_set(theme_minimal())`
 
-  + I put this in the `setup` chunk
+  + I often put this in the `setup` chunk
 
 ---
 
@@ -645,7 +646,7 @@ ggplot(economics, aes(date, unemploy)) +
   geom_point()
 ```
 
-.darkorange[try it!]
+.darkorange[[try it!]]
 
 --
 
@@ -656,7 +657,7 @@ It would work better on a plot with fewer time points, but you get the idea
 class: inverse, left, middle
 
 # Labels
-## `labs`
+## "`labs`"
 
 ---
 
@@ -751,7 +752,7 @@ ggplot(penguins, aes(bill_length_mm, body_mass_g, color = species)) + # 'color =
   theme_minimal() +
   labs(x = "Bill Length (mm)",
        y = "Body Mass (g)",
-       color = "Species") # 'color = '
+       color = "Species!") # 'color = '
 ```
 
 ![](w3_ggplot2_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
@@ -764,7 +765,7 @@ class: inverse, left, middle
 ---
 # Faceting
 
-* One of the most powerful features of `{ggplot}`
+* One of the most powerful features of `{ggplot2}`
 * Produce *n* plots by a specific variable
 
 * `facet_wrap()`
@@ -814,7 +815,7 @@ ggplot(penguins, aes(bill_length_mm, body_mass_g)) +
 ![](w3_ggplot2_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
 
 ---
-## Alternative specification (`vars()`)
+## Alternative specification - `vars()`
 
 
 ```r
@@ -916,21 +917,20 @@ d
 
 ```
 ## # A tibble: 173 x 22
-##    major_code major     major_category   grad_total grad_sample_size grad_employed grad_employed_fu~ grad_unemployed
-##         &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;                 &lt;int&gt;            &lt;int&gt;         &lt;int&gt;             &lt;int&gt;           &lt;int&gt;
-##  1       5601 Construc~ Industrial Arts~       9173              200          7098              6511             681
-##  2       6004 Commerci~ Arts                  53864              882         40492             29553            2482
-##  3       6211 Hospital~ Business              24417              437         18368             14784            1465
-##  4       2201 Cosmetol~ Industrial Arts~       5411               72          3590              2701             316
-##  5       2001 Communic~ Computers &amp; Mat~       9109              171          7512              5622             466
-##  6       3201 Court Re~ Law &amp; Public Po~       1542               22          1008               860               0
-##  7       6206 Marketin~ Business             190996             3738        151570            123045            8324
-##  8       1101 Agricult~ Agriculture &amp; N~      17488              386         13104             11207             473
-##  9       2101 Computer~ Computers &amp; Mat~       5611               98          4716              3981             119
-## 10       1904 Advertis~ Communications ~      33928              688         28517             22523             899
-## # ... with 163 more rows, and 14 more variables: grad_unemployment_rate &lt;dbl&gt;, grad_p25th &lt;dbl&gt;, grad_median &lt;dbl&gt;,
-## #   grad_p75th &lt;int&gt;, nongrad_total &lt;int&gt;, nongrad_employed &lt;int&gt;, nongrad_employed_fulltime_yearround &lt;int&gt;,
-## #   nongrad_unemployed &lt;int&gt;, nongrad_unemployment_rate &lt;dbl&gt;, nongrad_p25th &lt;dbl&gt;, nongrad_median &lt;dbl&gt;,
+##    major_code major major_category grad_total grad_sample_size grad_employed grad_employed_f~ grad_unemployed grad_unemployme~ grad_p25th grad_median
+##         &lt;int&gt; &lt;chr&gt; &lt;chr&gt;               &lt;int&gt;            &lt;int&gt;         &lt;int&gt;            &lt;int&gt;           &lt;int&gt;            &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
+##  1       5601 Cons~ Industrial Ar~       9173              200          7098             6511             681           0.0875     110000       75000
+##  2       6004 Comm~ Arts                53864              882         40492            29553            2482           0.0578      89000       60000
+##  3       6211 Hosp~ Business            24417              437         18368            14784            1465           0.0739     100000       65000
+##  4       2201 Cosm~ Industrial Ar~       5411               72          3590             2701             316           0.0809      85000       47000
+##  5       2001 Comm~ Computers &amp; M~       9109              171          7512             5622             466           0.0584      83700       57000
+##  6       3201 Cour~ Law &amp; Public ~       1542               22          1008              860               0           0          120000       75000
+##  7       6206 Mark~ Business           190996             3738        151570           123045            8324           0.0521     120000       80000
+##  8       1101 Agri~ Agriculture &amp;~      17488              386         13104            11207             473           0.0348     100000       67000
+##  9       2101 Comp~ Computers &amp; M~       5611               98          4716             3981             119           0.0246     114000       85000
+## 10       1904 Adve~ Communication~      33928              688         28517            22523             899           0.0306      90000       60000
+## # ... with 163 more rows, and 11 more variables: grad_p75th &lt;int&gt;, nongrad_total &lt;int&gt;, nongrad_employed &lt;int&gt;,
+## #   nongrad_employed_fulltime_yearround &lt;int&gt;, nongrad_unemployed &lt;int&gt;, nongrad_unemployment_rate &lt;dbl&gt;, nongrad_p25th &lt;dbl&gt;, nongrad_median &lt;dbl&gt;,
 ## #   nongrad_p75th &lt;dbl&gt;, grad_share &lt;dbl&gt;, grad_premium &lt;dbl&gt;
 ```
 
@@ -1138,7 +1138,7 @@ ggplot(penguins, aes(bill_length_mm , species)) +
 ![](w3_ggplot2_files/figure-html/unnamed-chunk-51-1.png)&lt;!-- --&gt;
 
 ---
-# Same fill function, different option
+## Same fill function, different "`option`"
 
 
 ```r
@@ -1225,32 +1225,6 @@ head(mpg)
 ```
 
 ---
-# Bar Charts
-
-
-
-```r
-summarized_mpg &lt;- mpg %&gt;% 
-  group_by(class) %&gt;% 
-  count()
-
-head(summarized_mpg)
-```
-
-```
-## # A tibble: 6 x 2
-## # Groups:   class [6]
-##   class          n
-##   &lt;chr&gt;      &lt;int&gt;
-## 1 2seater        5
-## 2 compact       47
-## 3 midsize       41
-## 4 minivan       11
-## 5 pickup        33
-## 6 subcompact    35
-```
-
----
 # Bar/Col Charts
 
 .pull-left[
@@ -1282,7 +1256,33 @@ ggplot(mpg, aes(class)) + # one variable in the `aes()`
   geom_bar() # counts the rows per class
 ```
 
-![](w3_ggplot2_files/figure-html/unnamed-chunk-58-1.png)&lt;!-- --&gt;
+![](w3_ggplot2_files/figure-html/unnamed-chunk-57-1.png)&lt;!-- --&gt;
+
+---
+# *summarized_mpg* data
+
+
+
+```r
+summarized_mpg &lt;- mpg %&gt;% 
+  group_by(class) %&gt;% 
+  count()
+
+head(summarized_mpg)
+```
+
+```
+## # A tibble: 6 x 2
+## # Groups:   class [6]
+##   class          n
+##   &lt;chr&gt;      &lt;int&gt;
+## 1 2seater        5
+## 2 compact       47
+## 3 midsize       41
+## 4 minivan       11
+## 5 pickup        33
+## 6 subcompact    35
+```
 
 ---
 # `geom_col()`
@@ -1411,8 +1411,8 @@ ggplot(summarized_mpg, aes(class)) +
 ---
 ## Change the order of the *x*-axis
 
-* We'll talk about automated methods more later
-* Basically - define *x*-axis variable as a factor with levels in the order you want
+* We'll talk about betters methods for this when we talk about `factors` in Week 9
+* Basically - define *x*-axis variable as a `factor` with levels in the order you want
 
 --
 
@@ -1448,6 +1448,8 @@ mean_hmiles %&gt;%
 
 ![](w3_ggplot2_files/figure-html/unnamed-chunk-69-1.png)&lt;!-- --&gt;
 ]
+
+--
 
 .pull-right[
 
@@ -1646,6 +1648,10 @@ class: inverse, left, middle
 
 ---
 
+
+```r
+xaringanBuilder::build_pdf(here::here("slides", "w3_ggplot2.Rmd"), complex_slides = TRUE)
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
