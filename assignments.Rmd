@@ -44,10 +44,8 @@ dta <- read_xlsx(here::here("nopublish", "schedule.xlsx"), sheet = "assignments"
     across(starts_with("Date"), ~format(as.Date(.), "%b-%d")),
     Assigned = ifelse(str_detect(Assigned, "Homework"), Assigned,
                       paste0(Assigned, "(", assigned_link, ")")),
-    Key = paste0(Key, "(", key_link, ")"),
     across(everything(), ~str_remove(., "\\(NA\\)"))
-  ) %>% 
-  mutate(key_link = ifelse(is.na(key_link), "()", key_link))
+  ) 
 ```
 
 As outlined in the [Weekly Schedule](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/schedule.html), most class meetings will include a homework assignment. Supplemental Learning platforms (RStudio Primers, R-Bootcamp, and Codecademy) will also be used as additional homework assignments, and the course will conclude with a final project. More detail about each is provided below.
@@ -77,10 +75,15 @@ Each homework assignment is worth 10 points, and require your **“best honest e
 ```{r}
 dta %>% 
   filter(type == "homework") %>% 
-  mutate(Assigned = map2_chr(assigned_link, Assigned, 
-                         ~ifelse(is.na(.x),
-                                 .y,
-                           paste0("\ ", xfun::embed_file(path = here::here("homeworks", .x), text = .y))))) %>% 
+  mutate(
+    Assigned = map2_chr(assigned_link, Assigned,
+                        ~ifelse(is.na(.x),
+                                .y,
+                                paste0("\ ", xfun::embed_file(path = here::here("homeworks", .x), text = .y)))),
+    Key = map2_chr(key_link, Key,
+                        ~ifelse(is.na(.x),
+                                .y,
+                                paste0("\ ", xfun::embed_file(path = here::here("homeworks", .x), text = .y))))) %>% 
   select(`Date Assigned`, `Date Due`, Assigned, Key, Points) %>% 
   gt() %>% 
   table_style() %>% 
