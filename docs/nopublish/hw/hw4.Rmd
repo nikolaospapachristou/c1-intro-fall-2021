@@ -11,6 +11,9 @@ output:
                        warning = FALSE)
 
 ```
+<br>
+<br>
+<br>
 
 # Create a RStudio Project on your machine
 
@@ -21,6 +24,10 @@ output:
   + *star.csv*
   + *ais.xlsx*
 * Save a lab_4 .Rmd file in your *scripts* folder
+
+<br>
+<br>
+<br>
 
 # Part 1
 
@@ -37,7 +44,7 @@ library(janitor)
 
 #### 1. Produce a subset of the data (as a new object) that has the following characteristics:
 *  only one team (your choice)
-  + (try to you select a team that is currently still around, or it probably won't be interesting; see a list of current at [http://www.espn.com/mlb/teams](http://www.espn.com/mlb/teams)).
+  + (try to you select a team that is currently still around, or it probably won't be interesting; see a list of current teams at [http://www.espn.com/mlb/teams](http://www.espn.com/mlb/teams)).
 * data from 1980 to present (or as current as the dataset allows)
 * includes 5 columns: `name`, `yearID`, `W`, `L`, `R`, `RA`. These 5 variables correspond to the team name, the year, wins, losses, runs scored, and runs allowed).
 
@@ -93,6 +100,9 @@ teams %>%
   )
 
 ```
+<br>
+<br>
+<br>
 
 # Part 2
 
@@ -144,4 +154,4 @@ teams %>%
 
 ```
 
-#### Please submit you .Rmd file, as well as the rendered .html file.
+#### Please submit your .Rmd file, as well as the rendered .html file.
