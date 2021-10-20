@@ -47,7 +47,7 @@ This course, and much of the materials prepared and content presented, was origi
 # Student Learning Outcomes
 By the end of this course, students should be able to: 
 
--Understand the R package ecosystem (how to find, install, load, and learn about package functionality)
+- Understand the R package ecosystem (how to find, install, load, and learn about package functionality)
 - Read “flat” (i.e., rectangular) datasets into R
 - Perform basic data wrangling and transformations in R, using the `tidyverse`
   + Leverage appropriate functions for introductory data science tasks (pipeline)
