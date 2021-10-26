@@ -65,12 +65,11 @@
   --lightblue: #56B4E9;
   --darkorange: #D55E00;
   --lightorange: #E69f00;
-  --yellow: #f0e442;
+  --yellow: #F0E442;
   --green: #009E73;
   --pink: #CC79A7;
   --gray: 999999;
   --white: #FFFFFF;
-  --red: #FF0000;
 }
 
 html {
@@ -329,11 +328,5 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 }
 .bg-white {
   background-color: var(--white);
-}
-.red {
-  color: var(--red);
-}
-.bg-red {
-  background-color: var(--red);
 }
 
