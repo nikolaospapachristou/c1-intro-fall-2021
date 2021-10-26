@@ -1,0 +1,798 @@
+---
+title: "Mutating Joins"
+subtitle: ""
+author: "Joe Nese<br><span style = 'font-size: 50%;'>University of Oregon<br>Fall 2021</span>"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE,
+                      fig.width = 13)
+
+library(xaringanthemer)
+library(xaringanExtra)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(nycflights13)
+
+theme_set(theme_minimal(24))
+#update_geom_defaults('path', list(size = 3))
+#update_geom_defaults('point', list(size = 9))
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+style_duo_accent(
+  primary_color = "#1F4E79",
+  secondary_color = "#0072B2",
+  header_font_google = google_font("Atkinson Hyperlegible", "600"),
+  text_font_google   = google_font("Atkinson Hyperlegible", "300", "300i"),
+  code_font_google   = google_font("IBM Plex Mono"),
+  colors = c(
+    darkblue = "#0072B2",
+    lightblue = "#56B4E9",
+    darkorange = "#D55E00",
+    lightorange = "#E69f00",
+    yellow = "#F0E442",
+    green = "#009E73",
+    pink = "#CC79A7",
+    gray = "999999",
+    white = "#FFFFFF"
+  )
+)
+
+```
+
+```{r xaringanExtra-freezeframe, echo=FALSE}
+xaringanExtra::use_freezeframe()
+```
+
+---
+# Share
+
+[`{tidylog}`](https://github.com/elbersb/tidylog)
+
+* Provides feedback about `{dplyr}` and `{tidyr}` operations
+
+.darkorange[[view link]]
+
+---
+class: inverse, left, middle
+
+# Homework(s) Review
+
+---
+class: inverse, left, middle
+
+# Mutating Joins
+## Week 5
+
+.footnote[
+Credit Daniel Anderson for slides
+]
+
+---
+
+# Agenda
+
+* Quick Share
+* `bind_rows()`
+* `*_join()`
+
+**Overall Purpose**
+
+* Understand and be able to identify keys
+* Understand different types of mutating joins
+  + `left_join`, `right_join`
+  + one-to-one, one-to-many
+* Understand some ways joins fail
+
+---
+
+# A bit about joins
+
+* Also data "merge"
+
+* Today we'll talk about  **mutating** joins
+
+* Mutating joins add columns to a dataset
+
+* Mutating joins are the most common, but **filtering** joins can be very powerful
+
+--
+
+### What if I want to add rows?
+
+* Not technically a join (no key involved)
+
+---
+# Binding rows
+
+```{r g34-datsets}
+g3 <- tibble(sid = 1:3, 
+             grade = rep(3, 3), 
+             score = as.integer(rnorm(3, 200,10)))
+g4 <- tibble(sid = 9:11, 
+             grade = rep(4, 3), 
+             score = as.integer(rnorm(3, 200,10)))
+```
+
+.pull-left[
+```{r g3-print}
+g3
+```
+]
+
+
+.pull-left[
+```{r g4-print}
+g4
+```
+]
+
+---
+# `bind_rows()`
+
+* In examples like the previous data sets, we just want to combine the data by **stacking the rows**
+
+* Data have same (or approximately same) columns
+
+* We can do so with `bind_rows()`
+
+```{r bind_rows1}
+bind_rows(g3, g4)
+```
+
+---
+# `dplyr::bind_rows()`
+
+* an efficient way to bind many data frames into one, by stacking rows
+  + can bind multiple datasets
+```{r, eval=FALSE}
+one <- mtcars[1:4, ]
+two <- mtcars[6:10, ]
+three <- mtcars[12:14, ]
+bind_rows(one, two, three)
+```
+  
+* like joining (merging) data frames that have the same columns
+* columns don't need to match when row-binding
+---
+# Optional `.id` argument
+
+* What if we knew the grade, but didn't have a variable in each dataset already?
+
+* Use `.id` to add an index for each dataset
+
+```{r bind_rows2}
+bind_rows(select(g3, -grade), select(g4, -grade), .id = "dataset")
+```
+
+---
+# Recode .id column
+
+```{r bind_rows_id_mutate}
+bind_rows(select(g3, -grade), select(g4, -grade), .id = "dataset") %>%
+  mutate(grade = ifelse(dataset == 1, 3, 4))
+```
+
+---
+# Even better 
+
+```{r bind_rows3}
+bind_rows(select(g3, -grade), select(g4, -grade), .id = "grade") %>% 
+  mutate(grade = ifelse(grade == 1, 3, 4))
+```
+
+---
+### What if columns don't match exactly?
+
+Pads with `NA`
+
+```{r bind_rows4}
+bind_rows(g3, g4[ ,-2], .id = "dataset")
+```
+
+---
+# You can also `bind_cols()`
+
+```{r}
+read <- tibble(sid = 1:3, 
+             read = as.integer(rnorm(3, 200,10)))
+math <- tibble(math = as.integer(rnorm(3, 200,10)))
+```
+
+.pull-left[
+```{r}
+read
+```
+]
+
+.pull-left[
+```{r}
+math
+```
+]
+
+---
+# `bind_cols()`
+
+```{r}
+bind_cols(read, math)
+```
+
+---
+class: inverse, left, middle
+
+# Joins
+
+(not to be confused with row binding)
+
+---
+# Keys
+* Uniquely identify rows in a dataset
+
+--
+
+* Variable(s) in common between two datasets to be joined
+
+
+--
+
+  + A key can be more than one variable
+
+
+--
+### Types of keys
+
+* Small distinction that you probably won't have to worry about much, but is
+worth mentioning:
+  + **Primary keys**: uniquely identify observations in *their* dataset
+  + **Foreign keys**: uniquely identify observations in *other* datasets
+
+
+---
+# What's the primary key here? 
+
+First, let's break down the code:
+
+```{r load_ecls-k}
+library(rio)
+library(here)
+ecls <- import(here("data", "ecls-k_samp.sav"), 
+               setclass = "tbl_df") %>% 
+    characterize()
+```
+
+--
+
+```{r, echo=FALSE}
+ecls
+```
+
+---
+# Let's verify the key
+
+```{r double_check_ecls}
+ecls %>% 
+  count(child_id)
+```
+
+---
+# Let's verify the key
+
+```{r}
+ecls %>% 
+  count(child_id) %>%
+  arrange(desc(n)) %>% 
+  slice(1:3)
+```
+
+**.yellow[OR]**
+
+```{r }
+ecls %>% 
+  count(child_id) %>%
+  filter(n > 1)
+```
+
+---
+## What about the key here?
+
+```{r primary_key_income_ineq}
+income_ineq <- read_csv(here("data", "incomeInequality_tidy.csv"))
+head(income_ineq, n = 15)
+```
+
+---
+
+```{r double_check_income_ineq}
+income_ineq %>% 
+    count(Year, percentile) %>% #<<
+    filter(n > 1)
+```
+
+---
+# Sometimes there is no key
+These tables have an *implicit* id - the row numbers. For example:
+
+```{r eval = FALSE}
+install.packages("nycflights13")
+library(nycflights13)
+```
+
+```{r flights}
+head(flights)
+```
+
+---
+
+```{r no_key}
+flights %>% 
+  count(year, month, day, flight, tailnum) %>% 
+  filter(n > 1) #<<
+```
+
+---
+# Create a key
+
+If there is no key, it's often helpful to add one
+
+These are called *surrogate* keys
+
+```{r add_key}
+flights2 <- flights %>% 
+  rowid_to_column()
+
+flights2 %>% 
+  select(1:3, ncol(flights))
+```
+
+---
+class: inverse, left, middle
+
+# Mutating joins
+
+---
+# Mutating `*_joins()`
+
+* In `{tidyverse}`, we use `mutate()` to create new variables within a dataset
+
+--
+
+* A mutating join works similarly, in that we're adding new variables to the existing dataset through a join
+
+--
+
+* **Join**: Two tables of data joined by a common key
+
+---
+# Four types of joins
+
+<br>
+
+* `left_join`: keep all the data in the **left** dataset, drop any non-matching cases from the right dataset
+
+* `right_join`: keep all the data in the **right** dataset, drop any non-matching cases from the left dataset
+
+<br>
+
+* `inner_join`: keep **only** data that matches in <b>both</b> datasets
+
+* `full_join`: keep **all** the data in <b>both</b> datasets (also sometimes referred to as an *outer* join)
+
+---
+# Four types of joins
+
+#### Mutating joins
+
+* `left_join`: keep all the data in the **left** dataset, drop any non-matching cases from the right dataset
+
+* `right_join`: keep all the data in the **right** dataset, drop any non-matching cases from the left dataset
+
+#### Filtering joins
+
+* `inner_join`: keep **only** data that matches in <b>both</b> datasets
+
+* `full_join`: keep **all** the data in <b>both</b> datasets (also sometimes referred to as an *outer* join)
+
+---
+# Four types of joins
+
+#### Mutating joins
+
+* .bg-yellow[`left_join`: keep all the data in the **left** dataset, drop any non-matching cases from the right dataset]
+
+* .bg-yellow[`right_join`: keep all the data in the **right** dataset, drop any non-matching cases from the left dataset]
+
+#### Filtering joins
+
+* `inner_join`: keep **only** data that matches in <b>both</b> datasets
+
+* `full_join`: keep **all** the data in <b>both</b> datasets (also sometimes referred to as an *outer* join)
+
+---
+# Using joins to recode
+
+Say you have a dataset like this
+
+```{r eth-code-tbl}
+set.seed(1)
+disab_codes <- c("00", "10", "20", "40", "43", "50", "60", 
+                 "70", "74", "80", "82", "90", "96", "98")
+dis_tbl <- tibble(
+  sid = 1:200,
+  dis_code = sample(disab_codes, 200, replace = TRUE),
+  score = as.integer(rnorm(200, 200, 10))
+  )
+head(dis_tbl)
+```
+
+---
+### Codes
+
+```{r, echo=FALSE}
+tibble::tribble(
+  ~Code,                        ~Disability,
+     0L,                 "'Not Applicable'",
+    10L,        "'Intellectual Disability'",
+    20L,             "'Hearing Impairment'",
+    40L,              "'Visual Impairment'",
+    43L,                 "'Deaf-Blindness'",
+    50L,         "'Communication Disorder'",
+    60L,          "'Emotional Disturbance'",
+    70L,          "'Orthopedic Impairment'",
+    74L,         "'Traumatic Brain Injury'",
+    80L,       "'Other Health Impairments'",
+    82L,       "'Autism Spectrum Disorder'",
+    90L,   "'Specific Learning Disability'",
+    96L,      "'Developmental Delay 0-2yr'",
+    98L,      "'Developmental Delay 3-4yr'"
+  ) %>% 
+  kable() %>% 
+  kableExtra::kable_styling(font_size = 20)
+
+```
+
+---
+# Recode method
+
+Using `case_when()`
+
+```{r dis-recode-case_when, eval = FALSE}
+dis_tbl %>% 
+  mutate(disability = case_when(
+    dis_code == "10" ~ "Intellectual Disability",
+    dis_code == "20" ~ 'Hearing Impairment',
+    ...,
+    TRUE ~ "Not Applicable"
+    )
+  )
+```
+
+---
+# Join method
+
+```{r cod-tbl}
+dis_code_tbl <- tibble(
+  dis_code = c(
+    "00", "10", "20", "40", "43", "50", "60",
+    "70", "74", "80", "82", "90", "96", "98"
+    ),
+  disability = c(
+    'Not Applicable', 'Intellectual Disability',
+    'Hearing Impairment', 'Visual Impairment',
+    'Deaf-Blindness', 'Communication Disorder',
+    'Emotional Disturbance', 'Orthopedic Impairment',
+    'Traumatic Brain Injury', 'Other Health Impairments', 
+    'Autism Spectrum Disorder', 'Specific Learning Disability', 
+    'Developmental Delay 0-2yr', 'Developmental Delay 3-4yr'
+    )
+  )
+```
+
+---
+```{r print-dis_code_tbl}
+dis_code_tbl
+```
+
+
+---
+# Join the tables
+```{r join-disab, message = TRUE}
+left_join(dis_tbl, dis_code_tbl)
+```
+
+---
+class: inverse, left, middle
+
+# Imperfect key match?
+
+---
+# Consider the following
+
+```{r join_data}
+frl <- tibble(key = 1:3, frl = rbinom(3, 1, .5))
+
+sped <- tibble(key = c(1, 2, 4), sped = rbinom(3, 1, .5))
+```
+
+.pull-left[
+```{r frl, highlight.output=c(2, 6)}
+frl
+```
+]
+
+.pull-right[
+```{r sped, highlight.output=c(2, 6)}
+sped
+```
+]
+
+---
+# Consider the following
+
+.pull-left[
+### `left_join()`?
+```{r left_join}
+left_join(frl, sped)
+```
+]
+
+--
+
+.pull-right[
+### `right_join()`?
+```{r right_join}
+right_join(frl, sped)
+```
+]
+
+---
+background-image:url(images/joins.png)
+background-size:contain
+
+.footnote[From [r4ds](https://r4ds.had.co.nz)]
+
+---
+# Animations
+
+#### All of the following animations were created by Garrick Aden-Buie and can be found [here](https://github.com/gadenbuie/tidyexplain)
+
+
+---
+
+![](https://github.com/gadenbuie/tidyexplain/raw/master/images/left-join.gif)
+
+---
+
+![](https://github.com/gadenbuie/tidyexplain/raw/master/images/right-join.gif)
+
+---
+## What if the key is not unique?
+
+* Not an issue, as long as they are unique in .bolder[one] of the tables
+  + In this case, it's called a one-to-many join
+
+<br/>
+
+<div align = "center">
+<img src = images/one_to_many.png width = 1000>
+</div>
+
+---
+
+![](https://github.com/gadenbuie/tidyexplain/raw/master/images/left-join-extra.gif)
+
+---
+# Example
+
+.pull-left[
+### Student-level data
+```{r stu_lev}
+(stu <- tibble(
+  sid = 1:9,
+  scid = c(1, 1, 1, 1, 2, 2, 3, 3, 3),
+  score = c(10, 12, 15, 8,  9, 11, 12, 15, 17)))
+```
+]
+
+--
+
+.pull-right[
+### School-level data
+```{r }
+(schl <- tibble(
+  scid = 1:3,
+  stu_tch_ratio = c(22.05, 31.14, 24.87),
+  per_pupil_spending = c(15741.08, 11732.24, 13027.88)
+  )
+)
+```
+]
+
+---
+# One to many
+```{r one_to_many_merge}
+left_join(stu, schl)
+```
+
+---
+## What if key is not unique to either table?
+Generally this is an error
+
+Result is probably not going to be what you want
+
+<div align = "center">
+<img src = images/cartesian_product.png width = 1000>
+</div>
+
+---
+# Example
+
+```{r demos}
+seasonal_means <- tibble(
+  scid = rep(1:3, each = 3),
+  season = rep(c("fall", "winter", "spring"), 3),
+  mean = rnorm(3*3)
+)
+seasonal_means
+```
+
+---
+```{r dup_merge}
+left_join(stu, seasonal_means) 
+```
+
+---
+# How do we fix this?
+
+--
+![](https://media4.giphy.com/media/TgxSogEZU4exOupzRN/giphy.gif?cid=ecf05e4761vyz0plz2gqtplwgdbnzniwh2s2ffcxlz2gnh23&rid=giphy.gif&ct=g)
+
+In some cases, the solution is obvious. In others, it's not
+<br>
+But **you must have at least one unique key** to join the datasets
+
+---
+# In this case
+Move the dataset to wide before joining
+
+--
+### Move to wide
+```{r }
+seasonal_means_wide <- seasonal_means %>% 
+  pivot_wider(names_from = "season",
+              values_from = "mean")
+seasonal_means_wide
+```
+
+---
+# Join
+
+One to many join
+```{r }
+left_join(stu, seasonal_means_wide)
+```
+
+---
+# Move longer again?
+
+If we did, we'd be exactly where we were with the first join
+
+You  could make the argument it *might* make sense here
+
+I'd still argue for *this* approach, rather than first
+
+More systematic, more predictable, and ultimately less error prone
+
+---
+# Another example
+* Often you want to add summary info to your dataset
+* You can do this easily with by piping arguments
+
+--
+### ECLS-K reminder
+
+```{r }
+ecls
+```
+
+---
+# Compute group means
+
+```{r }
+ecls %>% 
+  group_by(school_id) %>% 
+  summarize(sch_pre_math = mean(T1MSCALE)) 
+```
+
+---
+# Join right within pipeline
+
+```{r print_ecls}
+ecls %>% 
+  group_by(school_id) %>% 
+  summarize(sch_pre_math = mean(T1MSCALE)) %>% 
+  left_join(ecls) %>% #<<
+  select(school_id:k_type) # Just for space
+```
+
+---
+# Default join behavior 
+
+By default, the `_join` functions will use all columns with common names as keys
+
+
+```{r flights2}
+flights2 <- flights %>% 
+  select(year:day, hour, origin, dest, tailnum, carrier)
+flights2[1:2, ]
+```
+
+```{r weather}
+weather[1:2, ]
+```
+
+---
+
+```{r join_flights_weather, message = TRUE}
+left_join(flights2, weather)
+```
+
+---
+# Use only certain keys?
+
+If we were joining *flights2* and *planes*, we would not want to use the `year` variable in the join, because **it means different things in each dataset**
+
+```{r planes}
+head(planes)
+```
+
+---
+# Specify `*_join()` keys
+
+Specify the variables with `by`
+
+```{r join_flights2_planes}
+left_join(flights2, planes, by = "tailnum")
+```
+
+--
+
+I like to *always* specify `by` vars
+<br>
+Makes intent explicit
+<br>
+Helps me review my own code
+
+---
+# Mismatched key names
+* What if you had data to merge like this?
+
+```{r stu_table}
+names(schl)[1] <- "school_id"
+schl
+stu
+```
+
+---
+# Join w/mismatched key names
+
+```{r join_name_mismatch}
+left_join(stu, schl, by = c("scid" = "school_id"))
+```
+
+---

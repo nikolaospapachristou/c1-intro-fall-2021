@@ -60,7 +60,6 @@ xaringanExtra::use_freezeframe()
 ```
 
 ---
-
 # Share
 
 [`{tidylog}`](https://github.com/elbersb/tidylog)
@@ -72,8 +71,17 @@ xaringanExtra::use_freezeframe()
 ---
 class: inverse, left, middle
 
+# Homework(s) Review
+
+---
+class: inverse, left, middle
+
 # Mutating Joins
 ## Week 5
+
+.footnote[
+Credit Daniel Anderson for slides
+]
 
 ---
 
@@ -95,7 +103,7 @@ class: inverse, left, middle
 
 # A bit about joins
 
-* AKA data "merge"
+* Also data "merge"
 
 * Today we'll talk about  **mutating** joins
 
@@ -104,12 +112,14 @@ class: inverse, left, middle
 * Mutating joins are the most common, but **filtering** joins can be very powerful
 
 --
-### What if I want to add rows?
-* Not technically a join (no key involved, which we'll talk about)
 
+### What if I want to add rows?
+
+* Not technically a join (no key involved)
 
 ---
 # Binding rows
+
 ```{r g34-datsets}
 g3 <- tibble(sid = 1:3, 
              grade = rep(3, 3), 
@@ -134,26 +144,19 @@ g4
 
 ---
 # `bind_rows()`
+
 * In examples like the previous data sets, we just want to combine the data by **stacking the rows**
+
 * Data have same (or approximately same) columns
 
-* We can do so with `bind_rows()`.
+* We can do so with `bind_rows()`
 
 ```{r bind_rows1}
 bind_rows(g3, g4)
 ```
 
 ---
-# Optional `.id` argument
-* What if we knew the grade, but didn't have a variable in each dataset already?
-* Use `.id` to add an index for each dataset
-
-```{r bind_rows2}
-bind_rows(select(g3, -grade), select(g4, -grade), .id = "dataset")
-```
-
----
-# `dplyr::bind_rows`
+# `dplyr::bind_rows()`
 
 * an efficient way to bind many data frames into one, by stacking rows
   + can bind multiple datasets
@@ -166,7 +169,16 @@ bind_rows(one, two, three)
   
 * like joining (merging) data frames that have the same columns
 * columns don't need to match when row-binding
-* you can also `bind_cols()`
+---
+# Optional `.id` argument
+
+* What if we knew the grade, but didn't have a variable in each dataset already?
+
+* Use `.id` to add an index for each dataset
+
+```{r bind_rows2}
+bind_rows(select(g3, -grade), select(g4, -grade), .id = "dataset")
+```
 
 ---
 # Recode .id column
@@ -194,9 +206,38 @@ bind_rows(g3, g4[ ,-2], .id = "dataset")
 ```
 
 ---
+# You can also `bind_cols()`
+
+```{r}
+read <- tibble(sid = 1:3, 
+             read = as.integer(rnorm(3, 200,10)))
+math <- tibble(math = as.integer(rnorm(3, 200,10)))
+```
+
+.pull-left[
+```{r}
+read
+```
+]
+
+.pull-left[
+```{r}
+math
+```
+]
+
+---
+# `bind_cols()`
+
+```{r}
+bind_cols(read, math)
+```
+
+---
 class: inverse, left, middle
 
 # Joins
+
 (not to be confused with row binding)
 
 ---
@@ -215,14 +256,17 @@ class: inverse, left, middle
 
 --
 ### Types of keys
+
 * Small distinction that you probably won't have to worry about much, but is
 worth mentioning:
-  + **Primary keys:** uniquely identify observations in *their* dataset
-  + **Foreign keys:** uniquely identify observations in *other* datasets
+  + **Primary keys**: uniquely identify observations in *their* dataset
+  + **Foreign keys**: uniquely identify observations in *other* datasets
 
 
 ---
 # What's the primary key here? 
+
+First, let's break down the code:
 
 ```{r load_ecls-k}
 library(rio)
@@ -230,6 +274,11 @@ library(here)
 ecls <- import(here("data", "ecls-k_samp.sav"), 
                setclass = "tbl_df") %>% 
     characterize()
+```
+
+--
+
+```{r, echo=FALSE}
 ecls
 ```
 
@@ -251,7 +300,7 @@ ecls %>%
   slice(1:3)
 ```
 
-**OR**
+**.yellow[OR]**
 
 ```{r }
 ecls %>% 
@@ -260,7 +309,7 @@ ecls %>%
 ```
 
 ---
-# What about here?
+## What about the key here?
 
 ```{r primary_key_income_ineq}
 income_ineq <- read_csv(here("data", "incomeInequality_tidy.csv"))
@@ -271,7 +320,7 @@ head(income_ineq, n = 15)
 
 ```{r double_check_income_ineq}
 income_ineq %>% 
-    count(Year, percentile) %>% 
+    count(Year, percentile) %>% #<<
     filter(n > 1)
 ```
 
@@ -293,28 +342,33 @@ head(flights)
 ```{r no_key}
 flights %>% 
   count(year, month, day, flight, tailnum) %>% 
-  filter(n > 1)
+  filter(n > 1) #<<
 ```
 
 ---
 # Create a key
-* If there is no key, it's often helpful to add one. These are called *surrogate* keys.
+
+If there is no key, it's often helpful to add one
+
+These are called *surrogate* keys
 
 ```{r add_key}
-flights <- flights %>% 
+flights2 <- flights %>% 
   rowid_to_column()
 
-flights %>% 
+flights2 %>% 
   select(1:3, ncol(flights))
 ```
 
 ---
-class: inverse-red middle
+class: inverse, left, middle
+
 # Mutating joins
 
 ---
 # Mutating `*_joins()`
-* In *tidyverse*, we use `mutate()` to create new variables within a dataset
+
+* In `{tidyverse}`, we use `mutate()` to create new variables within a dataset
 
 --
 
@@ -322,24 +376,52 @@ class: inverse-red middle
 
 --
 
-* Two tables of data joined by a common key
+* **Join**: Two tables of data joined by a common key
 
 ---
 # Four types of joins
 
-* `left_join`: keep all the data in the left dataset, drop any non-matching cases from the right dataset
-
-* `right_join`: keep all the data in the right dataset, drop any non-matching cases from the left dataset
-
-* `inner_join`: keep only data that matches in both datasets
-
-* `full_join`: keep all the data in both datasets (also sometimes referred to as an *outer* join)
-
-
---
-We will only talk about the first two
 <br>
-The last two are **filtering** joins
+
+* `left_join`: keep all the data in the **left** dataset, drop any non-matching cases from the right dataset
+
+* `right_join`: keep all the data in the **right** dataset, drop any non-matching cases from the left dataset
+
+<br>
+
+* `inner_join`: keep **only** data that matches in <b>both</b> datasets
+
+* `full_join`: keep **all** the data in <b>both</b> datasets (also sometimes referred to as an *outer* join)
+
+---
+# Four types of joins
+
+#### Mutating joins
+
+* `left_join`: keep all the data in the **left** dataset, drop any non-matching cases from the right dataset
+
+* `right_join`: keep all the data in the **right** dataset, drop any non-matching cases from the left dataset
+
+#### Filtering joins
+
+* `inner_join`: keep **only** data that matches in <b>both</b> datasets
+
+* `full_join`: keep **all** the data in <b>both</b> datasets (also sometimes referred to as an *outer* join)
+
+---
+# Four types of joins
+
+#### Mutating joins
+
+* .bg-yellow[`left_join`: keep all the data in the **left** dataset, drop any non-matching cases from the right dataset]
+
+* .bg-yellow[`right_join`: keep all the data in the **right** dataset, drop any non-matching cases from the left dataset]
+
+#### Filtering joins
+
+* `inner_join`: keep **only** data that matches in <b>both</b> datasets
+
+* `full_join`: keep **all** the data in <b>both</b> datasets (also sometimes referred to as an *outer* join)
 
 ---
 # Using joins to recode
@@ -359,7 +441,7 @@ head(dis_tbl)
 ```
 
 ---
-# Codes
+### Codes
 
 ```{r, echo=FALSE}
 tibble::tribble(
@@ -380,44 +462,14 @@ tibble::tribble(
     98L,      "'Developmental Delay 3-4yr'"
   ) %>% 
   kable() %>% 
-  kableExtra::kable_styling(font_size = 10)
+  kableExtra::kable_styling(font_size = 20)
 
 ```
 
 ---
-# Codes
-
-<br/>
-
-.pull-left[
-| Code | Disability|
-|:----:|:----------|
-| 00	 |'Not Applicable' |
-| 10	 |'Intellectual Disability' |
-| 20	 |'Hearing Impairment'|
-| 40	 |'Visual Impairment'|
-| 43	 |'Deaf-Blindness'|
-| 50	 |'Communication Disorder'|
-| 60	 |'Emotional Disturbance'|
-| 70	 |'Orthopedic Impairment'|
-| 74	 |'Traumatic Brain Injury'|
-
-]
-
-.pull-right[
-
-| Code | Disability|
-|:----:|:----------|
-| 80	 |'Other Health Impairments'|
-| 82	 |'Autism Spectrum Disorder'|
-| 90	 |'Specific Learning Disability'|
-| 96	 |'Developmental Delay 0-2yr'|
-| 98	 |'Developmental Delay 3-4yr'|
-
-]
-
----
 # Recode method
+
+Using `case_when()`
 
 ```{r dis-recode-case_when, eval = FALSE}
 dis_tbl %>% 
@@ -464,25 +516,27 @@ left_join(dis_tbl, dis_code_tbl)
 ```
 
 ---
-class: inverse-orange middle
+class: inverse, left, middle
+
 # Imperfect key match?
 
 ---
 # Consider the following
 
 ```{r join_data}
-gender <- tibble(key = 1:3, male = rbinom(3, 1, .5))
+frl <- tibble(key = 1:3, frl = rbinom(3, 1, .5))
+
 sped <- tibble(key = c(1, 2, 4), sped = rbinom(3, 1, .5))
 ```
 
 .pull-left[
-```{r gender}
-gender
+```{r frl, highlight.output=c(2, 6)}
+frl
 ```
 ]
 
 .pull-right[
-```{r sped}
+```{r sped, highlight.output=c(2, 6)}
 sped
 ```
 ]
@@ -491,18 +545,18 @@ sped
 # Consider the following
 
 .pull-left[
-## `left_join()`?
+### `left_join()`?
 ```{r left_join}
-left_join(gender, sped)
+left_join(frl, sped)
 ```
 ]
 
 --
 
 .pull-right[
-## `right_join()`?
+### `right_join()`?
 ```{r right_join}
-right_join(gender, sped)
+right_join(frl, sped)
 ```
 ]
 
@@ -513,24 +567,21 @@ background-size:contain
 .footnote[From [r4ds](https://r4ds.had.co.nz)]
 
 ---
-class: inverse left
 # Animations
-All of the following animations were created by Garrick Aden-Buie and can
-be found [here](https://github.com/gadenbuie/tidyexplain)
+
+#### All of the following animations were created by Garrick Aden-Buie and can be found [here](https://github.com/gadenbuie/tidyexplain)
 
 
 ---
-# Animated `left_join()`
 
 ![](https://github.com/gadenbuie/tidyexplain/raw/master/images/left-join.gif)
 
 ---
-# Animated `right_join`
 
 ![](https://github.com/gadenbuie/tidyexplain/raw/master/images/right-join.gif)
 
 ---
-# What if the key is not unique?
+## What if the key is not unique?
 
 * Not an issue, as long as they are unique in .bolder[one] of the tables
   + In this case, it's called a one-to-many join
@@ -542,28 +593,25 @@ be found [here](https://github.com/gadenbuie/tidyexplain)
 </div>
 
 ---
-# Animated one-to-many join
 
 ![](https://github.com/gadenbuie/tidyexplain/raw/master/images/left-join-extra.gif)
 
 ---
 # Example
 
-.left-pull[
+.pull-left[
 ### Student-level data
 ```{r stu_lev}
 (stu <- tibble(
   sid = 1:9,
   scid = c(1, 1, 1, 1, 2, 2, 3, 3, 3),
-  score = c(10, 12, 15, 8,  9, 11, 12, 15, 17)
-  )
-)
+  score = c(10, 12, 15, 8,  9, 11, 12, 15, 17)))
 ```
 ]
 
 --
 
-.right-pull[
+.pull-right[
 ### School-level data
 ```{r }
 (schl <- tibble(
@@ -685,7 +733,7 @@ ecls %>%
 ---
 # Default join behavior 
 
-By default, the `*_join` functions will use all columns with common names as keys
+By default, the `_join` functions will use all columns with common names as keys
 
 
 ```{r flights2}
