@@ -109,9 +109,9 @@ g3
 ## # A tibble: 3 x 3
 ##     sid grade score
 ##   &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
-## 1     1     3   192
-## 2     2     3   210
-## 3     3     3   215
+## 1     1     3   184
+## 2     2     3   203
+## 3     3     3   212
 ```
 ]
 
@@ -126,9 +126,9 @@ g4
 ## # A tibble: 3 x 3
 ##     sid grade score
 ##   &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
-## 1     9     4   210
-## 2    10     4   197
-## 3    11     4   186
+## 1     9     4   175
+## 2    10     4   204
+## 3    11     4   193
 ```
 ]
 
@@ -150,12 +150,12 @@ bind_rows(g3, g4)
 ## # A tibble: 6 x 3
 ##     sid grade score
 ##   &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
-## 1     1     3   192
-## 2     2     3   210
-## 3     3     3   215
-## 4     9     4   210
-## 5    10     4   197
-## 6    11     4   186
+## 1     1     3   184
+## 2     2     3   203
+## 3     3     3   212
+## 4     9     4   175
+## 5    10     4   204
+## 6    11     4   193
 ```
 
 ---
@@ -189,12 +189,12 @@ bind_rows(select(g3, -grade), select(g4, -grade), .id = "dataset")
 ## # A tibble: 6 x 3
 ##   dataset   sid score
 ##   &lt;chr&gt;   &lt;int&gt; &lt;int&gt;
-## 1 1           1   192
-## 2 1           2   210
-## 3 1           3   215
-## 4 2           9   210
-## 5 2          10   197
-## 6 2          11   186
+## 1 1           1   184
+## 2 1           2   203
+## 3 1           3   212
+## 4 2           9   175
+## 5 2          10   204
+## 6 2          11   193
 ```
 
 ---
@@ -210,12 +210,12 @@ bind_rows(select(g3, -grade), select(g4, -grade), .id = "dataset") %&gt;%
 ## # A tibble: 6 x 4
 ##   dataset   sid score grade
 ##   &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;dbl&gt;
-## 1 1           1   192     3
-## 2 1           2   210     3
-## 3 1           3   215     3
-## 4 2           9   210     4
-## 5 2          10   197     4
-## 6 2          11   186     4
+## 1 1           1   184     3
+## 2 1           2   203     3
+## 3 1           3   212     3
+## 4 2           9   175     4
+## 5 2          10   204     4
+## 6 2          11   193     4
 ```
 
 ---
@@ -231,12 +231,12 @@ bind_rows(select(g3, -grade), select(g4, -grade), .id = "grade") %&gt;%
 ## # A tibble: 6 x 3
 ##   grade   sid score
 ##   &lt;dbl&gt; &lt;int&gt; &lt;int&gt;
-## 1     3     1   192
-## 2     3     2   210
-## 3     3     3   215
-## 4     4     9   210
-## 5     4    10   197
-## 6     4    11   186
+## 1     3     1   184
+## 2     3     2   203
+## 3     3     3   212
+## 4     4     9   175
+## 5     4    10   204
+## 6     4    11   193
 ```
 
 ---
@@ -253,12 +253,12 @@ bind_rows(g3, g4[ ,-2], .id = "dataset")
 ## # A tibble: 6 x 4
 ##   dataset   sid grade score
 ##   &lt;chr&gt;   &lt;int&gt; &lt;dbl&gt; &lt;int&gt;
-## 1 1           1     3   192
-## 2 1           2     3   210
-## 3 1           3     3   215
-## 4 2           9    NA   210
-## 5 2          10    NA   197
-## 6 2          11    NA   186
+## 1 1           1     3   184
+## 2 1           2     3   203
+## 3 1           3     3   212
+## 4 2           9    NA   175
+## 5 2          10    NA   204
+## 6 2          11    NA   193
 ```
 
 ---
@@ -282,8 +282,8 @@ read
 ##     sid  read
 ##   &lt;int&gt; &lt;int&gt;
 ## 1     1   202
-## 2     2   211
-## 3     3   208
+## 2     2   206
+## 3     3   190
 ```
 ]
 
@@ -297,9 +297,9 @@ math
 ## # A tibble: 3 x 1
 ##    math
 ##   &lt;int&gt;
-## 1   203
+## 1   202
 ## 2   202
-## 3   191
+## 3   204
 ```
 ]
 
@@ -315,9 +315,9 @@ bind_cols(read, math)
 ## # A tibble: 3 x 3
 ##     sid  read  math
 ##   &lt;int&gt; &lt;int&gt; &lt;int&gt;
-## 1     1   202   203
-## 2     2   211   202
-## 3     3   208   191
+## 1     1   202   202
+## 2     2   206   202
+## 3     3   190   204
 ```
 
 ---
@@ -369,24 +369,22 @@ ecls &lt;- import(here("data", "ecls-k_samp.sav"),
 
 ```
 ## # A tibble: 984 x 33
-##    child_id teacher_id school_id k_type   school_type sex    ethnic   famtype numsibs
-##    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;
-##  1 0842021C 0842T02    0842      full-day public      male   BLACK O~ BIOLOG~       1
-##  2 0905002C 0905T01    0905      full-day private     male   ASIAN    BIOLOG~       1
-##  3 0150012C 0150T01    0150      full-day private     female BLACK O~ BIOLOG~       4
-##  4 0556009C 0556T01    0556      full-day private     female HISPANI~ BIOLOG~       0
-##  5 0089013C 0089T04    0089      full-day public      male   WHITE, ~ BIOLOG~       4
-##  6 1217001C 1217T13    1217      half-day public      female NATIVE ~ BIOLOG~       0
-##  7 1092008C 1092T01    1092      half-day public      female HISPANI~ BIOLOG~       2
-##  8 0083007C 0083T16    0083      full-day public      male   WHITE, ~ BIOLOG~       1
-##  9 1091005C 1091T02    1091      half-day private     male   WHITE, ~ BIOLOG~       0
-## 10 2006006C 2006T01    2006      full-day private     male   WHITE, ~ BIOLOG~       1
-## # ... with 974 more rows, and 24 more variables: SES_cont &lt;dbl&gt;, SES_cat &lt;chr&gt;,
-## #   age &lt;dbl&gt;, T1RSCALE &lt;dbl&gt;, T1MSCALE &lt;dbl&gt;, T1GSCALE &lt;dbl&gt;, T2RSCALE &lt;dbl&gt;,
-## #   T2MSCALE &lt;dbl&gt;, T2GSCALE &lt;dbl&gt;, IRTreadgain &lt;dbl&gt;, IRTmathgain &lt;dbl&gt;,
-## #   IRTgkgain &lt;dbl&gt;, T1ARSLIT &lt;dbl&gt;, T1ARSMAT &lt;dbl&gt;, T1ARSGEN &lt;dbl&gt;, T2ARSLIT &lt;dbl&gt;,
-## #   T2ARSMAT &lt;dbl&gt;, T2ARSGEN &lt;dbl&gt;, ARSlitgain &lt;dbl&gt;, ARSmathgain &lt;dbl&gt;,
-## #   ARSgkgain &lt;dbl&gt;, testdate1 &lt;date&gt;, testdate2 &lt;date&gt;, elapse &lt;dbl&gt;
+##    child_id teacher_id school_id k_type   school_type sex    ethnic   famtype  numsibs SES_cont SES_cat   age
+##    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
+##  1 0842021C 0842T02    0842      full-day public      male   BLACK O~ BIOLOGI~       1     1.27 FIFTH ~  54  
+##  2 0905002C 0905T01    0905      full-day private     male   ASIAN    BIOLOGI~       1     0.74 FIFTH ~  57.1
+##  3 0150012C 0150T01    0150      full-day private     female BLACK O~ BIOLOGI~       4     0    THIRD ~  57.5
+##  4 0556009C 0556T01    0556      full-day private     female HISPANI~ BIOLOGI~       0     1.32 FIFTH ~  58.6
+##  5 0089013C 0089T04    0089      full-day public      male   WHITE, ~ BIOLOGI~       4     0.77 FIFTH ~  59.3
+##  6 1217001C 1217T13    1217      half-day public      female NATIVE ~ BIOLOGI~       0     0.57 FOURTH~  59.6
+##  7 1092008C 1092T01    1092      half-day public      female HISPANI~ BIOLOGI~       2    -0.28 THIRD ~  59.9
+##  8 0083007C 0083T16    0083      full-day public      male   WHITE, ~ BIOLOGI~       1    -0.23 THIRD ~  59.9
+##  9 1091005C 1091T02    1091      half-day private     male   WHITE, ~ BIOLOGI~       0    -0.93 FIRST ~  60.0
+## 10 2006006C 2006T01    2006      full-day private     male   WHITE, ~ BIOLOGI~       1     1.13 FIFTH ~  60  
+## # ... with 974 more rows, and 21 more variables: T1RSCALE &lt;dbl&gt;, T1MSCALE &lt;dbl&gt;, T1GSCALE &lt;dbl&gt;,
+## #   T2RSCALE &lt;dbl&gt;, T2MSCALE &lt;dbl&gt;, T2GSCALE &lt;dbl&gt;, IRTreadgain &lt;dbl&gt;, IRTmathgain &lt;dbl&gt;, IRTgkgain &lt;dbl&gt;,
+## #   T1ARSLIT &lt;dbl&gt;, T1ARSMAT &lt;dbl&gt;, T1ARSGEN &lt;dbl&gt;, T2ARSLIT &lt;dbl&gt;, T2ARSMAT &lt;dbl&gt;, T2ARSGEN &lt;dbl&gt;,
+## #   ARSlitgain &lt;dbl&gt;, ARSmathgain &lt;dbl&gt;, ARSgkgain &lt;dbl&gt;, testdate1 &lt;date&gt;, testdate2 &lt;date&gt;, elapse &lt;dbl&gt;
 ```
 
 ---
@@ -510,16 +508,15 @@ head(flights)
 
 ```
 ## # A tibble: 6 x 19
-##    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
-##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-## 1  2013     1     1      517            515         2      830            819
-## 2  2013     1     1      533            529         4      850            830
-## 3  2013     1     1      542            540         2      923            850
-## 4  2013     1     1      544            545        -1     1004           1022
-## 5  2013     1     1      554            600        -6      812            837
-## 6  2013     1     1      554            558        -4      740            728
-## # ... with 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
-## #   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+##    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay carrier flight
+##   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;    &lt;int&gt;
+## 1  2013     1     1      517            515         2      830            819        11 UA        1545
+## 2  2013     1     1      533            529         4      850            830        20 UA        1714
+## 3  2013     1     1      542            540         2      923            850        33 AA        1141
+## 4  2013     1     1      544            545        -1     1004           1022       -18 B6         725
+## 5  2013     1     1      554            600        -6      812            837       -25 DL         461
+## 6  2013     1     1      554            558        -4      740            728        12 UA        1696
+## # ... with 8 more variables: tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
 ## #   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;
 ```
 
@@ -1101,10 +1098,13 @@ left_join(stu, seasonal_means)
 # How do we fix this?
 
 --
-![](https://media4.giphy.com/media/TgxSogEZU4exOupzRN/giphy.gif?cid=ecf05e4761vyz0plz2gqtplwgdbnzniwh2s2ffcxlz2gnh23&amp;rid=giphy.gif&amp;ct=g)
+&lt;img src="https://media4.giphy.com/media/TgxSogEZU4exOupzRN/giphy.gif?cid=ecf05e4761vyz0plz2gqtplwgdbnzniwh2s2ffcxlz2gnh23&amp;rid=giphy.gif&amp;ct=g" width="50%" /&gt;
 
-In some cases, the solution is obvious. In others, it's not
+
+In some cases, the solution is obvious, in others it is not
 &lt;br&gt;
+&lt;br&gt;
+
 But **you must have at least one unique key** to join the datasets
 
 ---
@@ -1112,7 +1112,7 @@ But **you must have at least one unique key** to join the datasets
 Move the dataset to wide before joining
 
 --
-### Move to wide
+#### Move to wide
 
 ```r
 seasonal_means_wide &lt;- seasonal_means %&gt;% 
@@ -1129,6 +1129,10 @@ seasonal_means_wide
 ## 2     2 0.948 -0.479 -1.51 
 ## 3     3 0.435 -0.520 -0.835
 ```
+
+.footnote[
+We will cover this in Week 8
+]
 
 ---
 # Join
@@ -1155,23 +1159,15 @@ left_join(stu, seasonal_means_wide)
 ```
 
 ---
-# Move longer again?
-
-If we did, we'd be exactly where we were with the first join
-
-You  could make the argument it *might* make sense here
-
-I'd still argue for *this* approach, rather than first
-
-More systematic, more predictable, and ultimately less error prone
-
----
 # Another example
+
 * Often you want to add summary info to your dataset
+
+
 * You can do this easily with by piping arguments
 
 --
-### ECLS-K reminder
+#### ECLS-K reminder
 
 
 ```r
@@ -1180,24 +1176,22 @@ ecls
 
 ```
 ## # A tibble: 984 x 33
-##    child_id teacher_id school_id k_type   school_type sex    ethnic   famtype numsibs
-##    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt;
-##  1 0842021C 0842T02    0842      full-day public      male   BLACK O~ BIOLOG~       1
-##  2 0905002C 0905T01    0905      full-day private     male   ASIAN    BIOLOG~       1
-##  3 0150012C 0150T01    0150      full-day private     female BLACK O~ BIOLOG~       4
-##  4 0556009C 0556T01    0556      full-day private     female HISPANI~ BIOLOG~       0
-##  5 0089013C 0089T04    0089      full-day public      male   WHITE, ~ BIOLOG~       4
-##  6 1217001C 1217T13    1217      half-day public      female NATIVE ~ BIOLOG~       0
-##  7 1092008C 1092T01    1092      half-day public      female HISPANI~ BIOLOG~       2
-##  8 0083007C 0083T16    0083      full-day public      male   WHITE, ~ BIOLOG~       1
-##  9 1091005C 1091T02    1091      half-day private     male   WHITE, ~ BIOLOG~       0
-## 10 2006006C 2006T01    2006      full-day private     male   WHITE, ~ BIOLOG~       1
-## # ... with 974 more rows, and 24 more variables: SES_cont &lt;dbl&gt;, SES_cat &lt;chr&gt;,
-## #   age &lt;dbl&gt;, T1RSCALE &lt;dbl&gt;, T1MSCALE &lt;dbl&gt;, T1GSCALE &lt;dbl&gt;, T2RSCALE &lt;dbl&gt;,
-## #   T2MSCALE &lt;dbl&gt;, T2GSCALE &lt;dbl&gt;, IRTreadgain &lt;dbl&gt;, IRTmathgain &lt;dbl&gt;,
-## #   IRTgkgain &lt;dbl&gt;, T1ARSLIT &lt;dbl&gt;, T1ARSMAT &lt;dbl&gt;, T1ARSGEN &lt;dbl&gt;, T2ARSLIT &lt;dbl&gt;,
-## #   T2ARSMAT &lt;dbl&gt;, T2ARSGEN &lt;dbl&gt;, ARSlitgain &lt;dbl&gt;, ARSmathgain &lt;dbl&gt;,
-## #   ARSgkgain &lt;dbl&gt;, testdate1 &lt;date&gt;, testdate2 &lt;date&gt;, elapse &lt;dbl&gt;
+##    child_id teacher_id school_id k_type   school_type sex    ethnic   famtype  numsibs SES_cont SES_cat   age
+##    &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
+##  1 0842021C 0842T02    0842      full-day public      male   BLACK O~ BIOLOGI~       1     1.27 FIFTH ~  54  
+##  2 0905002C 0905T01    0905      full-day private     male   ASIAN    BIOLOGI~       1     0.74 FIFTH ~  57.1
+##  3 0150012C 0150T01    0150      full-day private     female BLACK O~ BIOLOGI~       4     0    THIRD ~  57.5
+##  4 0556009C 0556T01    0556      full-day private     female HISPANI~ BIOLOGI~       0     1.32 FIFTH ~  58.6
+##  5 0089013C 0089T04    0089      full-day public      male   WHITE, ~ BIOLOGI~       4     0.77 FIFTH ~  59.3
+##  6 1217001C 1217T13    1217      half-day public      female NATIVE ~ BIOLOGI~       0     0.57 FOURTH~  59.6
+##  7 1092008C 1092T01    1092      half-day public      female HISPANI~ BIOLOGI~       2    -0.28 THIRD ~  59.9
+##  8 0083007C 0083T16    0083      full-day public      male   WHITE, ~ BIOLOGI~       1    -0.23 THIRD ~  59.9
+##  9 1091005C 1091T02    1091      half-day private     male   WHITE, ~ BIOLOGI~       0    -0.93 FIRST ~  60.0
+## 10 2006006C 2006T01    2006      full-day private     male   WHITE, ~ BIOLOGI~       1     1.13 FIFTH ~  60  
+## # ... with 974 more rows, and 21 more variables: T1RSCALE &lt;dbl&gt;, T1MSCALE &lt;dbl&gt;, T1GSCALE &lt;dbl&gt;,
+## #   T2RSCALE &lt;dbl&gt;, T2MSCALE &lt;dbl&gt;, T2GSCALE &lt;dbl&gt;, IRTreadgain &lt;dbl&gt;, IRTmathgain &lt;dbl&gt;, IRTgkgain &lt;dbl&gt;,
+## #   T1ARSLIT &lt;dbl&gt;, T1ARSMAT &lt;dbl&gt;, T1ARSGEN &lt;dbl&gt;, T2ARSLIT &lt;dbl&gt;, T2ARSMAT &lt;dbl&gt;, T2ARSGEN &lt;dbl&gt;,
+## #   ARSlitgain &lt;dbl&gt;, ARSmathgain &lt;dbl&gt;, ARSgkgain &lt;dbl&gt;, testdate1 &lt;date&gt;, testdate2 &lt;date&gt;, elapse &lt;dbl&gt;
 ```
 
 ---
@@ -1261,6 +1255,7 @@ ecls %&gt;%
 
 By default, the `_join` functions will use all columns with common names as keys
 
+--
 
 
 ```r
@@ -1271,11 +1266,13 @@ flights2[1:2, ]
 
 ```
 ## # A tibble: 2 x 8
-##    year month   day  hour origin dest  tailnum carrier
+*##    year month   day  hour origin dest  tailnum carrier
 ##   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  
 ## 1  2013     1     1     5 EWR    IAH   N14228  UA     
 ## 2  2013     1     1     5 LGA    IAH   N24211  UA
 ```
+
+--
 
 
 ```r
@@ -1284,12 +1281,11 @@ weather[1:2, ]
 
 ```
 ## # A tibble: 2 x 15
-##   origin  year month   day  hour  temp  dewp humid wind_dir wind_speed wind_gust
-##   &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
-## 1 EWR     2013     1     1     1  39.0  26.1  59.4      270      10.4         NA
-## 2 EWR     2013     1     1     2  39.0  27.0  61.6      250       8.06        NA
-## # ... with 4 more variables: precip &lt;dbl&gt;, pressure &lt;dbl&gt;, visib &lt;dbl&gt;,
-## #   time_hour &lt;dttm&gt;
+*##   origin  year month   day  hour  temp  dewp humid wind_dir wind_speed wind_gust precip pressure visib
+##   &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1 EWR     2013     1     1     1  39.0  26.1  59.4      270      10.4         NA      0    1012     10
+## 2 EWR     2013     1     1     2  39.0  27.0  61.6      250       8.06        NA      0    1012.    10
+## # ... with 1 more variable: time_hour &lt;dttm&gt;
 ```
 
 ---
@@ -1305,20 +1301,20 @@ left_join(flights2, weather)
 
 ```
 ## # A tibble: 336,776 x 18
-##     year month   day  hour origin dest  tailnum carrier  temp  dewp humid wind_dir
-##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
-##  1  2013     1     1     5 EWR    IAH   N14228  UA       39.0  28.0  64.4      260
-##  2  2013     1     1     5 LGA    IAH   N24211  UA       39.9  25.0  54.8      250
-##  3  2013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6      260
-##  4  2013     1     1     5 JFK    BQN   N804JB  B6       39.0  27.0  61.6      260
-##  5  2013     1     1     6 LGA    ATL   N668DN  DL       39.9  25.0  54.8      260
-##  6  2013     1     1     5 EWR    ORD   N39463  UA       39.0  28.0  64.4      260
-##  7  2013     1     1     6 EWR    FLL   N516JB  B6       37.9  28.0  67.2      240
-##  8  2013     1     1     6 LGA    IAD   N829AS  EV       39.9  25.0  54.8      260
-##  9  2013     1     1     6 JFK    MCO   N593JB  B6       37.9  27.0  64.3      260
-## 10  2013     1     1     6 LGA    ORD   N3ALAA  AA       39.9  25.0  54.8      260
-## # ... with 336,766 more rows, and 6 more variables: wind_speed &lt;dbl&gt;,
-## #   wind_gust &lt;dbl&gt;, precip &lt;dbl&gt;, pressure &lt;dbl&gt;, visib &lt;dbl&gt;, time_hour &lt;dttm&gt;
+##     year month   day  hour origin dest  tailnum carrier  temp  dewp humid wind_dir wind_speed wind_gust
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+##  1  2013     1     1     5 EWR    IAH   N14228  UA       39.0  28.0  64.4      260       12.7      NA  
+##  2  2013     1     1     5 LGA    IAH   N24211  UA       39.9  25.0  54.8      250       15.0      21.9
+##  3  2013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6      260       15.0      NA  
+##  4  2013     1     1     5 JFK    BQN   N804JB  B6       39.0  27.0  61.6      260       15.0      NA  
+##  5  2013     1     1     6 LGA    ATL   N668DN  DL       39.9  25.0  54.8      260       16.1      23.0
+##  6  2013     1     1     5 EWR    ORD   N39463  UA       39.0  28.0  64.4      260       12.7      NA  
+##  7  2013     1     1     6 EWR    FLL   N516JB  B6       37.9  28.0  67.2      240       11.5      NA  
+##  8  2013     1     1     6 LGA    IAD   N829AS  EV       39.9  25.0  54.8      260       16.1      23.0
+##  9  2013     1     1     6 JFK    MCO   N593JB  B6       37.9  27.0  64.3      260       13.8      NA  
+## 10  2013     1     1     6 LGA    ORD   N3ALAA  AA       39.9  25.0  54.8      260       16.1      23.0
+## # ... with 336,766 more rows, and 4 more variables: precip &lt;dbl&gt;, pressure &lt;dbl&gt;, visib &lt;dbl&gt;,
+## #   time_hour &lt;dttm&gt;
 ```
 
 ---
@@ -1333,14 +1329,14 @@ head(planes)
 
 ```
 ## # A tibble: 6 x 9
-##   tailnum  year type                    manufacturer model engines seats speed engine
-##   &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;                   &lt;chr&gt;        &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; 
-## 1 N10156   2004 Fixed wing multi engine EMBRAER      EMB-~       2    55    NA Turbo~
-## 2 N102UW   1998 Fixed wing multi engine AIRBUS INDU~ A320~       2   182    NA Turbo~
-## 3 N103US   1999 Fixed wing multi engine AIRBUS INDU~ A320~       2   182    NA Turbo~
-## 4 N104UW   1999 Fixed wing multi engine AIRBUS INDU~ A320~       2   182    NA Turbo~
-## 5 N10575   2002 Fixed wing multi engine EMBRAER      EMB-~       2    55    NA Turbo~
-## 6 N105UW   1999 Fixed wing multi engine AIRBUS INDU~ A320~       2   182    NA Turbo~
+##   tailnum  year type                    manufacturer     model     engines seats speed engine   
+##   &lt;chr&gt;   &lt;int&gt; &lt;chr&gt;                   &lt;chr&gt;            &lt;chr&gt;       &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;    
+## 1 N10156   2004 Fixed wing multi engine EMBRAER          EMB-145XR       2    55    NA Turbo-fan
+## 2 N102UW   1998 Fixed wing multi engine AIRBUS INDUSTRIE A320-214        2   182    NA Turbo-fan
+## 3 N103US   1999 Fixed wing multi engine AIRBUS INDUSTRIE A320-214        2   182    NA Turbo-fan
+## 4 N104UW   1999 Fixed wing multi engine AIRBUS INDUSTRIE A320-214        2   182    NA Turbo-fan
+## 5 N10575   2002 Fixed wing multi engine EMBRAER          EMB-145LR       2    55    NA Turbo-fan
+## 6 N105UW   1999 Fixed wing multi engine AIRBUS INDUSTRIE A320-214        2   182    NA Turbo-fan
 ```
 
 ---
@@ -1355,33 +1351,36 @@ left_join(flights2, planes, by = "tailnum")
 
 ```
 ## # A tibble: 336,776 x 16
-##    year.x month   day  hour origin dest  tailnum carrier year.y type     manufacturer
-##     &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;       
-##  1   2013     1     1     5 EWR    IAH   N14228  UA        1999 Fixed w~ BOEING      
-##  2   2013     1     1     5 LGA    IAH   N24211  UA        1998 Fixed w~ BOEING      
-##  3   2013     1     1     5 JFK    MIA   N619AA  AA        1990 Fixed w~ BOEING      
-##  4   2013     1     1     5 JFK    BQN   N804JB  B6        2012 Fixed w~ AIRBUS      
-##  5   2013     1     1     6 LGA    ATL   N668DN  DL        1991 Fixed w~ BOEING      
-##  6   2013     1     1     5 EWR    ORD   N39463  UA        2012 Fixed w~ BOEING      
-##  7   2013     1     1     6 EWR    FLL   N516JB  B6        2000 Fixed w~ AIRBUS INDU~
-##  8   2013     1     1     6 LGA    IAD   N829AS  EV        1998 Fixed w~ CANADAIR    
-##  9   2013     1     1     6 JFK    MCO   N593JB  B6        2004 Fixed w~ AIRBUS      
-## 10   2013     1     1     6 LGA    ORD   N3ALAA  AA          NA &lt;NA&gt;     &lt;NA&gt;        
-## # ... with 336,766 more rows, and 5 more variables: model &lt;chr&gt;, engines &lt;int&gt;,
-## #   seats &lt;int&gt;, speed &lt;int&gt;, engine &lt;chr&gt;
+##    year.x month   day  hour origin dest  tailnum carrier year.y type   manufacturer model engines seats speed
+##     &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;    &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;
+##  1   2013     1     1     5 EWR    IAH   N14228  UA        1999 Fixed~ BOEING       737-~       2   149    NA
+##  2   2013     1     1     5 LGA    IAH   N24211  UA        1998 Fixed~ BOEING       737-~       2   149    NA
+##  3   2013     1     1     5 JFK    MIA   N619AA  AA        1990 Fixed~ BOEING       757-~       2   178    NA
+##  4   2013     1     1     5 JFK    BQN   N804JB  B6        2012 Fixed~ AIRBUS       A320~       2   200    NA
+##  5   2013     1     1     6 LGA    ATL   N668DN  DL        1991 Fixed~ BOEING       757-~       2   178    NA
+##  6   2013     1     1     5 EWR    ORD   N39463  UA        2012 Fixed~ BOEING       737-~       2   191    NA
+##  7   2013     1     1     6 EWR    FLL   N516JB  B6        2000 Fixed~ AIRBUS INDU~ A320~       2   200    NA
+##  8   2013     1     1     6 LGA    IAD   N829AS  EV        1998 Fixed~ CANADAIR     CL-6~       2    55    NA
+##  9   2013     1     1     6 JFK    MCO   N593JB  B6        2004 Fixed~ AIRBUS       A320~       2   200    NA
+## 10   2013     1     1     6 LGA    ORD   N3ALAA  AA          NA &lt;NA&gt;   &lt;NA&gt;         &lt;NA&gt;       NA    NA    NA
+## # ... with 336,766 more rows, and 1 more variable: engine &lt;chr&gt;
 ```
 
---
+---
+# Specify `*_join()` keys
 
-I like to *always* specify `by` vars
+I like to *always* specify the `by` vars
 &lt;br&gt;
+
 Makes intent explicit
 &lt;br&gt;
+
 Helps me review my own code
 
 ---
 # Mismatched key names
-* What if you had data to merge like this?
+
+What if you had data to merge like this?
 
 
 ```r
@@ -1418,7 +1417,7 @@ stu
 ```
 
 ---
-# Join w/mismatched key names
+## Join with mismatched key names
 
 
 ```r
@@ -1441,6 +1440,31 @@ left_join(stu, schl, by = c("scid" = "school_id"))
 ```
 
 ---
+class: inverse, left, middle
+
+# Next time
+
+---
+# Before next class
+
+* Homework
+  + **Homework 5**
+* Reading
+  + [R4DS 29](https://r4ds.had.co.nz/r-markdown-formats.html)
+* Complete
+  + [Markdown Tutorial](https://www.markdowntutorial.com/)
+
+---
+class: inverse, left, middle
+
+# Homework 5
+
+---
+class: inverse, left, middle
+
+---
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

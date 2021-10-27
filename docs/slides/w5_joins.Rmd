@@ -660,10 +660,15 @@ left_join(stu, seasonal_means)
 # How do we fix this?
 
 --
-![](https://media4.giphy.com/media/TgxSogEZU4exOupzRN/giphy.gif?cid=ecf05e4761vyz0plz2gqtplwgdbnzniwh2s2ffcxlz2gnh23&rid=giphy.gif&ct=g)
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("https://media4.giphy.com/media/TgxSogEZU4exOupzRN/giphy.gif?cid=ecf05e4761vyz0plz2gqtplwgdbnzniwh2s2ffcxlz2gnh23&rid=giphy.gif&ct=g")
+```
 
-In some cases, the solution is obvious. In others, it's not
+
+In some cases, the solution is obvious, in others it is not
 <br>
+<br>
+
 But **you must have at least one unique key** to join the datasets
 
 ---
@@ -671,13 +676,17 @@ But **you must have at least one unique key** to join the datasets
 Move the dataset to wide before joining
 
 --
-### Move to wide
+#### Move to wide
 ```{r }
 seasonal_means_wide <- seasonal_means %>% 
   pivot_wider(names_from = "season",
               values_from = "mean")
 seasonal_means_wide
 ```
+
+.footnote[
+We will cover this in Week 8
+]
 
 ---
 # Join
@@ -688,23 +697,15 @@ left_join(stu, seasonal_means_wide)
 ```
 
 ---
-# Move longer again?
-
-If we did, we'd be exactly where we were with the first join
-
-You  could make the argument it *might* make sense here
-
-I'd still argue for *this* approach, rather than first
-
-More systematic, more predictable, and ultimately less error prone
-
----
 # Another example
+
 * Often you want to add summary info to your dataset
+
+
 * You can do this easily with by piping arguments
 
 --
-### ECLS-K reminder
+#### ECLS-K reminder
 
 ```{r }
 ecls
@@ -735,14 +736,17 @@ ecls %>%
 
 By default, the `_join` functions will use all columns with common names as keys
 
+--
 
-```{r flights2}
+```{r flights2, highlight.output = c(2)}
 flights2 <- flights %>% 
   select(year:day, hour, origin, dest, tailnum, carrier)
 flights2[1:2, ]
 ```
 
-```{r weather}
+--
+
+```{r weather, highlight.output = c(2)}
 weather[1:2, ]
 ```
 
@@ -770,17 +774,21 @@ Specify the variables with `by`
 left_join(flights2, planes, by = "tailnum")
 ```
 
---
+---
+# Specify `*_join()` keys
 
-I like to *always* specify `by` vars
+I like to *always* specify the `by` vars
 <br>
+
 Makes intent explicit
 <br>
+
 Helps me review my own code
 
 ---
 # Mismatched key names
-* What if you had data to merge like this?
+
+What if you had data to merge like this?
 
 ```{r stu_table}
 names(schl)[1] <- "school_id"
@@ -789,10 +797,37 @@ stu
 ```
 
 ---
-# Join w/mismatched key names
+## Join with mismatched key names
 
 ```{r join_name_mismatch}
 left_join(stu, schl, by = c("scid" = "school_id"))
 ```
 
 ---
+class: inverse, left, middle
+
+# Next time
+
+---
+# Before next class
+
+* Homework
+  + **Homework 5**
+* Reading
+  + [R4DS 29](https://r4ds.had.co.nz/r-markdown-formats.html)
+* Complete
+  + [Markdown Tutorial](https://www.markdowntutorial.com/)
+
+---
+class: inverse, left, middle
+
+# Homework 5
+
+---
+class: inverse, left, middle
+
+---
+
+```{r, echo=FALSE, eval=FALSE}
+xaringanBuilder::build_pdf(here::here("slides", "w5_joins.Rmd"), complex_slides = TRUE)
+```
