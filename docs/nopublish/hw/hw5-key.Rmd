@@ -24,7 +24,7 @@ The data for this homework comes from the [ Open University Learning Analytics D
 
 ### 2. Data
 
-2.1. Download the *studentInfo.csv*, *studentAssessment.csv*, and *assessments* data from the [course website](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/data_list.html).
+2.1. Download the *studentInfo.csv*, *studentAssessment.csv*, and *assessments.csv* data from the [course website](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/data_list.html).
 
 2.2. Place the files in the "data" folder in your project.
 

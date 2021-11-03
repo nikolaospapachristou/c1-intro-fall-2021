@@ -144,7 +144,7 @@ Now let's get to the results...
 
 The actual number of beans in the jar was **`r format(truth, big.mark = ",")`**.
 
-The person closest to the truth was **`r slice(dta, which.min(abs(dist))) %>% pull(first)`** with a guess of **`r slice(dta, which.min(abs(dist))) %>% pull(guess) %>% format(., big.mark = ",")`** beans. This is a difference of `r round(slice(dta, which.min(abs(dist))) %>% pull(guess)/(truth*100), 2)`%.
+The person closest to the truth was **`r slice(dta, which.min(abs(dist))) %>% pull(first)`** with a guess of **`r slice(dta, which.min(abs(dist))) %>% pull(guess) %>% format(., big.mark = ",")`** beans. This is a difference of `r round((slice(dta, which.min(abs(dist))) %>% pull(guess))/(truth*100), 2)`%.
 
 The class mean was **`r format(round(mean(dta$guess, na.rm = TRUE), 1), big.mark = ",")`** (*SD* = `r round(sd(dta$guess, na.rm = TRUE))`). This is a difference of `r round(mean(dta$guess, na.rm = TRUE)/(truth*100), 2)`%.
 
