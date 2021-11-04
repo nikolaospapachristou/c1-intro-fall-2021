@@ -355,6 +355,7 @@ a / b
 * Or use hyphen (`-`) to separate words: `chunk-1` 
 * Do **not** use spaces: `chunk 1`
 * Do **not** use underscore `chunk_1`
+* Chunk names can only be used **once**
 
 --
 
@@ -620,7 +621,7 @@ show code without evaluating it
 
 Text here...
 ````r
-```{r echo = FALSE}`r ''`
+```{r eval = FALSE}`r ''`
 a <- 22
 a / 7
 ```
@@ -912,6 +913,7 @@ To include references in your .Rmd, you must:
   + (use RStudio to open new Text File)
 * Include `bibliography: nameOfYourBibFile.bib` in your YAML
 * Refer to the citations in text using `@`
+* For parenthesis around the citation, used brackets - `[@bibtexid]`
 
 ---
 # Citations in .Rmd .darkorange[[demo]]
