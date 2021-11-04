@@ -2,14 +2,13 @@
 title: "The Great Bean Experiment!"
 author: "Joe Nese and EDLD 651"
 date: "9/29/2021"
-output: 
-  html_document:
-    code_folding: hide
+output: html_document
+#    code_folding: hide
 bibliography: bean_bib.bib
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE,
+knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE,
                       message = FALSE)
 
