@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 7: git &amp; GitHub</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Joe Nese University of Oregon Fall 2021" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <script src="libs/freezeframe/freezeframe.min.js"></script>
+    <script src="libs/xaringanExtra-freezeframe/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 7: git &amp; GitHub
+## Version Control
+### Joe Nese<br><span style="font-size: 50%;">University of Oregon<br>Fall 2021</span>
+
+---
+
+
+
+
+
+
+
+
+class: inverse, left, middle
+
+# git &amp; GitHub
+## Week 7
+
+---
+
+# Agenda
+
+* Introduce reasons for version control
+* Introduce
+  + git
+  + GitHub
+  + GitKraken
+
+**Learning Objectives**
+
+* ~~Understand~~ Introduce the basics of git and git terminology
+* Be able to create *.green[repos]*, *.green[commit]* changes, *.green[push]*, *.green[clone]*, and *.green[pull]*
+* Be prepared to collaborate on a project
+
+---
+
+# git &amp; GitHub
+
+#### What are they?
+
+.pull-left[
+**git**
+&lt;img src="https://git-scm.com/images/logos/logomark-orange@2x.png" width="10%" /&gt;
+* a version control system
+* lives on your computer and keeps track of files and all changes made to them that you register with *.green[commits]*
+]
+
+.pull-right[
+**GitHub**
+&lt;img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/600px-Octicons-mark-github.svg.png" width="10%" /&gt;
+* an online host for *.green[repositories]* of code and data
+* lives on the internet
+]
+
+.footnote[
+Credit [Nathan Brouwer](https://mobile.twitter.com/lobrowR)
+]
+
+---
+# git &amp; GitHub
+
+#### Why are they important?
+
+**Backup**: Easy way to upload files and add notes about changes. Excellent way to keep all your R work backed-up on the cloud
+
+--
+
+**Version Control**: Complete history of all changes and why they were made, and multiple branches of history
+
+--
+
+**Open Access**: Open, transparent, and public science. Some journals allow GitHub sites to be used to host data and code to meet their open-access requirements
+
+--
+
+**Visibility**: GitHub makes it easy to make your open-access work visible to people who might be interested (collaborators, employers)
+
+--
+
+**Collaborative tool**: Git and GitHub are designed for collaboration (even if you’re the only one coding). Easy to share files between collaborators, allows for merging work and reconciling conflicts.
+
+--
+
+**Job Skill**: This is an important data science skill
+
+.footnote[
+Credit [Nathan Brouwer](https://mobile.twitter.com/lobrowR)
+]
+
+---
+# git &amp; GitHub
+
+#### How?
+
+1. Install git
+2. Create a GitHub account (hopefully you all have done this)
+3. Get a GUI and/or learn the command-line tools
+  + I'm okay with either or both, as long as you (sort of) know what you're doing
+  + We’re going to use [GitKraken](https://www.gitkraken.com/) in this course 
+4. Develop a solid understanding of the underlying structure, so you know what you want to do even if you don't know how
+  + *.green[commit]*, *.green[push]*, *.green[pull]*, *.green[fork]*
+
+---
+background-image: url(https://res.cloudinary.com/practicaldev/image/fetch/s--t4yzzdh2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/pgwreddlj4a1m16bjnzm.jpg)
+background-size: contain
+
+---
+## git can be frustrating, but...
+
+It is transparent – mistakes and all
+Can be a powerful tool for collaboration
+* Communication between team members is important
+* Try to avoid merge conflicts
+  - One person working on one thing at a time
+  - *.green[Pull]* first each and every time!
+  - *.green[Push]* often/at logical points
+
+
+Excellent for reproducibility (a tenet of the data science pipeline)
+* Open data and code
+* Transparent 
+* Forking paths
+
+---
+## Notes on Open &amp; Reproducible Research
+
+* Use scripting
+* Use dynamic documents 
+  + R Markdown is fantastic
+  + Better than Jupyter notebooks; see [here](https://docs.google.com/presentation/d/1n2RlMdmv1p25Xy5thJUhkKGvjtV-dkAIsUXP-AL4ffI/edit#slide=id.g362da58057_0_1) and [here](https://yihui.name/en/2018/09/notebook-war/)
+* Use Git/GitHub
+* Use open data whenever possible
+  + Consider ways you can make portions of the data open, if not all of it
+* Advanced – use tools that store software versions
+  + `{renv}` (Rstudio)
+  + `{target}` (formely drake)
+  + `{holepunch}` 
+
+---
+# All the things
+
+* **git** – a version control system that lives on your machine
+* **GitHub** – repo host that lives online, works with git
+* **GitKraken** – a GUI that lives on your machine and communicates with GitHub and git
+
+---
+# Version Control
+
+We can think of the changes as separate from the document
+
+You can then think about “playing back” different sets of changes on the base document, ultimately resulting in different versions of that document
+
+&lt;img src="https://swcarpentry.github.io/git-novice/fig/play-changes.svg" width="100%" height="50%" /&gt;
+
+.footnote[
+[swcarpentry](https://swcarpentry.github.io/git-novice/01-basics/index.html)
+]
+
+---
+# Version Control
+
+This means there are many possible versions of the same document
+
+&lt;img src="https://swcarpentry.github.io/git-novice/fig/versions.svg" width="50%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+[swcarpentry](https://swcarpentry.github.io/git-novice/01-basics/index.html)
+]
+
+---
+# Version Control
+
+Unless there are conflicts, two changes from the same document can be merged together
+
+&lt;img src="https://swcarpentry.github.io/git-novice/fig/merge.svg" width="50%" style="display: block; margin: auto;" /&gt;
+
+.footnote[
+[swcarpentry](https://swcarpentry.github.io/git-novice/01-basics/index.html)
+]
+
+---
+# Let's talk about "how"
+
+* Understand the structure of git
+* Actual method of completing the tasks is up to you
+  + GUI? Command line? RStudio?
+* I’ve asked you to install [GitKraken](https://www.gitkraken.com/)
+  + Worth it to manage merge conflicts alone
+* If you’re already using something else, that’s ok!
+  + Let me know
+
+---
+background-color: #009E73
+
+# Terminology
+
+--
+
+* &lt;b&gt;version control system&lt;/b&gt;
+  + A tool to help us track changes. git is one such system (but there are others)
+
+--
+* &lt;b&gt;repository (repo)&lt;/b&gt;
+  + The files, full commit history, and associated metadata for a project
+
+--
+* &lt;b&gt;remote (repo)&lt;/b&gt;
+  + The cloud-based server hosting the repo (that's GitHub)
+
+---
+
+&lt;img src="images/git_1.png" width="75%" height="75%" style="display: block; margin: auto;" /&gt;
+
+
+---
+class: inverse, left, middle
+
+## Let's connect GitHub and GitKraken
+
+---
+# Connect GitHub &amp; GitKraken
+
+### Go to GitKraken
+
+1. "Sign in with GitHub"
+
+2. "Continue with Authorization"
+
+3. You should see *“Success: GitHub and GitKraken are good to go!”* or something like that
+
+4. Check your email for an email from GitHub to verify (?)
+
+---
+# Open GitKraken
+
+&lt;img src="images/open_gk.png" width="100%" /&gt;
+
+---
+# Connect GitHub and GitKraken
+
+&lt;img src="images/auth_gk.png" width="75%" height="75%" /&gt;
+
+---
+# Connect GitHub and GitKraken
+
+Check your email (associated with your GitHub account)
+
+&lt;img src="images/auth_gk.png" width="75%" height="75%" /&gt;
+
+---
+class: inverse, left, middle
+
+# Incorporating git/GitHub/GitKraken
+## into your data science workflow
+
+---
+# Proposed Workflow
+
+1. Create your RStudio Project (as usual)
+
+2. **GitKraken**: Open a *.green[repo]* on GitKraken
+
+3. **GitHub**: Create new *.green[repo]* on GitHub
+
+4. **GitKraken**: Add *.green[remote]* on GitKraken
+
+---
+# 1. Create your RStudio Project (as usual)
+
+* Let’s make a new RStudio Project
+  + Open a new R Markdown document and name it "*foo*"
+
+* Note the name you gave the project (folder)
+
+* *"Create a git repository"*
+  + If ✔️: Don't add `.gitignore` in GiKraken or GitHub  
+  + If 🚫: Add `.gitignore` in GitKraken **or** GitHub
+
+---
+# 1. Create your RStudio Project (as usual)
+
+* Let’s make a new RStudio Project
+  + Open a new R Markdown document and name it "*foo*"
+
+* Note the name you gave the project (folder)
+
+* *"Create a git repository"*
+  + .bg-yellow[If ✔️: Don't add `.gitignore` in GiKraken or GitHub]
+  + If 🚫: Add `.gitignore` in GitKraken **or** GitHub
+
+---
+# 2. Open a repo on GitKraken
+
+### GitKraken
+
+* Open a *.green[repo]*
+
+* Init
+
+* Local only
+
+---
+# Open a repo (GitKraken)
+
+&lt;img src="images/gk_new.png" width="100%" /&gt;
+
+---
+# Open a repo (GitKraken)
+
+&lt;img src="images/gk_init.png" width="100%" /&gt;
+
+---
+# Open a repo (GitKraken)
+
+* *"Name"*
+  + folder name where the Rproject lives
+* *"Initialize in"*
+  + Browse to the &lt;u&gt;parent&lt;/u&gt; folder where your Rproject lives
+* *"Full path"*
+  + The full path should read to the path where your Rproject lives
+  + (it pastes the *"Initialize in"* path with the *"Name"*)
+* *"Default branch name"*
+  + "main"
+* *".gitignore Template"*
+  + .bg-yellow[If already created one with your project, leave empty]
+  + If none yet created, choose "R"
+* *"License (optional)"*
+  + MIT License
+
+---
+# Open a repo (GitKraken)
+
+&lt;img src="images/gk_init2.png" width="100%" /&gt;
+
+---
+# 3. Create new repo on GitHub
+
+### GitHub
+
+(1) Create new *.green[repo]*
+  + &lt;b&gt;Repository name&lt;/b&gt; – same as your Project name
+  + &lt;b&gt;Description&lt;/b&gt; – keep it brief, informative
+  + &lt;b&gt;Public&lt;/b&gt;
+  + &lt;b&gt;Do not initialize&lt;/b&gt;
+  + &lt;b&gt;"None"&lt;/b&gt; 
+  + do **NOT** add `.gitignore` 
+  + do **NOT** add a license
+
+(2) Copy URL from GitHub
+
+---
+# 3. Create new repo on GitHub
+
+&lt;img src="images/gh_new.png" width="100%" /&gt;
+
+---
+# 3. Create new repo on GitHub
+
+&lt;img src="images/gh_new2.png" width="100%" /&gt;
+
+---
+# Copy URL from GitHub
+
+&lt;img src="images/gh_new3.png" width="100%" /&gt;
+
+---
+# 4. Back to GitKraken to Add Remote
+
+### GitKraken
+
+Add .green[REMOTE]
+* Same Name used thus far
+
+* Click <svg aria-hidden="true" role="img" viewBox="0 0 496 512" style="height:1em;width:0.97em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z"/></svg> *"URL"*
+
+* Paste URL
+
+---
+# REMOTE
+
+
+&lt;img src="images/gk_remote.png" width="100%" /&gt;
+
+---
+# Paste URL into "Pull URL"
+
+* Same Name used thus far
+
+* Click <svg aria-hidden="true" role="img" viewBox="0 0 496 512" style="height:1em;width:0.97em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z"/></svg> *"URL"*
+
+* Paste URL
+
+&lt;img src="images/gk_url.png" width="50%" height="50%" /&gt;
+
+---
+class: inverse, left, middle
+
+# Let's see what we've done
+
+---
+# Navigate to the folder
+
+* Where did you save your *.green[local]*?
+
+--
+
+.pull-left[
+If you don’t see the `.git` folder
+]
+
+.pull-right[
+&lt;img src="images/show_hidden.png" width="50%" /&gt;
+]
+
+---
+# Tracking
+
+* As long as the `.git` folder exists, the entire folder will be tracked
+
+* **Do not** create .green[repos] inside of .green[repos]
+
+* If you want a folder to show up, there needs to be something in it (e.g., a README.md)
+
+---
+# Ignoring files
+
+* When we created the .Rproj the .green[repo], we started it with a `.gitignore` file
+
+* The `.gitignore` file tells the .green[repo] not to track certain files
+  + e.g., proprietary data
+  
+* Not that important for now, but if you need to ignore a file in your .green[repo] for whatever reason, just put the name of the file(s) at the top of the `.gitignore` file
+
+* Or, create a folder in your .Rproj (e..g, `nopublish`) and put all your documents to be ignored in that file
+  + then on the first line of your `.gitignore` file, type:
+&lt;br&gt;&lt;br&gt;&amp;nbsp;&amp;nbsp;*nopublish/**
+
+---
+# Lab 7
+
+Submit a link to the .green[repo] you created
+* Upload the link to Canvas
+
+* See me if you were unable to complete in class (for technical reasons etc.)
+
+It is ok if you leave today a ~~little~~ lot confused!
+
+---
+background-color: #009E73
+
+# Terminology
+
+--
+
+* &lt;b&gt;Stage&lt;/b&gt;
+  + A file that is being prepared for a commit
+
+--
+* &lt;b&gt;Commit&lt;/b&gt;
+  + Changes that have been made to the file(s)
+
+--
+* &lt;b&gt;Push&lt;/b&gt;
+  + After you commit the changes you want, push them from the local to the remote
+
+--
+
+Half the battle is learning these terms
+
+--
+
+.darkorange[[demo]]
+
+---
+background-image: url(images/bryan_2.png)
+background-size: contain
+
+.footnote[
+Image from Bryan (2017)
+]
+
+---
+# Pull
+
+&lt;img src="images/pull.png" width="100%" /&gt;
+
+
+* **.green[Pull]** before you start any collaborative work!!
+
+* **.green[Pull]** any accepted changes from the remote to your local
+
+--
+
+**.green[Pull] before you start any collaborative work!!**
+
+---
+# Collaborating
+
+Two methods
+
+1. Add users to a .green[repo]
+  + *Settings &gt; Manage access &gt; Invite a collaborator* (add user with username)
+2. Create an organization
+
+--
+
+&lt;img src="images/gh_neworg.png" width="50%" /&gt;
+
+---
+# Collaborating
+
+Two methods
+
+1. .bg-yellow[Add users to a .green[repo]]
+  + *Settings &gt; Manage access &gt; Invite a collaborator* (add user with username)
+2. Create an organization
+
+---
+# Collaborating
+
+&lt;b&gt;Final Project&lt;/b&gt;
+
+.bg-yellow[Add users to a .green[repo]]
+
+1. One group member will Open a .green[repo] (like we just went over)
+  + Potentially the person who has the project data, but not necessarily
+2. Within the .green[repo] on GitHub&lt;br&gt;
+  *&gt; Settings &gt; Manage access &gt; Invite a collaborator*
+
+--
+
+
+&lt;img src="images/gh_invite.png" width="50%" /&gt;
+
+---
+# Collaborating
+
+* The collaborators will receive an email from GitHub
+
+* Accept the invitation
+
+* *.green[Clone]* the repo
+
+---
+# Cloning
+
+* *.green[Cloning]* means that you are downloading the repo
+* You can *.green[clone]* any repo you like (like the `{tidyverse}`)
+* For the final project, you will *.green[clone]* the repo you were invited to collaborate on
+
+--
+
+&lt;img src="images/gh_clone.png" width="100%" /&gt;
+
+---
+# Clone a repo
+
+(1) Go to the repo on GitHub
+
+(2) Click the green *"Code"* button near the top
+
+(3) Copy the URL 
+
+&lt;img src="images/gh_clone.png" width="50%" /&gt;
+
+---
+# Clone a repo
+
+(4) Go to GitKraken
+
+(5) Clone &gt; <svg aria-hidden="true" role="img" viewBox="0 0 496 512" style="height:1em;width:0.97em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z"/></svg> Clone with URL
+
+(6) Specify where it will live on your machine (*"Where to clone to"*)
+
+(7) Paste in the copied URL
+
+(8) Click *"Clone the repo!"*
+
+&lt;img src="images/gh_clone2.png" width="50%" /&gt;
+
+---
+class: inverse, left, middle
+
+# Merge Conflict
+
+---
+background-image: url(https://www.meme-arsenal.com/memes/cce345428b0f8c83b92d4a0d958467f3.jpg)
+background-size: contain
+
+---
+# Merge Conflicts
+
+* Always **.green[pull]** before you start working!!
+
+* Try to stay in communication with your collaborators and don't work on the exact same thing at the same time
+
+* Use GitKraken to help manage .red[merge conflicts] that do come up
+
+---
+# Merge Conflicts
+
+* Remember to always **.green[pull]** first!!
+
+* GitKraken has a really nice GUI to resolve .red[merge conflicts]
+
+&lt;iframe width="560" height="315" src="https://www.youtube.com/watch?v=R1iWJNyRpQE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
+
+[link](https://www.youtube.com/watch?v=R1iWJNyRpQE)
+
+---
+# Merge Conflicts
+
+Let's give this a shot
+
+.darkorange[[demo]]
+
+---
+# Merge Conflict Activity (15 mins)
+
+1. Get a partner
+
+2. .pink[Partner1] open in GitHub the .green[repo] you made in class
+
+3. .pink[Partner1] add .lightorange[Partner2] as a collaborator in GitHub
+
+4. .lightorange[Partner2] .green[clone] the repo
+
+5. .pink[Partner1] make changes to the *foo.Rmd* file in the .green[repo]
+  + .green[commit] and .green[push] those changes
+
+6. .lightorange[Partner2] **do NOT .green[pull]**
+
+7. .lightorange[Partner2] make different changes to the same parts of the *foo.Rmd* file
+  + .lightorange[Partner2] commit the changes. Try to push. What happens? Why?
+  
+8. Use GitKraken to deal with the .red[merge conflicts]
+
+<div class="countdown" id="timer_618c299e" style="right:0;bottom:0;" data-warnwhen="120">
+<code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Merge Conflict Activity (15 mins)
+
+(2) .pink[Partner1] open in GitHub the .green[repo] you made in class
+
+(3) .pink[Partner1] add .lightorange[Partner2] as a collaborator in GitHub
+
+(3) .lightorange[Partner2] open email associated with GitHub to accept invitation
+
+(4) .lightorange[Partner2] .green[clone] the .green[repo]
+  + **GitHub**
+  + Copy URL (click clipboard icon)
+  + **GitKraken**
+  + Clone with URL
+  + Paste in URL
+  + Choose place where .green[repo] will live on your machine (.green[local])
+  
+<div class="countdown" id="timer_618c2914" style="right:0;bottom:0;" data-warnwhen="120">
+<code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Merge Conflict Activity (15 mins)
+
+(5) .pink[Partner1] open RRtudio
+  + Make changes to the *foo.Rmd* file in the .green[repo]
+  + .green[commit] and .green[push] those changes
+
+(6) .lightorange[Partner2] **do NOT .green[pull]**
+
+(7) .lightorange[Partner2] 
+  + make different changes to the same parts of the *foo.Rmd* file
+  + .lightorange[Partner2] .green[commit] the changes to local
+  + Try to .green[push] 
+  + What happens? Why?
+  
+(8) Use GitKraken to deal with the .red[merge conflict]
+
+<div class="countdown" id="timer_618c2997" style="right:0;bottom:0;" data-warnwhen="120">
+<code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+# Quick Recap
+
+Basic workflow
+* create an RStudio project
+* create a .green[repo]
+* add collaborators
+* *.green[pull]*
+* *.green[stage]* and *.green[commit]* changes
+* *.green[push]* changes to *.green[remote]*
+
+---
+# Revisiting git terminology
+
+Talk with a neighbor about what each of these terms mean
+* .green[clone]
+* .green[pull]
+* .green[stage]
+* .green[commit]
+* .green[push]
+* .green[repo]
+* .green[remote]
+
+---
+class: inverse, left, middle
+
+# Next time
+
+---
+# Before next class
+
+* Final Project
+  + .red[Final Project: Draft Data Script]
+* Reading
+  + [R4DS 12](https://r4ds.had.co.nz/tidy-data.html)
+  + [Wickham, H. (2014). Tidy Data.](file:///C:/Users/jnese/AppData/Local/Temp/v59i10.pdf)
+  + [R-Ladies Sydney. CleanItUp 5](https://rladiessydney.org/courses/ryouwithme/02-cleanitup-5/)
+* Homework
+  + **Homework 7** (hopefully completed in class today)
+  + **Homework 8**
+
+---
+class: inverse, left, middle
+
+# Final Project
+
+---
+# Final Project
+
+Final paper: R Markdown document
+
+**Final project must:**
+* Be fully reproducible
+  + This implies the data are open
+  
+* Be a collaborative project hosted on GitHub
+
+* Move data from its raw "messy" format to a tidy data format
+
+* Include at least two exploratory plots
+
+* Include at least summary statistics of the data in tables, although fitted models are also encouraged
+
+---
+# Final Project - Dates
+
+* **Week 8  (11/24)**: Data prep script due
+
+* **Week 9  (12/1)**:  Peer review due
+
+* **Week 10 (12/8)**:  Final project presentations
+
+* **Week 11 (12/15)**: Final Paper due
+
+---
+## Final Project - Data Prep Script
+
+* Expected to be a work in progress
+
+* Provided to your peers so they can learn from you as much as you can learn from their feedback
+
+**Peer Review**
+
+* Understand the purpose of the exercise
+
+* Conducted as a professional product
+
+* Should be **very** encouraging 
+
+* Zero tolerance policy for inappropriate comments
+
+---
+# Final Project – Presentation
+
+Groups are expected to present for approximately 15 minutes (split evenly among members). Group order randomly assigned. 
+
+Presentation cover the following:
+* Share your journey (everyone, at least for a minute or two)
+
+* Discuss challenges you had along the way
+
+* Celebrate your successes
+
+* Discuss challenges you are still facing
+
+* Discuss substantive findings
+
+* Show off your cool figures!
+
+* Discuss next `R` hurdle you want to address
+
+---
+## Final Project – Presentation Scoring Rubric
+
+&lt;table class=" lightable-classic table" style='font-family: "Arial Narrow", "Source Sans Pro", sans-serif; width: auto !important; margin-left: auto; margin-right: auto; font-size: 14px; '&gt;
+&lt;caption style="font-size: initial !important;"&gt;&lt;b&gt;Final Presentation Rubric&lt;/b&gt;&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Criteria &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Points possible &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Challenges faced along the way &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Victories and things to celebrate &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Challenges you are still facing &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Substantive findings/interpretations &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Next R hurdle to tackle &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:right;font-weight: bold;"&gt; 25 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+# Final Project – Paper
+
+* R Markdown document
+  + Abstract, Intro, Methods, Results, Discussion, References
+  + Should be brief: 3,500 words max 
+  
+* No code displayed - should look similar to a manuscript being submitted for publication
+
+* Include at least 1 table
+
+* Include at least 2 plots
+
+* Should be fully open, reproducible, and housed on GitHub
+  + I should be able to clone your repository, open the R Studio Project, and reproduce the full manuscript (by knitting the R Markdown doc)
+
+---
+## Final Paper - Scoring Rubric
+
+<div id="aorocdbcvf" style="overflow-x:auto;overflow-y:auto;width:auto;height:80%;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#aorocdbcvf .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 10px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#aorocdbcvf .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#aorocdbcvf .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#aorocdbcvf .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#aorocdbcvf .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#aorocdbcvf .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#aorocdbcvf .gt_col_heading {
+  color: #FFFFFF;
+  background-color: #0072B2;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#aorocdbcvf .gt_column_spanner_outer {
+  color: #FFFFFF;
+  background-color: #0072B2;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#aorocdbcvf .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#aorocdbcvf .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#aorocdbcvf .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#aorocdbcvf .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#aorocdbcvf .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#aorocdbcvf .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#aorocdbcvf .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#aorocdbcvf .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#aorocdbcvf .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#aorocdbcvf .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#aorocdbcvf .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#aorocdbcvf .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#aorocdbcvf .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#aorocdbcvf .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#aorocdbcvf .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#aorocdbcvf .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#aorocdbcvf .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#aorocdbcvf .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#aorocdbcvf .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#aorocdbcvf .gt_left {
+  text-align: left;
+}
+
+#aorocdbcvf .gt_center {
+  text-align: center;
+}
+
+#aorocdbcvf .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#aorocdbcvf .gt_font_normal {
+  font-weight: normal;
+}
+
+#aorocdbcvf .gt_font_bold {
+  font-weight: bold;
+}
+
+#aorocdbcvf .gt_font_italic {
+  font-style: italic;
+}
+
+#aorocdbcvf .gt_super {
+  font-size: 65%;
+}
+
+#aorocdbcvf .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Criteria</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Points Possible</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left" style="font-weight: bold; background-color: #FFFFFF;"><div class='gt_from_md'><p>Writing</p>
+</div></td>
+<td class="gt_row gt_left" style="font-weight: bold; background-color: #FFFFFF;"><div class='gt_from_md'></div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>Abstract</p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>Introduction</p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>Methods</p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>Results</p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>Discussion</p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>References</p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold; background-color: #FFFFFF;"><div class='gt_from_md'><p>Code</p>
+</div></td>
+<td class="gt_row gt_left" style="font-weight: bold; background-color: #FFFFFF;"><div class='gt_from_md'></div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>Document is fully reproducible</p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>25</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>Demonstrate use of inline code</p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>At least two data visualizations</p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>10 (5 pts each)</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold; background-color: #FFFFFF;"><div class='gt_from_md'><p>Demonstrate tidying messy data using:</p>
+</div></td>
+<td class="gt_row gt_left" style="font-weight: bold; background-color: #FFFFFF;"><div class='gt_from_md'></div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p><code>pivot_longer()</code></p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p><code>mutate()</code></p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p><code>select()</code> and <code>filter()</code></p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p><code>pivot_wider()</code></p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>At least one table of descriptive statistics</p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>10</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p><code>group_by()</code></p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p><code>summarize()</code></p>
+</div></td>
+<td class="gt_row gt_left" style="background-color: #FFFFFF;"><div class='gt_from_md'><p>5</p>
+</div></td></tr>
+    <tr><td class="gt_row gt_left" style="font-weight: bold; background-color: #FFFFFF;"><div class='gt_from_md'><p>Total</p>
+</div></td>
+<td class="gt_row gt_left" style="font-weight: bold; background-color: #FFFFFF;"><div class='gt_from_md'><p>110</p>
+</div></td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+
+---
+# Final Project
+
+The following functions: 
+* `pivot_longer()`
+* `mutate()`
+* `select()`
+* `filter()`
+* `pivot_wider()`
+* `group_by()`
+* `summarize()`
+
+---
+class: inverse, left, middle
+
+---
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
