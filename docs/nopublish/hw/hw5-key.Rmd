@@ -52,7 +52,11 @@ student <- studentinfo %>%
 
 3.2. What key(s) were used in the join?
 
+Joining, by = "id_student"
+
 3.3. How many rows are in this joined data? If that is different than the number of rows in the *studentInfo* data, why?
+
+`nrow(student)` rows in the joined data. That is different than the number of rows in the studentInfo data (`nrow(studentinfo)` rows) because one student could take multiple assessments, so the studentAssessment added more rows per student, representing additional assessments.
 
 3.3. Join the newly created *student* data with the *assessments* data. Name the joined data *student*.
 
@@ -63,7 +67,11 @@ student <- student %>%
 
 3.4. What key(s) were used in the join?
 
+Joining, by = c("code_module", "code_presentation", "id_assessment")
+
 3.5. What new variables were added with this join?
+
+"assessment_type", "date", and "weight"
 
 ### 4. Wrangle
 
@@ -83,6 +91,8 @@ student_tma_max <- student_tma %>%
 ```
 
 4.3. How many rows are in this joined data? What does each row represent?
+
+`nrow(student_tma_max)` rows in this joined data. Each row represents a single student; more specifically, the max TMA score for that student.
 
 4.4. Create a dataset named *agg_tma_max* that contains the mean TMA score by "highest_education", "disability", and "final_result."
 
