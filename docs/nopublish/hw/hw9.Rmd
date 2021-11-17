@@ -183,7 +183,11 @@ messy_by_gender <- lotr_tidy %>%
 * Load the **Project_Reads_Scores.csv** file
 * Remove columns 5-9, 24, and 25
 * Filter to remove the rows in *student_id* that represent aggregate summaries
-* Tidy the remaining dataset such that a case represents a score and percentage within a unit (i.e., *score* and *percentage* will be separate columns). Take a VERY close look at the data. You will be able to use the `names_sep` argument if you **first** `rename()` two columns. Identify those two columns first. Also, you will need to first `pivot_longer` and then `pivot_wider` in order to tidy properly. In these data, "tidy" is a row for each of the seven *units* for every *student_id*.
+* Tidy the remaining dataset such that a case represents a score and percentage within a unit (i.e., *score* and *percentage* will be separate columns). 
+  + Take a VERY close look at the data. 
+  + You will be able to use the `names_sep` argument if you **first** `rename()` two columns. Identify those two columns first. 
+  + Also, you will need to `pivot_longer` and then `pivot_wider` in order to tidy properly. 
+  + In these data, "tidy" is a row for each of the seven *units* for every *student_id*.
 
 
 ```{r q1, echo = FALSE, message = FALSE, warning = FALSE}
@@ -228,6 +232,7 @@ reads_summary <- reads_tidy %>%
 	group_by(test_site, unit) %>% 
 	summarize(percent = mean(percent))
 
-reads_summary
+reads_summary %>% 
+  kable()
 ```
 

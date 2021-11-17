@@ -56,7 +56,7 @@ Joining, by = "id_student"
 
 3.3. How many rows are in this joined data? If that is different than the number of rows in the *studentInfo* data, why?
 
-`nrow(student)` rows in the joined data. That is different than the number of rows in the studentInfo data (`nrow(studentinfo)` rows) because one student could take multiple assessments, so the studentAssessment added more rows per student, representing additional assessments.
+`r nrow(student)` rows in the joined data. That is different than the number of rows in the studentInfo data (`r nrow(studentinfo)` rows) because one student could take multiple assessments, so the studentAssessment added more rows per student, representing additional assessments.
 
 3.3. Join the newly created *student* data with the *assessments* data. Name the joined data *student*.
 

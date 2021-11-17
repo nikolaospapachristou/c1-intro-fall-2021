@@ -1,0 +1,129 @@
+---
+title: "Homework 5"
+author: "Key"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+ knitr::opts_chunk$set(echo=FALSE,
+                       message = FALSE, 
+                       warning = FALSE)
+
+library(tidyverse)
+library(here)
+library(ggthemes)
+```
+
+# Getting Started
+
+The data for this homework comes from the [ Open University Learning Analytics Dataset (OULAD)](https://analyse.kmi.open.ac.uk/open_dataset). It contains data about courses, students, and their interactions with Virtual Learning Environment (VLE) for seven selected courses (called modules). Presentations of courses start in February and October - they are marked by “B” and “J” respectively. The dataset (tables) are connected using unique identifiers. All datasets are stored in the .csv format.  Please check out the [OULAD](https://analyse.kmi.open.ac.uk/open_dataset) site to learn more about the data and understand the keys.
+
+### 1. Start a new RStudio Project
+
+1.1. Be sure to add a folder for "data" and "scripts".
+
+### 2. Data
+
+2.1. Download the *studentInfo.csv*, *studentAssessment.csv*, and *assessments.csv* data from the [course website](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/data_list.html).
+
+2.2. Place the files in the "data" folder in your project.
+
+2.3. Read in the data.
+
+
+```{r}
+
+studentinfo <- read_csv(here("data", "studentInfo.csv"))
+
+studentassessment <- read_csv(here("data", "studentAssessment.csv"))
+
+assessments <- read_csv(here("data", "assessments.csv"))
+
+```
+
+### 3. Join
+
+3.1. Join the *studentInfo* data and the *studentAssessment* data. Name the joined data *student*.
+
+```{r}
+student <- studentinfo %>% 
+  left_join(studentassessment)
+```
+
+3.2. What key(s) were used in the join?
+
+Joining, by = "id_student"
+
+3.3. How many rows are in this joined data? If that is different than the number of rows in the *studentInfo* data, why?
+
+`r nrow(student)` rows in the joined data. That is different than the number of rows in the studentInfo data (`r nrow(studentinfo)` rows) because one student could take multiple assessments, so the studentAssessment added more rows per student, representing additional assessments.
+
+3.3. Join the newly created *student* data with the *assessments* data. Name the joined data *student*.
+
+```{r}
+student <- student %>% 
+  left_join(assessments)
+```
+
+3.4. What key(s) were used in the join?
+
+Joining, by = c("code_module", "code_presentation", "id_assessment")
+
+3.5. What new variables were added with this join?
+
+"assessment_type", "date", and "weight"
+
+### 4. Wrangle
+
+4.1. Create a new dataset named *student_tma* that consists only of TMA (Tutor Marked Assessment) assessments.
+
+```{r}
+student_tma <- student %>% 
+  filter(assessment_type == "TMA")
+```
+
+4.2. Create a new dataset named *student_tma_max* that contains the maximum (`max()`) TMA score for each student. (**Note.** Use `filter` rather than `summarize`.)
+
+```{r}
+student_tma_max <- student_tma %>%
+  group_by(id_student) %>% 
+  filter(score == max(score, na.rm = TRUE)) 
+```
+
+4.3. How many rows are in this joined data? What does each row represent?
+
+`nrow(student_tma_max)` rows in this joined data. Each row represents a single student; more specifically, the max TMA score for that student.
+
+4.4. Create a dataset named *agg_tma_max* that contains the mean TMA score by "highest_education", "disability", and "final_result."
+
+```{r}
+agg_tma_max <- student_tma_max %>%
+  group_by(highest_education, disability, final_result) %>%
+  summarize(tma_mean = mean(score, na.rm = TRUE))
+```
+
+### 6. Plot
+
+6.1. Reproduce the following plot, using any theme and colors you want *except* for the defaults.
+
+```{r}
+agg_tma_max %>%
+  mutate(
+    highest_education = factor(highest_education, level = c("Post Graduate Qualification", "HE Qualification", "A Level or Equivalent", "Lower Than A Level", "No Formal quals")),
+    final_result = factor(final_result, level = c("Withdrawn", "Fail", "Pass", "Distinction"))) %>% 
+  ggplot(aes(tma_mean, final_result, fill = disability)) +
+  geom_col(position = "dodge") +
+  facet_wrap(~highest_education, ncol = 1) +
+  theme_minimal() +
+  scale_fill_colorblind() +
+  labs(
+    title = "Average TMA Scores",
+    subtitle = "by education level, disability status, and final result designation",
+    x = "Mean Tutor Marked Assessment (TMA)",
+    y = "Final Result Designation",
+    fill = "Disability Status",
+    caption = "Data from Kuzilek, Hlosta, & Zdrahal (2017). \nhttps://analyse.kmi.open.ac.uk/open_dataset"
+  )
+```
+
+

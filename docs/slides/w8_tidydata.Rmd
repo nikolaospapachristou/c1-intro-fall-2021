@@ -1,0 +1,1481 @@
+---
+title: "Week 8: Tidy Data"
+subtitle: "`{tidyr}`"
+author: "Joe Nese<br><span style = 'font-size: 50%;'>University of Oregon<br>Fall 2021</span>"
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    lib_dir: libs
+    nature:
+#      slideNumberFormat: "%current%"
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width=9, fig.height=3.5, fig.retina=3,
+  out.width = "100%",
+  cache = FALSE,
+  echo = TRUE,
+  message = FALSE, 
+  warning = FALSE,
+  error = TRUE
+#  hiline = TRUE
+)
+library(xaringan)
+library(xaringanExtra)
+library(tidyverse)
+library(knitr)
+library(here)
+library(janitor)
+library(kableExtra)
+library(palmerpenguins)
+library(countdown)
+
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+
+style_duo_accent(
+  primary_color = "#1F4E79",
+  secondary_color = "#0072B2",
+  header_font_google = google_font("Atkinson Hyperlegible", "600"),
+  text_font_google   = google_font("Atkinson Hyperlegible", "300", "300i"),
+  code_font_google   = google_font("IBM Plex Mono"),
+  colors = c(
+    darkblue = "#0072B2",
+    lightblue = "#56B4E9",
+    darkorange = "#D55E00",
+    lightorange = "#E69f00",
+    yellow = "#f0e442",
+    green = "#009E73",
+    pink = "#CC79A7",
+    gray = "999999",
+    white = "#FFFFFF",
+    red = "#ff0000",
+    black = "#000000"
+  )
+  #inverse_header_color = "#FFFFFF"
+)
+```
+
+```{r xaringanExtra-freezeframe, echo=FALSE}
+xaringanExtra::use_freezeframe()
+```
+
+class: inverse, left, middle
+
+# Tidy Data 
+## Week 8
+
+---
+# Assignment Updates
+
+### Change
+* .red[Final Project: Draft Data Script]: due 11/24 (Week 9)
+* .red[Final Project: Peer Review of Script]: due 12/1 (Week 10)
+
+### Same
+* .red[Final Project: Presentation]: due 12/1 (Week 10)
+* .red[Final Project: Paper]: due 12/8 (Week 11)
+
+---
+background-image: url(https://media3.giphy.com/media/dxnvmaFgz4sjP2Ihty/giphy.gif?cid=ecf05e47b3fqj45drn4na9vmee29cp7v4cet317e0fc6503y&rid=giphy.gif&ct=g)
+background-size: contain
+
+---
+## How I feel about my `R` code sometimes
+
+```{r, echo=FALSE, out.height='40%', out.width='40%', fig.align='center'}
+knitr::include_graphics("images/mr_rodgers.png")
+```
+
+---
+# Agenda
+
+* Introduce the concept of tidy data
+* Tidy a simple dataset together with `{tidyr}`
+* Summarize and transform tidy data with `{dplyr}`
+
+**Learning Objectives**
+
+* Understand that the concept of tidy data is useful
+* Understand and be able to apply the `pivot_longer` and `pivot_wider` function
+
+
+---
+
+background-size: contain
+
+background-image: url("https://www.tidyverse.org/images/tidyverse-default.png")
+
+---
+# Providing grammar for:
+
+* Graphics 
+  + `{ggplot2}`
+* Data manipulations 
+  + `{dplyr}`
+  + `{tidyr}`
+* Expanding area of specialized topics
+  + `{lubridate}`
+  + `{glue}`
+  + `{tidymodels}`
+* Many more...
+
+---
+
+# Providing grammar for:
+
+* Graphics 
+  + `{ggplot2}`
+* Data manipulations
+  + `{dplyr}`
+  + .bg-yellow[`{tidyr}`]
+* Expanding area of specialized topics
+  + `{lubridate}`
+  + `{glue}`
+  + `{tidymodels}`
+* Many more...
+
+
+---
+class: inverse, left, middle
+
+# .white[`{tidyr}`]
+
+---
+# `{dplyr}` vs `{tidyr}`
+
+.pull-left[
+**`{dplyr} `**
+
+Helps you manipulate your data
+* `select()`
+* `filter()`
+* `mutate()`
+* `summarize()`
+* more...
+]
+
+.pull-right[
+**`{tidyr}`**
+
+Helps you get your data into a tidy format
+* `pivot_longer()`
+* `pivot_wider()`
+* `separate()` and `extract()`
+* `unite()`
+* `nest()`
+]
+
+--
+
+Talk with a neighbor about what you think `pivot_longer()` and `pivot_wider()` do
+
+```{r, echo=FALSE}
+countdown(minutes = 1, seconds = 30, bottom = 0, warn_when = 30)
+```
+
+---
+# Data cleaning
+
+> “It is often said that 80% of data analysis is spent on the process of cleaning and preparing the data (Dasu and Johnson 2003).”
+> - Hadley Wickham (Tidy Data)
+
+<br>
+<br>
+* Persistent and varied challenge
+
+* Little research on how to do it well
+
+---
+# Tidy Data
+
+* Each variable is a column
+* Each observation is a row
+* Each type of observational unit forms a table
+  + We won’t talk much about this point
+  
+```{r, echo=FALSE, out.width='60%', fig.align='center'}
+knitr::include_graphics("https://d33wubrfki0l68.cloudfront.net/6f1ddb544fc5c69a2478e444ab8112fb0eea23f8/91adc/images/tidy-1.png")
+```
+
+.footnote[
+[R4DS](https://r4ds.had.co.nz/tidy-data.html)
+]
+
+---
+background-image: url(https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/tidydata_1.jpg)
+background-size: contain
+
+.footnote[
+[Allison Horst](https://github.com/allisonhorst/stats-illustrations)
+]
+
+---
+# Common ways data are "messy"
+
+* Column headers are values, not variable names
+
+* Multiple variables stored in one column
+
+* Variables are stored in both rows and columns
+<br>
+<br>
+<br>
+* See the pivoting [vignette](https://tidyr.tidyverse.org/articles/pivot.html) for examples and solutions
+
+---
+background-image: url(https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/tidydata_2.jpg)
+background-size: contain
+
+.footnote[
+[Allison Horst](https://github.com/allisonhorst/stats-illustrations)
+]
+
+---
+# Defining tidy data
+
+**Essentially, two rules define tidy data**<sup>1</sup> 
+
+1. Each row is a case representing the same underlying attribute
+2. Each column is a variable containing the same type of value for each case
+
+The combination of rows and columns make each observational unit (row) unique, even though cells may be repeated many times (e.g., student identifier)
+
+.footnote[
+<sup>1</sup> [Modern Data Science with R](https://mdsr-book.github.io/)
+]
+
+---
+# Why tidy?
+
+* There are many reasons why you might want to have "messy" data
+
+  + e.g., for other software or specific modeling purposes
+
+--
+
+* However, tidy data is an extremely useful format generally, and particularly useful when applying tools within the `{tidyverse}`
+
+--
+
+* All packages within the `{tidyverse}` are designed to either help you get your data in a tidy format, or assume your data are already in a tidy format
+
+--
+
+* Assuming a common data format leads to large jumps in efficiency, as the output from certain functions can be directly input into others
+
+---
+background-image: url(https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/tidydata_3.jpg)
+background-size: contain
+
+.footnote[
+[Allison Horst](https://github.com/allisonhorst/stats-illustrations)
+]
+
+---
+background-image: url(https://d33wubrfki0l68.cloudfront.net/795c039ba2520455d833b4034befc8cf360a70ba/558a5/diagrams/data-science-explore.png)
+background-size: contain
+
+.footnote[
+[R4DS](https://r4ds.had.co.nz/tidy-data.html)
+]
+
+---
+# `{tidyr}` verbs
+
+--
+
+`pivot_longer()`
+--
+: "lengthens" data, increasing the number of rows and decreasing the number of columns
+
+--
+
+`pivot_wider()`
+--
+: "widens" data, increasing the number of columns and decreasing the number of rows
+
+--
+
+`separate()`
+--
+: turns a single character column into multiple columns
+
+--
+
+`extract()`
+--
+: given a [regular expression](https://r4ds.had.co.nz/strings.html#matching-patterns-with-regular-expressions) for capturing groups, turns each group into a new column
+
+--
+
+`unite()`
+--
+: paste together multiple columns into one
+
+--
+
+`nest()`
+--
+: creates a list-column of data frames; you get one row for each group defined by the non-nested columns. This is useful in conjunction with other summaries that work with whole datasets, like models
+
+--
+  + **so** powerful
+
+---
+class: inverse, left, middle
+
+# .white[`pivot_longer()`]
+
+---
+# `pivot_longer()`
+
+There are different ways to `pivot_longer()` that will depend on what your data look like 
+
+.pull-left[
+```{r, eval=FALSE}
+pivot_longer(
+  data,
+  cols,
+  names_to = "name",
+  names_prefix = NULL,
+  names_sep = NULL,
+  names_pattern = NULL,
+  names_ptypes = list(),
+  names_transform = list(),
+  names_repair = "check_unique",
+  values_to = "value",
+  values_drop_na = FALSE,
+  values_ptypes = list(),
+  values_transform = list(),
+  ...
+)
+```
+]
+
+---
+# `pivot_longer()`
+
+There are different ways to `pivot_longer()` that will depend on what your data look like 
+
+.pull-left[
+```{r, eval=FALSE}
+pivot_longer(
+  data, #<<
+  cols, #<<
+  names_to = "name", #<< 
+  names_prefix = NULL,
+  names_sep = NULL,
+  names_pattern = NULL,
+  names_ptypes = list(),
+  names_transform = list(),
+  names_repair = "check_unique",
+  values_to = "value", #<<
+  values_drop_na = FALSE,
+  values_ptypes = list(),
+  values_transform = list(),
+  ...
+)
+```
+]
+
+---
+# `pivot_longer()`
+
+.pull-left[
+```{r, eval=FALSE}
+pivot_longer(
+  data, #<<
+  cols, #<<
+  names_to = "name", #<< 
+  values_to = "value", #<<
+)
+```
+]
+
+---
+# `pivot_longer()`
+
+.pull-left[
+```{r, eval=FALSE}
+pivot_longer(
+  data, #<<
+  cols, 
+  names_to = "name", 
+  values_to = "value", 
+)
+```
+]
+
+.pull-right[
+a data frame to pivot
+```{r, eval=FALSE}
+df %>% 
+  pivot_wider()
+```
+*or*
+```{r, eval=FALSE}
+pivot_wider(df)
+```
+]
+
+---
+# `pivot_longer()`
+
+.pull-left[
+```{r, eval=FALSE}
+pivot_longer(
+  data, 
+  cols, #<<
+  names_to = "name", 
+  values_to = "value", 
+)
+```
+]
+
+.pull-right[
+The names of the `col`umns you want to pivot into longer format
+]
+
+---
+# `pivot_longer()`
+
+.pull-left[
+```{r, eval=FALSE}
+pivot_longer(
+  data, 
+  cols, 
+  names_to = "name", #<<
+  values_to = "value", 
+)
+```
+]
+
+.pull-right[
+A string specifying the name of the **new** column to create from the data stored in the `col`umn names of data
+
+Can be a character vector, creating multiple columns, if `names_sep` or `names_pattern` is provided
+]
+
+---
+# `pivot_longer()`
+
+.pull-left[
+```{r, eval=FALSE}
+pivot_longer(
+  data, 
+  cols, 
+  names_to = "name", 
+  values_to = "value", #<< 
+)
+```
+]
+
+.pull-right[
+A string specifying the name of the **new** column to create from the data stored in cell values of the `col`umns
+]
+
+---
+# Messy data
+
+What makes this data messy? Or, why is this data not tidy?
+
+```{r}
+tidyr::relig_income
+```
+
+---
+# Messy data
+
+Column headers are values (data!), not variable names
+
+```{r, highlight.output = c(2)}
+tidyr::relig_income
+```
+
+---
+# Let's `pivot_longer()`
+
+Necessary arguments
+* `data` - of course
+* `cols` – which columns you will pivot longer
+* `names_to` – new variable name (in quotes) for those `cols`
+* `values_to` – new variable name (in quotes) for the cell values
+
+---
+# Let's `pivot_longer()`
+
+.left-column[
+```{r, eval=FALSE}
+relig_income %>% 
+ pivot_longer(
+  cols = _____,
+  names_to = "_____",
+  values_to = "_____"
+ )
+
+```
+]
+.right-column[
+```{r, echo=FALSE}
+relig_income
+```
+]
+
+---
+# Let's `pivot_longer()`
+
+.pull-left[
+```{r, eval=FALSE}
+relig_income %>% 
+  pivot_longer(
+    cols = -religion,
+    names_to = "income",
+    values_to = "frequency"
+  )
+```
+]
+.pull-right[
+```{r, echo=FALSE}
+relig_income %>% 
+  pivot_longer(
+    cols = -religion,
+    names_to = "income",
+    values_to = "frequency"
+  )
+```
+]
+
+---
+# Why are tidy data useful?
+
+When used with `{dplyr}`, tidy data can result in large gains in efficiency
+
+For example, suppose we want to calculate the percent of respondents in each income category *by* religion
+
+--
+
+**First** let's save our pivoted data
+
+```{r, results='hide'}
+relig_long <- relig_income %>% 
+  pivot_longer(
+    cols = -religion,
+    names_to = "income",
+    values_to = "frequency"
+  ) 
+```
+
+---
+# Why are tidy data useful?
+
+When used with `{dplyr}`, tidy data can result in large gains in efficiency
+
+For example, suppose we want to calculate the percent of respondents in each income category *by* religion
+
+**Then** let's relevel the `income` variable so it is ordered in a meaningful way
+
+```{r}
+relig_long <- relig_long %>% 
+  mutate(income = fct_relevel(income, 
+                              "Don't know/refused", 
+                              "<$10k", 
+                              "$10-20k", 
+                              "$20-30k", 
+                              "$30-40k", 
+                              "$40-50k", 
+                              "$50-75k", 
+                              "$75-100k", 
+                              "$100-150k", 
+                              ">150k")) 
+```
+
+---
+# Why are tidy data useful?
+
+When used with `{dplyr}`, tidy data can result in large gains in efficiency
+
+For example, suppose we want to calculate the percent of respondents in each income category *by* religion
+
+**Now** let's group by `religion` to create a `pct` variable that indicates the percent of respondents in each income category *within* each religion category
+
+```{r}
+relig_long %>% 
+  group_by(religion) %>% 
+  mutate(pct = frequency/sum(frequency) * 100)
+```
+
+---
+# Why are tidy data useful?
+
+When used with .bg-yellow[`{ggplot2}`], tidy data can result in large gains in efficiency
+
+**Now** we can facet by religion and see all data at once!
+
+```{r}
+relig_long %>% 
+  group_by(religion) %>% 
+  mutate(pct = frequency/sum(frequency) * 100) %>% 
+  ggplot(aes(income, pct)) +
+  geom_point() +
+  geom_line(group = 1) +
+  facet_wrap(~religion)
+```
+
+---
+
+# Messy data
+
+Many variables in column names
+
+`tidyr::who` (modified slightly)
+```{r, echo=FALSE, highlight.output = c(2)}
+(who_r <- who %>% 
+  rename_with(~str_replace(., "newrel", "new_rel"), .cols = contains("rel")) %>% 
+  rename_with(~str_replace(., "m", "m_"), .cols = contains("new_")) %>% 
+  rename_with(~str_replace(., "f", "f_"), .cols = contains("new_")))
+```
+
+---
+# Messy data
+
+Many variables in column names
+
+.pull-left[
+* Example column names
+
+`new_sp_m_014`
+
+`new_rel_f_65`
+]
+
+---
+# Messy data
+
+Many variables in column names
+
+.pull-left[
+* Example column names
+
+.darkorange[new].black[\\_].green[sp].black[\\_].darkblue[m]_.pink[014]
+
+.darkorange[new].black[\\_].green[rel].black[\\_].darkblue[f]_.pink[65]
+]
+
+--
+
+.pull-right[
+all col names start with .darkorange["new_"], which we don't need
+
+followed by a diagnosis category: .green["sp_", "sn_", "ep_", "rel_"]
+
+then .darkblue[sex], which in these data is limited to only .darkblue["m_"] or .darkblue["f_"]
+
+and finally an .pink[age range]
+]
+
+--
+
+That's a lot of information in the column names!
+
+---
+# Messy data
+
+#### Many variables in column names
+
+Necessary arguments
+* `data` - of course
+* `cols` – which columns you will pivot longer
+* `names_to` – new variable name**s** (in quotes) for those `cols`
+* `values_to` – new variable name (in quotes) for the cell values
+* .bg-yellow[`names_separate` – how to *separate* those `cols` names]
+
+---
+# Let's apply it
+
+```{r, highlight.output=c(2)}
+who_r %>%
+ pivot_longer(
+  cols = new_sp_m_014:new_rel_f_65,
+  names_to = c("new", "diagnosis", "sex", "age"), 
+  names_sep = "_",
+  values_to = "count"
+)
+```
+
+---
+# Don’t get discouraged
+
+* This is tricky!
+
+* Takes practice
+
+* Takes trial and error
+
+* Takes looking at the [help documentation](https://tidyr.tidyverse.org/reference/pivot_longer.html) and the [vignette](https://tidyr.tidyverse.org/articles/pivot.html) - <u>a lot</u>
+
+* But you are rarely (never) gifted with tidy data
+
+---
+# Declaring `cols` to `pivot_longer`
+
+We can declare the columns to pivot other ways
+
+The important part is just being clear which columns should be part of the gather
+
+All of the below are equivalent
+
+.pull-left[
+```{r, eval=FALSE}
+relig_income %>% 
+  pivot_longer(
+    cols = -religion,
+    ...
+```
+
+```{r, eval=FALSE}
+relig_income %>% 
+  pivot_longer(
+    cols = -1,
+    ...
+```
+
+```{r, eval=FALSE}
+names(relig_income) %>% 
+  pivot_longer(
+    cols = c(`<$10k`:`Don't know/refused`),
+    ...
+```
+]
+
+.pull-right[
+```{r, eval=FALSE}
+names(who) %>% 
+  pivot_longer(
+    cols = new_sp_m_014:new_rel_f_65,
+    ...
+```
+
+```{r, eval=FALSE}
+names(who) %>% 
+  pivot_longer(
+    cols = starts_with("new_"),
+    ...
+```
+]
+
+---
+## Let’s look at some education data
+
+Load the *exam1.csv* data from Canvas or from your cloned course repo
+  + You should start a new `R` script or Rmd
+
+```{r, eval=FALSE}
+library(tidyverse)
+library(here)
+exam <- read_csv(here("data", "exam1.csv"))
+```
+
+---
+# exam1 data
+
+```{r, echo=FALSE}
+(exam <- read_csv(here("data", "exam1.csv")))
+
+```
+
+---
+# Talk with a neighbor
+
+* Are these data tidy?
+
+* If not, what needs to happen to make them tidy?
+
+* What are the variables? What are the values?
+
+```{r, echo=FALSE}
+countdown(minutes = 3, seconds = 0, bottom = 0, warn_when = 30)
+```
+
+---
+# exam1 data
+
+What do we want?
+
+--
+
+Let’s change all *item* variables into two variables: *item* and *score*
+
+--
+
+```{r, echo=FALSE}
+exam %>% 
+  pivot_longer(
+    cols = starts_with("item"),
+    names_to = "item",
+    values_to = "score"
+  )
+```
+
+---
+# Try to tidy!
+
+Necessary arguments
+* `data` - of course
+* `cols` – which columns you will pivot longer
+* `names_to` – new variable name (in quotes) for those `cols`
+  + *"item"*
+* `values_to` – new variable name (in quotes) for the cell values
+  * *"score"*
+
+```{r, echo=FALSE}
+countdown(minutes = 5, seconds = 0, bottom = 0, warn_when = 30)
+```
+
+**Don't look ahead!**
+
+---
+# exam1 tidy
+
+```{r}
+exam %>% 
+  pivot_longer(
+    cols = starts_with("item"),
+    names_to = "item",
+    values_to = "score"
+  )
+```
+
+---
+# exam1 tidy
+
+Let's go one step further
+
+```{r, highlight.output=c(3)}
+exam %>% 
+  pivot_longer(
+    cols = starts_with("item"),
+    names_to = "item",
+    names_prefix = "item_", #<<
+    values_to = "score"
+  )
+
+```
+
+---
+# exam1 tidy
+
+One more step
+
+```{r, highlight.output=c(3)}
+exam %>% 
+  pivot_longer(
+    cols = starts_with("item"),
+    names_to = "item",
+    names_prefix = "item_",
+    names_transform = list(item = as.integer), #<<
+    values_to = "score"
+  )
+
+```
+
+---
+# exam1 tidy
+
+One more step
+
+```{r, results='hide'}
+exam_tidy <- exam %>% 
+  pivot_longer(
+    cols = starts_with("item"),
+    names_to = "item",
+    names_prefix = "item_",
+    names_transform = list(item = as.integer), #<<
+    values_to = "score"
+  )
+```
+
+Why not quotes around *item* here, but quotes as it appears in `names_to`?
+
+---
+# One more look at `names_prefix`
+
+```{r, highlight.output=c(2)}
+who_r %>%
+ pivot_longer(
+  cols = new_sp_m_014:new_rel_f_65,
+  names_to = c("new", "diagnosis", "sex", "age"), #<< 
+  names_sep = "_",
+  values_to = "count"
+)
+```
+
+---
+# One more look at `names_prefix`
+
+```{r, highlight.output=c(2)}
+who_r %>%
+ pivot_longer(
+  cols = new_sp_m_014:new_rel_f_65,
+  names_to = c("diagnosis", "sex", "age"), 
+  names_prefix = "new_", #<<
+  names_sep = "_",
+  values_to = "count"
+)
+```
+
+---
+# Why are tidy data useful?
+
+**Question**: How would we calculate the proportion of students responding correctly to each item?
+
+---
+# Why are tidy data useful?
+
+**Question**: How would we calculate the proportion of students responding correctly to each item?
+
+```{r, echo=FALSE}
+exam_tidy %>% 
+  group_by(item) %>% 
+  summarize(prop = mean(score))
+```
+
+---
+# Why are tidy data useful?
+
+**Question**: How would we calculate the proportion of students responding correctly to each item?
+
+```{r}
+exam_tidy %>% 
+  group_by(item) %>% 
+  summarize(prop = mean(score))
+```
+
+---
+# Why are tidy data useful?
+
+**Question**: What if we wanted to know the proportion correct for each item by gender?
+
+---
+# Why are tidy data useful?
+
+**Question**: What if we wanted to know the proportion correct for each item by gender?
+
+```{r}
+exam_tidy %>% 
+  group_by(item, gender) %>% 
+  summarize(prop = mean(score))
+```
+
+---
+# More data
+
+Load the *year-end_scores.csv* data from Canvas or from your cloned course repo
+  + Name the data *scores*
+
+```{r, eval=FALSE}
+scores <- read_csv(here("data", "year-end_scores.csv"))
+```
+
+```{r, echo=FALSE}
+scores <- read_csv(here("data", "year-end_scores.csv"))
+```
+
+---
+# Talk as a class
+
+* Are these data tidy?
+  + If you wanted to summarize scores, or plot and use facet, what would you `group_by` or `facet` by?
+
+* What do we need to do to make these tidy?
+  + What `pivot_longer()` arguments do we need?
+
+--
+
+Work as a class to tidy, name new data *scores_tidy*
+
+```{r, echo=FALSE}
+countdown(minutes = 3, seconds = 0, bottom = 0, warn_when = 30)
+```
+
+```{r, include=FALSE}
+scores_tidy <- scores %>% 
+  pivot_longer(
+    cols = c(math, read),
+    names_to = "content",
+    values_to = "score"
+  )
+```
+
+---
+# Let's try another
+
+Load the *longitudinal_sim.csv* data from Canvas or the course repo
+  + Name the data `sim`
+  
+```{r, eval=FALSE}
+sim <- read_csv(here("data", "longitudinal_sim.csv"))
+```
+
+```{r, echo=FALSE}
+sim <- read_csv(here("data", "longitudinal_sim.csv"))
+```
+
+---
+# Talk with a neighbor
+
+* Are these data tidy?
+  + If you wanted to summarize scores, or plot and use facet, what would you `group_by` or `facet` by?
+* What do we need to do to make these tidy?
+  + What `pivot_longer()` arguments do we need?
+
+--
+
+Work with your neighbor to tidy, name new data *tidy_sim* 
+
+```{r, echo=FALSE}
+countdown(minutes = 5, seconds = 0, bottom = 0, warn_when = 30)
+```
+
+Tell me your solutions .darkorange[[demo a couple]]
+
+```{r, include=FALSE}
+sim_tidy <- sim %>% 
+  pivot_longer(
+    cols = -1,
+    names_to = c("wave", "content"),
+    names_sep = "_",
+    values_to = "score",
+    names_prefix = "wave_"
+  )
+```
+
+
+---
+# Other possible issues
+
+The *hiv* data
+
+```{r, echo=FALSE}
+hiv <- read_csv(here("data", "hiv.csv"))
+```
+
+```{r, eval=FALSE}
+hiv <- read_csv(here("data", "hiv.csv"))
+```
+
+---
+# Other possible issues
+
+Let's make some manipulations (just `{dplyr}` variety `filter()` and `select()`) to get a sample of the data
+
+```{r}
+(hiv_r <- hiv %>% 
+  filter(country == "France" |
+          country == "South Africa" |
+            country == "United States") %>% 
+  select(country, `1979`, `1989`, `1999`, `2009`))
+```
+
+* Are these data tidy?
+
+* How would you add a new variable - say, *percent HIV*?
+
+* Discuss how you would transform these data, if at all
+
+---
+# Tidy the data
+
+```{r}
+(hiv_tidy <- hiv_r %>% 
+  pivot_longer(
+    cols = -1,
+    names_to = "year",
+    values_to = "percentage"
+  ))
+```
+
+---
+# Let's plot it
+
+```{r}
+hiv_tidy %>% 
+  ggplot(aes(year, percentage, color = country, group = country)) +
+  geom_point(size = 4) +
+  geom_line(size = 2)
+```
+
+---
+# Let's plot it
+
+There is a problem with the data – what is it?
+
+```{r, echo=FALSE}
+hiv_tidy %>% 
+  ggplot(aes(year, percentage, color = country, group = country)) +
+  geom_point(size = 4) +
+  geom_line(size = 2)
+```
+
+--
+
+Why aren’t lines connecting for the United States?
+
+---
+# Missing data
+
+```{r}
+hiv_tidy
+```
+
+---
+# Drop `NA`s
+
+```{r, eval=FALSE}
+hiv_tidy %>% 
+  drop_na(percentage)
+```
+
+**OR**
+
+(not generally ideal unless you are <b>certain</b> you can remove these missing data)
+
+```{r}
+hiv_tidy <- hiv_r %>% 
+  pivot_longer(
+    cols = -1,
+    names_to = "year",
+    values_to = "percentage",
+    names_transform = list(year = as.integer),
+    values_drop_na = TRUE #<<
+  )
+```
+
+---
+# Plot again
+
+```{r}
+hiv_tidy %>% 
+  ggplot(aes(year, percentage, color = country, group = country)) +
+  geom_point(size = 4) +
+  geom_line(size = 2)
+```
+
+---
+class: inverse, left, middle
+
+# .white[`pivot_wider()`]
+
+---
+# [`pivot_wider()`](https://tidyr.tidyverse.org/reference/pivot_wider.html)
+
+Tidy data are excellent when conducting preliminary descriptive analyses, plotting data, linear models
+
+* Occasionally, you need the data in a different format
+  + For example, if you're using other packages for analysis
+
+---
+# `pivot_wider()`
+
+.pull-left[
+```{r, eval=FALSE}
+pivot_wider(
+  data,
+  id_cols = NULL,
+  names_from = name,
+  names_prefix = "",
+  names_sep = "_",
+  names_glue = NULL,
+  names_sort = FALSE,
+  names_repair = "check_unique",
+  values_from = value,
+  values_fill = NULL,
+  values_fn = NULL,
+  ...
+)
+```
+]
+
+---
+# `pivot_wider()`
+
+.pull-left[
+```{r, eval=FALSE}
+pivot_wider(
+  data, #<<
+  id_cols = NULL,
+  names_from = name, #<<
+  names_prefix = "",
+  names_sep = "_",
+  names_glue = NULL,
+  names_sort = FALSE,
+  names_repair = "check_unique",
+  values_from = value, #<<
+  values_fill = NULL,
+  values_fn = NULL,
+  ...
+)
+```
+]
+
+---
+# `pivot_wider()`
+
+.pull-left[
+```{r, eval=FALSE}
+pivot_wider(
+  data, #<<
+  names_from = name, #<<
+  values_from = value #<<
+)
+```
+]
+
+---
+# `pivot_wider()`
+
+.pull-left[
+```{r, eval=FALSE}
+pivot_wider(
+  data, 
+  names_from = name, #<<
+  values_from = value
+)
+```
+]
+
+.pull-right[
+The names of the (tidy) column (or columns) from which to get the name of the new data columns
+]
+
+---
+# `pivot_wider()`
+
+.pull-left[
+```{r, eval=FALSE}
+pivot_wider(
+  data, 
+  names_from = name, 
+  values_from = value #<<
+)
+```
+]
+
+.pull-right[
+The names of the (tidy) column (or columns) from which to get the the cell values
+]
+
+---
+# An example
+
+**fish_encounters**: when fish swimming down a river are detected by automatic monitoring stations
+
+```{r}
+tidyr::fish_encounters
+```
+
+---
+# An example
+
+So tidy, so nice...let's muck it up
+
+```{r}
+fish_encounters %>% 
+  pivot_wider(
+    names_from = station, 
+    values_from = seen,
+)
+```
+
+---
+# An example
+
+So tidy, so nice...let's muck it up
+
+```{r}
+fish_encounters %>% 
+  pivot_wider(
+    names_from = station, 
+    values_from = seen,
+    values_fill = list(seen = 0) #<<
+)
+```
+
+---
+# Remember `scores_tidy`?
+
+```{r}
+scores_tidy
+```
+
+---
+# Untidy `scores_tidy`
+
+.pull-left[
+```{r}
+scores_tidy %>% 
+  pivot_wider(
+    names_from = content,
+    values_from = score
+  )
+```
+]
+
+--
+<br>
+<br>
+<br>
+
+Same as the original data
+
+.pull-right[
+```{r}
+read_csv(here("data", "year-end_scores.csv"))
+```
+]
+
+---
+# Let's do this together
+
+Use `pivot_wider()` to change *sim_tidy* back to *sim*
+
+.pull-left[
+```{r}
+sim_tidy
+```
+]
+
+.pull-right[
+```{r}
+sim
+```
+]
+
+---
+# Longer then wider
+
+Some problems can’t be solved by pivoting in a single direction
+
+Here is an example of how you might combine `pivot_longer()` and `pivot_wider()` to solve more complex problems
+
+```{r}
+sim2 <- read_csv(here("data", "longitudinal_sim2.csv"))
+head(sim2)
+```
+
+--
+
+.darkorange[[View() data]]
+
+---
+# First `pivot_longer()`
+
+```{r, error=TRUE}
+sim2 %>% 
+  pivot_longer(
+    cols = -1,
+    names_to = c("variable", "grade"),
+    values_to = "values",
+    names_sep = "_")
+```
+
+---
+# First `pivot_longer()`
+
+```{r}
+sim2 %>% 
+  pivot_longer(
+    cols = -1,
+    names_to = c("variable", "grade"),
+    values_to = "values",
+    names_sep = "_",
+#to combine numeric & character
+    values_transform = list(values = as.character)) #<< 
+```
+
+---
+# Let's refine a column using `mutate()`
+
+```{r, highlight.output = c(3)}
+sim2 %>% 
+  pivot_longer(
+    cols = -1,
+    names_to = c("variable", "grade"),
+    values_to = "values",
+    names_sep = "_",
+    values_transform = list(values = as.character)) %>% 
+  mutate(grade = parse_number(grade)) #<<
+```
+
+---
+# Then `pivot_wider()`
+
+```{r}
+sim2 %>% 
+  pivot_longer(
+    cols = -1,
+    names_to = c("variable", "grade"),
+    values_to = "values",
+    names_sep = "_",
+    values_transform = list(values = as.character)) %>% 
+  mutate(grade = parse_number(grade)) %>% 
+  pivot_wider( #<<
+    names_from = variable, #<<
+    values_from = values #<<
+  )
+```
+
+---
+
+```{r, echo=FALSE}
+sim2 %>% 
+  pivot_longer(
+    cols = -1,
+    names_to = c("variable", "grade"),
+    values_to = "values",
+    names_sep = "_",
+    values_transform = list(values = as.character)) %>% 
+  mutate(grade = parse_number(grade)) %>% 
+  pivot_wider( #<<
+    names_from = variable, #<<
+    values_from = values #<<
+  )
+```
+
+---
+background-size: contain
+
+background-image: url("https://raw.githubusercontent.com/allisonhorst/stats-illustrations/master/rstats-artwork/tidydata_7.jpg")
+
+---
+class: inverse, left, middle
+
+# Next time
+
+---
+# Before next class
+
+* Final Project
+  + .red[Final Project: Draft Data Script]
+  + *for sure this time*
+* Reading
+  + [R4DS 15](https://r4ds.had.co.nz/factors.html)
+* Homework
+  + **Homework 9**
+
+---
+class: inverse, left, middle
+
+---
+
+```{r, echo=FALSE, eval=FALSE}
+xaringanBuilder::build_pdf(here::here("slides", "w8_tidydata.Rmd"), complex_slides = TRUE)
+```
