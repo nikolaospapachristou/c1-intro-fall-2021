@@ -1,5 +1,5 @@
 ---
-title: "Week 9: Factors, Tables, Pull Requests"
+title: "Week 9: Factors & Pull Requests"
 subtitle: "Miscellany"
 author: "Joe Nese<br><span style = 'font-size: 50%;'>University of Oregon<br>Fall 2021</span>"
 output:
@@ -69,35 +69,173 @@ style_duo_accent(
 xaringanExtra::use_freezeframe()
 ```
 
+class: inverse, left, middle
+
+# Shares!
+## Amy, Errol, Havi
+
 ---
 class: inverse, left, middle
 
-# Factors, Tables, Pull Requests 
+# Factors & Pull Requests 
 ## Week 9
 
 ---
 
 # Agenda
 
-*
+* Shares!
+* Citation additions
+* Final Project Review
+* Discuss factors and factor re-leveling
+
 
 **Overall Purpose**
 
-* 
+* Understand factors and how to manipulate them
+* Understand how to complete a *.green[pull request (PR)]*
 
 ---
-# First: Revisiting git
+class: center
+
+# Lab 8
+
+![](https://media2.giphy.com/media/8X6UFXpJFndo4/giphy.gif?cid=ecf05e47ov2j4bec7wwcp7el1ob0b0oe7towmyta3ml46kvz&rid=giphy.gif&ct=g)
+
+---
+class: inverse, left, middle
+
+# Citation Styles
+## (cheat sheet)
+
+---
+# Citation Styles
+
+```{r echo=FALSE}
+tibble::tribble(
+  ~`Citation Style (using the tag)`,                                  ~Output,
+                        "@Briggs11",                "Briggs and Weeks (2011)",
+  "[see @Baldwin2014; @Caruso2000]", "(see Baldwin et al. 2014; Caruso 2000)",
+                  "[@Linn02, p. 9]",             "(Linn and Haug 2002, p. 9)",
+                  "[-@Goldhaber08]",                                  "(2008)"
+  ) %>% 
+  kable()
+
+```
+
+.footnote[
+I forgot to share this slide earlier!
+]
+
+---
+## Also, cite `R`!
+
+I also forgot to share this this with you! (*be kind in your teacher evals*)
+
+```{r echo=TRUE}
+citation()
+```
+
+---
+class: inverse, left, middle
+
+# Final Project
+
+---
+## Final Project - Data Prep Script
+
+* Expected to be a work in progress
+
+* Provided to your peers so they can learn from you as much as you can learn from their feedback
+
+**Peer Review**
+
+* Understand the purpose of the exercise
+
+* Conducted as a professional product
+
+* Should be **very** encouraging 
+
+* Zero tolerance policy for inappropriate comments
+
+---
+# Final Project – Presentation
+
+Groups are expected to present for about **18-20 minutes** (split evenly among members). Group order randomly assigned. 
+
+Email me your presentation by midnight 11/30 so I can share through my machine.
+
+---
+# Final Project – Presentation
+
+<b>Presentation cover the following:</b>
+* Share your journey (everyone, at least for a minute or two)
+
+* Discuss challenges you had along the way
+
+* Celebrate your successes
+
+* Discuss challenges you are still facing
+
+* Discuss substantive findings
+
+* Show off your cool figures!
+
+* Discuss next `R` hurdle you want to address
+
+---
+# Final Project – Paper
+
+* R Markdown document
+  + Abstract, Intro, Methods, Results, Discussion, References
+  + Should be brief: 3,500 words max 
+  
+* No code displayed - should look similar to a manuscript being submitted for publication
+
+* Include at least 1 table
+
+* Include at least 2 plots
+
+* Should be fully open, reproducible, and housed on GitHub
+  + I should be able to clone your repository, open the R Studio Project, and reproduce the full manuscript (by knitting the R Markdown doc)
+
+---
+# Final Project
+
+The following functions: 
+* `pivot_longer()`
+* `mutate()`
+* `select()`
+* `filter()`
+* `pivot_wider()`
+* `group_by()`
+* `summarize()`
+
+---
+# Scoring Rubric
+
+Check the [syllabus](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/syllabus.html) for Presentation and Final Paper scoring rubrics
+
+---
+class: inverse, left, middle
+
+# Revisiting git
+
+---
+## Before we jump in...
+
+#### ...let's revisit git
 
 Talk with neighbor. What do these terms mean?
 Talk about them in the order you would encounter them in your workflow 
 
-* clone
-* pull
-* stage
-* commit
-* push
-* repo
-* remote
+* *.green[clone]*
+* *.green[pull]*
+* *.green[stage]*
+* *.green[commit]*
+* *.green[push]*
+* *.green[repo]*
+* *.green[remote]*
 
 ```{r, echo=FALSE}
 countdown(minutes = 3, seconds = 0, bottom = 0, warn_when = 30)
@@ -108,7 +246,7 @@ countdown(minutes = 3, seconds = 0, bottom = 0, warn_when = 30)
 class: inverse, left, middle
 
 # Factors
-## Just the basics
+## just the basics
 
 ---
 # When do we really want factors?
@@ -116,10 +254,11 @@ class: inverse, left, middle
 Generally two reasons to declare a factor
 
 1. Only finite number of categories
-  + Treatment/control
-  + Income categories
-  + Performance levels
+  + treatment/control
+  + income categories
+  + performance levels
   + etc.
+  
 2. Use in modeling
 
 ---
@@ -133,9 +272,10 @@ months_4 <- c("Dec", "Apr", "Jan", "Mar")
 
 --
 
-We could store this as a string, but there are issues with this
+We could store this as a string, but there are issues with this:
 * There are only 12 possible months
   + factors will help us weed out values that don't conform to our predefined levels, which helps safeguard against typos, etc.
+  
 * You can't sort this vector in a meaningful way
   + default is alphabetic sorting
 
@@ -201,15 +341,17 @@ mnths
 ```
 
 ---
-<p style="float: right;"><img src="https://raw.githubusercontent.com/tidyverse/forcats/master/man/figures/logo.png" width="100" height="100"></p>
+<p style="float: right;"><img src="https://raw.githubusercontent.com/tidyverse/forcats/master/man/figures/logo.png" width="300" height="300"></p>
 # [`{forcats}`](https://forcats.tidyverse.org/)
 
 * When working with factors, we can use the `{forcats}` package
   + `for cat`egorical variables
   + anagram of factors
+  
 --
 
 * Part of the `{tidyverse}` so should be good to go
+
 --
 
 * All functions start with `fct_`
@@ -260,7 +402,12 @@ c("b", "b", "c", "a", "a", "a") %>%
 
 --
 
-This can be particularly useful for plotting
+This can be **especially** useful for plotting
+
+```{r eval=FALSE}
+ggplot(aes(x, fct_infreq(y))
+```
+
 
 ---
 # Investigate factors
@@ -295,14 +442,29 @@ levels(gss_cat$partyid)
 ---
 
 ```{r}
+unique(gss_cat$partyid)
+```
+
+--
+
+How many `unique` categories are there (if you have a lot)?
+
+```{r}
+length(unique(gss_cat$partyid))
+```
+
+
+---
+
+```{r}
 ggplot(gss_cat, aes(partyid)) +
     geom_bar()
 ```
 
 ---
 
-.black[`ggplot(gss_cat, aes(`].pink[`fct_infreq(`].black[`partyid`].pink[`)`]`.black[)) +`] 
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.black[`geom_bar()`]
+ggplot(gss_cat, aes(.pink[fct_infreq(]partyid.pink[)])) +
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;geom_bar()
     
 ```{r, echo=FALSE}
 ggplot(gss_cat, aes(fct_infreq(partyid))) +
@@ -310,25 +472,75 @@ ggplot(gss_cat, aes(fct_infreq(partyid))) +
 ```
 
 ---
-# Change level order – `fct_reorder()`
-
-#### Reorder according to another variable
-
-`fct_reorder(`
-&nbsp;&nbsp;`.f,` : a factor or character vector
-&nbsp;&nbsp;`.x,` : the levels of .f are reordered so that the values of .fun(.x) are in ascending order
-&nbsp;&nbsp;`.fun =` : summary function
-&nbsp;&nbsp;`...,` : other arguments passed on to .fun. A common argument is na.rm = TRUE
-&nbsp;&nbsp;`.desc = FALSE` : order in descending order?
-`)`
-
----
 # Change level order – `fct_infreq()`
 
 #### Change level order by hand 
   + *probably one I use most*
 
-`fct_relevel(variable_name, "first_level", "second_level", "third_level", ...)`
+```{r eval=FALSE}
+fct_relevel(variable_name, 
+            "first_level", 
+            "second_level", 
+            "third_level", 
+            ...)
+```
+
+---
+
+```{r}
+set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10)
+)
+```
+
+---
+
+```{r}
+set.seed(3000) #<<
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10) #<<
+)
+```
+
+---
+
+```{r}
+set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10)
+) %>% 
+  ggplot(aes(month, suspensions)) + #<<
+  geom_col() #<<
+```
+
+---
+
+```{r eval=FALSE}
+set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10)
+) %>% 
+  mutate(month = fct_relevel(month, #<<
+                    "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May")) #<<
+```
+
+---
+```{r}
+set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10)
+) %>% 
+  mutate(month = fct_relevel(month,
+                    "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May")) %>% 
+  ggplot(aes(month, suspensions)) + #<<
+  geom_col() #<<
+```
 
 ---
 # Change level order – `fct_reorder()`
@@ -350,8 +562,8 @@ ggplot(relig_summary, aes(tvhours, relig)) +
 ```
 
 ---
-.black[`ggplot(relig_summary, aes(tvhours, `].pink[`fct_reorder(`].black[`relig, `.pink[`tvhours)`].black[`)) + `]
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.black[`geom_point()`]
+ggplot(relig_summary, aes(tvhours, .pink[fct_reorder(]relig, .pink[tvhours)])) + 
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; geom_point()
 
 ```{r, echo=FALSE}
 ggplot(relig_summary, aes(tvhours, fct_reorder(relig, tvhours))) + 
@@ -419,19 +631,7 @@ relig_summary %>%
 ---
 # Quick aside for error bars
 
-```{r}
-ggplot(relig_summary_eb, 
-       aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + 
-  geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se,
-                     xmax = tvhours_mean + 1.96 * tvhours_se),
-                 color = "cornflowerblue") +
-  geom_point()
-```
-
----
-# Quick aside for error bars
-
-```{r}
+```{r fig.height=3}
 ggplot(relig_summary_eb, #<<
        aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + 
   geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se,
@@ -443,7 +643,7 @@ ggplot(relig_summary_eb, #<<
 ---
 # Quick aside for error bars
 
-```{r}
+```{r fig.height=3}
 ggplot(relig_summary_eb, 
        aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + #<<
   geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se,
@@ -455,7 +655,7 @@ ggplot(relig_summary_eb,
 ---
 # Quick aside for error bars
 
-```{r}
+```{r fig.height=3}
 ggplot(relig_summary_eb, 
        aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + 
   geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se, #<<
@@ -467,7 +667,7 @@ ggplot(relig_summary_eb,
 ---
 # Quick aside for error bars
 
-```{r}
+```{r fig.height=3}
 ggplot(relig_summary_eb, 
        aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + 
   geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se,
@@ -496,13 +696,7 @@ gss_cat %>%
 ```
 
 ---
-# Modifying factor levels – `fct_recode()`
-
-#### Make modifying factors more explicit
-
-`fct_recode(var_name, "new level" = "old level"...`
-
-```{r, echo=FALSE}
+```{r}
 gss_cat %>%
   mutate(partyid = fct_recode(partyid,
     "Republican, strong" = "Strong republican", #<<
@@ -535,11 +729,7 @@ gss_cat %>%
 ```
 
 ---
-# Collapsing levels – `fct_recode()`
-
-`fct_recode()` can also be used to collapse levels easily
-
-```{r, echo=FALSE}
+```{r}
 gss_cat %>%
   mutate(partyid = fct_recode(partyid,
     "Republican, strong"    = "Strong republican",
@@ -573,85 +763,60 @@ gss_cat %>%
 ```
 
 ---
-# Collapsing levels – `fct_lump()`
+# Collapsing levels – `fct_lump_?()`
 
-#### `fct_lump()` – "lump" a bunch of categories together
+#### `fct_lump_?()` – "lump" a bunch of categories together
 
-* Default behavior creates an “Other" group that includes all but the largest group (i.e., lumps the factor into two groups)
-* Can also take optional `n argument, where `n` represents the number of groups to collapse into
+* `fct_lump_n(factor_variable, n)`:
+
+--
+lumps all levels except for the `n` most frequent (or least frequent if `n` < 0) into "Other" level
+
+--
+
+* `fct_lump_min(factor_variable, min)`:
+
+--
+lumps levels that appear fewer than `min` times
+
+--
+
+* `fct_lump_prop(factor_variable, prop)`:
+
+--
+lumps levels that appear in fewer `prop` $\times$ `n` times
+
+---
+# Collapsing levels – `fct_lump_n()`
+
+Collapse to `n` = **9** religious groups: top 8 groups plus "Other"
 
 ```{r}
 gss_cat %>% 
-    mutate(rel = fct_lump(relig)) %>% #<<
-    count(rel)
+  mutate(rel = fct_lump_n(relig, 9)) %>% #<<
+  count(rel)
 ```
 
 ---
-# Collapsing levels – `fct_lump()`
+# Collapsing levels – `fct_lump_min()`
 
-Collapse to 10 religious groups: top 9 groups plus "Other"
+Collapse to all religious groups that appear less than `min` = 200 into "Other"
 
 ```{r}
 gss_cat %>% 
-    mutate(rel = fct_lump(relig, n = 10)) %>% #<<
-    count(rel)
+  mutate(rel = fct_lump_min(relig, min = 200)) %>% #<<
+  count(rel) 
 ```
 
 ---
+# Collapsing levels – `fct_lump_prop()`
 
-```{r, eval=FALSE}
-set.seed(3000)
-tibble(
- month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
- suspensions = sample(c(5:75), size = 10)
-)
-```
-
----
-
-```{r, eval=FALSE}
-set.seed(3000) #<<
-tibble(
- month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
- suspensions = sample(c(5:75), size = 10) #<<
-)
-```
-
----
+Collapse to all religious groups that appear less than `prop` = 10% into "Other"
 
 ```{r}
-set.seed(3000)
-tibble(
- month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
- suspensions = sample(c(5:75), size = 10)
-) %>% 
-  ggplot(aes(month, suspensions)) +
-  geom_col()
-```
-
----
-
-```{reval=FALSE}
-set.seed(3000)
-tibble(
- month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
- suspensions = sample(c(5:75), size = 10)
-) %>% 
-  mutate(month = fct_relevel(month, #<<
-                    "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May")) #<<
-```
-
----
-```{r}
-set.seed(3000)
-tibble(
- month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
- suspensions = sample(c(5:75), size = 10)
-) %>% 
-  mutate(month = fct_relevel(month,
-                    "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May")) %>% 
-  ggplot(aes(month, suspensions)) +
-  geom_col()
+gss_cat %>% 
+  mutate(rel = fct_lump_prop(relig, prop = .10)) %>% #<<
+  count(rel) 
 ```
 
 ---
@@ -694,279 +859,61 @@ ggplot(gss_cat, aes(race)) +
 ---
 # Review
 
-`fct_inorder()`
+`fct_inorder()`:
 
 --
-* Levels ordered as entered
+Levels ordered as entered
 
 --
 
-`fct_infreq()`
+`fct_infreq()`:
 
 --
 Change level order in order of frequency (largest first)
 
 --
 
-`fct_relevel()`
+`fct_relevel()`:
 
 --
 Change level order by hand
 
 --
 
-`fct_reorder()`
+`fct_reorder()`:
 
 --
 Change level order according to another variable
 
 --
 
-`fct_recode()`
+`fct_recode()`:
 
 --
 Recode (collapse) levels into new named levels
 
 --
-`fct_collapse()`
+
+`fct_collapse()`:
 
 --
 Recode many levels into fewer levels
 
 --
 
-`fct_lump()`
+`fct_lump_?()`:
 
 --
-Recode levels into top `n – 11 levels, plus "Other"
-
-Default is `n = 2` levels (most frequent level plus "Other")
+Recode all levels into "Other":
+* except for the `n` most frequent - `fct_lump_n()`
+* that appear fewer than `min` times - `fct_lump_min()`
+* that appear less than `prop`% - `fct_lump_prop()`
 
 ---
 # Try it
 
-* Go back to your Lab 9 assignment
+* Go back to your Homework 9 assignment
 * Reproduce the plot using `fct_relevel()` and `fct_recode()`
-
----
-class: inverse, left, middle
-
-# Tables 
-## Quick intro
-
----
-# Tables
-
-**Many options**
-
-* `knitr::kable()` for basic tables of any sort
-  + try `booktabs = TRUE` argument for APA-like table format
-  + Use `{kableExtra}` for extensions (example for [html](https://haozhu233.github.io/kableExtra/awesome_table_in_html.html) and [pdf](https://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf))
-* [`{gt}`](https://github.com/rstudio/gt)
-  + tidy- and APA-friendly (with effort)
-* [`{DT}`](https://rstudio.github.io/DT/)
-  + great for displaying a lot of data in a manageable way
-  + multiple pages, search and sort features, etc.
-* [`{reactable}`](https://glin.github.io/reactable/)
-  + great for displaying a lot of data in a manageable way
-  + multiple pages, search and sort features, etc.
-* [`{gtsummary}`](http://www.danieldsjoberg.com/gtsummary/)
-  + **amazing** for summary tables
-
----
-# Table chunk options
-
-For many tables, you may have to specify `results = "asis"` or you can end up with wacky display
-
-````
-```{r, chunk_name, results = "asis"}`r ''`
-
-```
-````
-
----
-
-```{r}
-penguins %>% 
-  group_by(species, year) %>% 
-  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
-  kable()
-```
-
----
-
-```{r, results='asis'}
-penguins %>% 
-  group_by(species, year) %>% 
-  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
-  kable(caption = "kable() Table",  #<<
-        col.names = c("Species", "Year", "Bill Length", "Bill Depth", "Flipper Length", "Body Mass"), #<<
-        digits = 2, #<<
-        booktabs = TRUE) #<<
-```
-
----
-
-```{r, results='asis'}
-penguins %>% 
-  group_by(species, year) %>% 
-  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
-  kable(caption = "kable() Table", 
-        col.names = c("Species", "Year", "Length (mm)", "Depth (mm)", "Length (mm)", "Body Mass (g)"), #<<
-        digits = 2, 
-        booktabs = TRUE) %>% 
-  kableExtra::row_spec(0:9, background = "white") %>% #<<
-  add_header_above(c(" " = 2, "Bill" = 2, "Flipper" = 1, " " = 1)) #<<
-```
-
----
-```{r, results='asis'}
-penguins %>% 
-  group_by(species, year) %>% 
-  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
-  ungroup() %>% #<<
-  select(-species) %>% #<<
-  kable(caption = "kable() Table", 
-        col.names = c("Year", "Length (mm)", "Depth (mm)", "Length (mm)", "Body Mass (g)"), 
-        digits = 2, 
-        booktabs = TRUE) %>% 
-  kableExtra::row_spec(0:9, background = "white") %>% 
-  add_header_above(c(" " = 1, "Bill" = 2, "Flipper" = 1, " " = 1)) %>% 
-  pack_rows("Adelie", 1, 3) %>% #<<
-  pack_rows("Chinstrap", 4, 6) %>% #<<
-  pack_rows("Gentoo", 7, 9) #<<
-```
-
-
----
-
-```{r, results='asis'}
-penguins %>% 
-  group_by(species, year) %>% 
-  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
-  gt() #<< 
-```
-
----
-
-```{r, results='asis'}
-penguins %>% 
-  group_by(species, year) %>% 
-  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
-  gt() %>%
-  fmt_number( #<<
-    columns = 3:6, #<<
-    decimals = 1 #<<
-  ) %>% 
-  tab_header(
-    title = md("`{gt}` Table")
-  )
-```
-
----
-
-```{r, results='asis'}
-penguins %>% 
-  group_by(species, year) %>% 
-  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
-  gt() %>%
-  fmt_number( 
-    columns = 3:6, 
-    decimals = 1 
-  ) %>% 
-  tab_header( #<<
-    title = md("`{gt}` Table")) #<<
-```
-
----
-
-```{r, results='asis'}
-penguins %>% 
-  group_by(species, year) %>% 
-  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
-  gt() %>%
-  fmt_number( 
-    columns = 3:6, 
-    decimals = 1 
-  ) %>% 
-  tab_header(
-    title = md("`{gt}` Table")
-  ) %>% 
-  cols_label( #<<
-    year = "", #<<
-    bill_length_mm = "Bill Length", #<<
-    bill_depth_mm = "Bill Depth", #<<
-    flipper_length_mm = "Flipper Length", #<<
-    body_mass_g = "Body Mass") #<<
-```
-
----
-
-```{r, results='asis'}
-penguins %>% 
-  group_by(species, year) %>% 
-  summarize(across(c(bill_length_mm:body_mass_g), ~mean(., na.rm = TRUE))) %>% 
-  gt() %>%
-  fmt_number( 
-    columns = 3:6, 
-    decimals = 1 
-  ) %>% 
-  tab_header(
-    title = md("`{gt}` Table")
-  ) %>% 
-  cols_label( 
-    year = "", 
-    bill_length_mm = "Bill Length", 
-    bill_depth_mm = "Bill Depth", 
-    flipper_length_mm = "Flipper Length", 
-    body_mass_g = "Body Mass") %>% 
-  tab_style(
-    style = list(
-      cell_fill(color = "magenta"),
-      cell_text(color = "white")
-      ),
-    locations = cells_body(
-      rows = c(1, 4, 7))
-  )
-```
-
----
-
-```{r}
-penguins %>% 
-  DT::datatable() #<<
-```
-
----
-
-```{r}
-penguins %>% 
-  reactable::reactable() #<<
-```
-
----
-
-```{r}
-penguins %>% 
-  reactable::reactable(filterable = TRUE, searchable = TRUE) #<<
-```
-
----
-
-```{r}
-penguins %>% 
-  gtsummary::tbl_summary() #<<
-```
-
----
-
-```{r}
-m <- lm(body_mass_g ~ 1 + bill_length_mm + flipper_length_mm,
-        data = penguins)
-
-m %>% 
-  gtsummary::tbl_regression()
-```
 
 ---
 class: inverse, left, middle
@@ -980,7 +927,9 @@ class: inverse, left, middle
 
 Feedback:
 1. Note <u>at least three</u> areas of strength
+
 2. Note <u>at least one</u> thing you learned from reviewing their script
+
 3. Note <u>at least one and no more than three</u> areas for improvement
 
 --
@@ -988,63 +937,102 @@ Feedback:
 Making your code publicly available can feel daunting 
 * The purpose of this portion of the final project is to help us all learn from each other
 * We are all learning
-  + Be constructive in your feedback.   + Be kind
+  + Be constructive in your feedback
+  + Be kind
 * Under no circumstances will negative comments be tolerated 
   + Any comments that could be perceived as negative, and outside the scope of the code, will result in an immediate score of zero
   
 ---
 # Peer Review GitHub Process
 
-1. Locate GitHub repo of assigned peer to review
-2. Fork the repo
-3. Clone the repo
+1. Locate GitHub .green[repo] of assigned peer to review
+
+2. Fork the .green[repo]
+
+3. Clone the .green[repo]
+
 4. Provide script feedback
-  + edit the Rmd file directly
+  + edit the .Rmd file directly
   + edit code
   + provide comments in code and/or text (`Ctrl/Command + Shift + C`)
-  + commit & push
-5. Create Pull Request (PR)
+  + *.green[commit]* & *.green[push]*
+
+5. Create .green[Pull Request (PR)]
 * Write brief summary of the PR that includes
-  + >= 3 strengths
-  + >+ 1 thing you learned
+  + \>= 3 strengths
+  + \>= 1 thing you learned
   + 1 to 3 three areas of improvement
 
 ---
-# 1. Locate GitHub repo of assigned peer to review
+### 1. Locate GitHub repo of assigned peer to review
 
-# PRINT TABLE WITH 
+```{r echo=FALSE}
+roster <- readxl::read_xlsx(here::here("nopublish", "groups.xlsx")) %>% 
+  mutate(Student = paste(first, last))
 
-| Name        | github url to review    |
-| ------------- |:-------------:| 
-| name      | url | 
-| name      | url      | 
-| name | url      | 
+random_draw <- function(x){
+  repeat{
+    groups <- as.character(x$group)
+    x$samp <- sample(groups, replace = FALSE)
+    x$check <- (x$group == x$samp)
+    if (sum(x$check) == 0) break
+  }
+  return(x)
+}
+
+set.seed(651)
+peer_review <- random_draw(roster)
+
+peer_review %>% 
+  select(Student, group = samp) %>% 
+  left_join(select(roster, group, git_page, file)) %>% 
+  select(Student, `Repo to Review` = git_page, `File to Review` = file) %>% 
+  distinct() %>%
+  kable() %>% 
+  kable_styling(font_size = 10)
+```
+
 
 ---
 # 2. Fork the repo
 
 1. Navigate to the (host) GitHub repo
 2. Click Fork in the upper right corner
-3. Where to fork? – **Your GitHub account**
+3. Where to fork? – **your GitHub account**
 
 ```{r, echo=FALSE}
 knitr::include_graphics("images/gh_fork.png")
+
 ```
 
 ---
 # 3. Clone the repo
 
-1. Clone the repo
-  + copy the URL
-2. Open GitKraken
-  + *Clone with URL*
-  + Where will it live on your local machine?
+.pull-left[
+(1) Clone the repo
+* copy the URL
+
+```{r, echo=FALSE, out.width='75%'}
+knitr::include_graphics("images/gh_clone.png")
+```
+]
+--
+
+.pull-right[
+(2) Open GitKraken
+* *Clone with URL*
+* Where will it live on your local machine?
   + it's own folder, with no other RProjects
+  
+```{r, echo=FALSE, out.width='75%'}
+knitr::include_graphics("images/gh_clone2.png")
+```
+]
 
 ---
 # 4. Provide script feedback
 
-* Open R Project in your **local**
+* Open R Project in your *.green[local]*
 * Find the .Rmd document you will be reviewing
   + it should be an Rmd document
 * Make your edits/comments
@@ -1052,7 +1040,7 @@ knitr::include_graphics("images/gh_fork.png")
   + include a comment for each edit!
   + Provide comments in code **and/or** text (`Ctrl/Command + Shift + C`)
 * Commit as you go (if you are working on this across sessions/days)
-* **Push only when you are finished**
+* **.green[Push] only when you are finished**
 
 ---
 # 5. Create Pull Request (PR)
@@ -1063,7 +1051,7 @@ knitr::include_graphics("images/gh_fork.png")
 
 (2) Click “Pull requests”
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='50%'}
 knitr::include_graphics("images/gh_pr.png")
 ```
 
@@ -1071,7 +1059,7 @@ knitr::include_graphics("images/gh_pr.png")
 
 (3) Click “New pull request”
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width='50%'}
 knitr::include_graphics("images/gh_newpr.png")
 ```
 
@@ -1098,8 +1086,7 @@ knitr::include_graphics("images/gh_compareforks2.png")
 
 You will be able view the changes you made to the .Rmd document
 
----
-# 5. Create Pull Request (PR)
+---# 5. Create Pull Request (PR)
 
 (5) Click *"Create pull request"*
 
@@ -1111,8 +1098,8 @@ knitr::include_graphics("images/gh_comparechanges.png")
 # 5. Create Pull Request (PR)
 
 Write a brief summary list of the PR that includes
-  + >= 3 strengths
-  + >+ 1 thing you learned
+  + \>= 3 strengths
+  + \>= 1 thing you learned
   + 1 to 3 three areas of improvement
   + **Use markdown formatting, headers or list!**
 
@@ -1142,14 +1129,14 @@ knitr::include_graphics("images/gh_createpr2.png")
 
 (4) Click *"Compare across forks"*
 * Use drop-downs so that:
-  + Host repo is on the left, your repo is on the right
+  + Host .green[repo] is on the left, your .green[repo] is on the right
 * View changes
 (5) Click *"Create pull request"*
-* Write brief summary list of the PR that includes
-  + >= 3 strengths
-  + >+ 1 thing you learned
+* Write brief summary list of the .green[PR] that includes
+  + \>= 3 strengths
+  + \>= 1 thing you learned
   + 1 to 3 three areas of improvement
-  + **Use markdown formatting, headers or list!**
+  + **Use markdown formatting, headers, or list!**
 (6) Click *"Create pull request"*
 
 ---
@@ -1157,10 +1144,14 @@ knitr::include_graphics("images/gh_createpr2.png")
 
 You will get an email from GitHub
 
-1. Click on first link, for PR
+1. Click on first link, for .green[PR]
+
 2. Click *"Commits"* tab
+
 3. Click on *"File changes"* to see changes
+
 4. Copy/paste all desired changes
+
 5. Don’t close *"Close PR"* just yet; I want to review
 
 ---
@@ -1169,6 +1160,23 @@ class: inverse, left, middle
 # Next time
 
 ---
+# Before next class
+
+* Final Project
+  + .red[Final Project: Peer Review of Script]
+  + .red[Final Project: Presentations] - email me your content before class
+* Homework
+  + **Homework 10**
+
+---
+class: inverse, left, middle
+
+---
+
+```{r, echo=FALSE, eval=FALSE}
+xaringanBuilder::build_pdf(here::here("slides", "w9_factors.Rmd"), complex_slides = TRUE)
+```
+
 
 
 

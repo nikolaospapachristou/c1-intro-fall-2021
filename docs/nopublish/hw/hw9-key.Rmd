@@ -21,12 +21,12 @@ This part of the homework uses [Jenny Bryan](https://jennybryan.org/)'s [Lord of
 knitr::opts_chunk$set(echo = TRUE,
                       eval = TRUE,
                       warning = FALSE,
-                      messages = FALSE)
+                      message = FALSE)
 
 library(here)
 library(rio)
 library(tidyverse)
-library(kableExtra)
+library(kableExtra) # optional
 ```
 <br>
 <br>
@@ -44,6 +44,7 @@ library(kableExtra)
   + Use level 1 headers for items (4) through (8) below 
   + Use level 2 headers for your table and plot in (7) below
 
+
 <br>
 <br>
 
@@ -56,18 +57,19 @@ library(kableExtra)
 <br>
 <br>
 
-#### 4. Your second code chunk should:
+# 4. Your second code chunk should:
 * Be named `data`
 * Import the following three data sets, each as separate objects
   + *The_Fellowship_Of_The_Ring.csv*
   + *The_Two_Towers.csv*
   + *The_Return_Of_The_King.csv*
     - (These data sets show the **words spoken** by characters of different races and genders in the *Lord of the Ring*s movie trilogy.)
-* Combine these three data sets into one data set as a new object named `lotr_tidy`
+* Combine these three data sets into one data set as a new object named `lotr_untidy`
 
 ```{r data}
 
-fotr <- import(here("data", "The_Fellowship_Of_The_Ring.csv"))
+fotr <- import(here("data", "The_Fellowship_Of_The_Ring.csv")) %>% 
+  as_tibble()
 
 tt <- import(here("data", "The_Two_Towers.csv"))
 
@@ -80,16 +82,16 @@ lotr_untidy <- bind_rows(fotr, tt, rotk) %>%
 <br>
 <br>
 
-#### 5. Describe why the combined data set is not tidy.
+# 5. Describe why the combined data set is not tidy.
 <br>
 <br>
 
-#### 6. Your third code chunk should:
-* Have a meaningful name (do not use spaces or capital letters)
+# 6. Your third code chunk should:
+* Have a meaningful name (do not use spaces or capital letters or underscores)
 * Tidy the combined data set
 * Save the tidy data to the data folder in your project as `lotr_tidy`
 
-```{r tidy_data}
+```{r tidy-data}
 
 lotr_tidy <- lotr_untidy %>% 
   pivot_longer(
@@ -104,13 +106,13 @@ export(lotr_tidy, here("data", "lotr_tidy.csv"))
 <br>
 
 
-#### 7. Your fourth code chunk should include code that:
+# 7. Your fourth code chunk should include code that:
 * Reads in the *Female.csv* and *Male.csv* files and saves a single tidy data frame to file 
 * This should reproduce exactly the `lotr_tidy` data from above
 * Compute the total number of words spoken by each race across the entire trilogy.
 * Show these results in a table and a figure.
 
-```{r replicate_data}
+```{r replicate-data}
 
 d <- import(here("data", "Female.csv")) %>% 
   bind_rows(import(here("data", "Male.csv"))) %>% 
@@ -131,16 +133,16 @@ d_summary <- d %>%
 
 **Total number of words spoken by each race across the entire LOTR trilogy**
 
-**Table**
+## **Table**
 
-```{r table}
+```{r table, results='asis'}
 d_summary %>% 
   kable(digits = 2,
          col.names = c("Race", "Total Words")) %>% 
   kable_styling(latex_options = "striped", full_width = FALSE)
 ```
 
-**Figure**
+## **Figure**
 
 ```{r}
 
@@ -236,6 +238,7 @@ reads_summary <- reads_tidy %>%
 	group_by(test_site, unit) %>% 
 	summarize(percent = mean(percent))
 
-reads_summary
+reads_summary %>% 
+  kable()
 ```
 

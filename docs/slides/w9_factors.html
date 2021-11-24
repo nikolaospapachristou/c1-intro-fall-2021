@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Week 9: Factors &amp; Pull Requests</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Joe Nese University of Oregon Fall 2021" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <script src="libs/freezeframe/freezeframe.min.js"></script>
+    <script src="libs/xaringanExtra-freezeframe/freezeframe-init.js"></script>
+    <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Week 9: Factors &amp; Pull Requests
+## Miscellany
+### Joe Nese<br><span style="font-size: 50%;">University of Oregon<br>Fall 2021</span>
+
+---
+
+
+
+
+
+
+
+
+class: inverse, left, middle
+
+# Shares!
+## Amy, Errol, Havi
+
+---
+class: inverse, left, middle
+
+# Factors &amp; Pull Requests 
+## Week 9
+
+---
+
+# Agenda
+
+* Shares!
+* Citation additions
+* Final Project Review
+* Discuss factors and factor re-leveling
+
+
+**Overall Purpose**
+
+* Understand factors and how to manipulate them
+* Understand how to complete a *.green[pull request (PR)]*
+
+---
+class: center
+
+# Lab 8
+
+![](https://media2.giphy.com/media/8X6UFXpJFndo4/giphy.gif?cid=ecf05e47ov2j4bec7wwcp7el1ob0b0oe7towmyta3ml46kvz&amp;rid=giphy.gif&amp;ct=g)
+
+---
+class: inverse, left, middle
+
+# Citation Styles
+## (cheat sheet)
+
+---
+# Citation Styles
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Citation Style (using the tag) &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Output &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; @Briggs11 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Briggs and Weeks (2011) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; [see @Baldwin2014; @Caruso2000] &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; (see Baldwin et al. 2014; Caruso 2000) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; [@Linn02, p. 9] &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; (Linn and Haug 2002, p. 9) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; [-@Goldhaber08] &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; (2008) &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+.footnote[
+I forgot to share this slide earlier!
+]
+
+---
+## Also, cite `R`!
+
+I also forgot to share this this with you! (*be kind in your teacher evals*)
+
+
+```r
+citation()
+```
+
+```
+## 
+## To cite R in publications use:
+## 
+##   R Core Team (2021). R: A language and environment for statistical
+##   computing. R Foundation for Statistical Computing, Vienna, Austria.
+##   URL https://www.R-project.org/.
+## 
+## A BibTeX entry for LaTeX users is
+## 
+##   @Manual{,
+##     title = {R: A Language and Environment for Statistical Computing},
+##     author = {{R Core Team}},
+##     organization = {R Foundation for Statistical Computing},
+##     address = {Vienna, Austria},
+##     year = {2021},
+##     url = {https://www.R-project.org/},
+##   }
+## 
+## We have invested a lot of time and effort in creating R, please cite it
+## when using it for data analysis. See also 'citation("pkgname")' for
+## citing R packages.
+```
+
+---
+class: inverse, left, middle
+
+# Final Project
+
+---
+## Final Project - Data Prep Script
+
+* Expected to be a work in progress
+
+* Provided to your peers so they can learn from you as much as you can learn from their feedback
+
+**Peer Review**
+
+* Understand the purpose of the exercise
+
+* Conducted as a professional product
+
+* Should be **very** encouraging 
+
+* Zero tolerance policy for inappropriate comments
+
+---
+# Final Project – Presentation
+
+Groups are expected to present for about **18-20 minutes** (split evenly among members). Group order randomly assigned. 
+
+Email me your presentation by midnight 11/30 so I can share through my machine.
+
+---
+# Final Project – Presentation
+
+&lt;b&gt;Presentation cover the following:&lt;/b&gt;
+* Share your journey (everyone, at least for a minute or two)
+
+* Discuss challenges you had along the way
+
+* Celebrate your successes
+
+* Discuss challenges you are still facing
+
+* Discuss substantive findings
+
+* Show off your cool figures!
+
+* Discuss next `R` hurdle you want to address
+
+---
+# Final Project – Paper
+
+* R Markdown document
+  + Abstract, Intro, Methods, Results, Discussion, References
+  + Should be brief: 3,500 words max 
+  
+* No code displayed - should look similar to a manuscript being submitted for publication
+
+* Include at least 1 table
+
+* Include at least 2 plots
+
+* Should be fully open, reproducible, and housed on GitHub
+  + I should be able to clone your repository, open the R Studio Project, and reproduce the full manuscript (by knitting the R Markdown doc)
+
+---
+# Final Project
+
+The following functions: 
+* `pivot_longer()`
+* `mutate()`
+* `select()`
+* `filter()`
+* `pivot_wider()`
+* `group_by()`
+* `summarize()`
+
+---
+# Scoring Rubric
+
+Check the [syllabus](https://uo-datasci-specialization.github.io/c1-intro-fall-2021/syllabus.html) for Presentation and Final Paper scoring rubrics
+
+---
+class: inverse, left, middle
+
+# Revisiting git
+
+---
+## Before we jump in...
+
+#### ...let's revisit git
+
+Talk with neighbor. What do these terms mean?
+Talk about them in the order you would encounter them in your workflow 
+
+* *.green[clone]*
+* *.green[pull]*
+* *.green[stage]*
+* *.green[commit]*
+* *.green[push]*
+* *.green[repo]*
+* *.green[remote]*
+
+<div class="countdown" id="timer_619e9e4b" style="right:0;bottom:0;" data-warnwhen="30">
+<code class="countdown-time"><span class="countdown-digits minutes">03</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+class: inverse, left, middle
+
+# Factors
+## just the basics
+
+---
+# When do we really want factors?
+
+Generally two reasons to declare a factor
+
+1. Only finite number of categories
+  + treatment/control
+  + income categories
+  + performance levels
+  + etc.
+  
+2. Use in modeling
+
+---
+# Creating factos
+
+Imagine you have a vector of months
+
+
+```r
+months_4 &lt;- c("Dec", "Apr", "Jan", "Mar")
+```
+
+--
+
+We could store this as a string, but there are issues with this:
+* There are only 12 possible months
+  + factors will help us weed out values that don't conform to our predefined levels, which helps safeguard against typos, etc.
+  
+* You can't sort this vector in a meaningful way
+  + default is alphabetic sorting
+
+--
+
+
+```r
+sort(months_4)
+```
+
+```
+## [1] "Apr" "Dec" "Jan" "Mar"
+```
+
+---
+# Define it as a factor
+
+
+```r
+months_4 &lt;- factor(months_4, levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
+months_4
+```
+
+```
+## [1] Dec Apr Jan Mar
+## Levels: Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+```
+
+--
+
+Now we can sort
+
+
+```r
+sort(months_4)
+```
+
+```
+## [1] Jan Mar Apr Dec
+## Levels: Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+```
+
+---
+# Accessing and modifying levels
+
+Uset the `levels()` function
+
+--
+
+
+```r
+levels(months_4)
+```
+
+```
+##  [1] "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov" "Dec"
+```
+
+---
+# Provides an error check of sorts
+
+
+```r
+months_4[5] &lt;- "Jam"
+```
+
+```
+## Warning in `[&lt;-.factor`(`*tmp*`, 5, value = "Jam"): invalid factor level, NA
+## generated
+```
+
+--
+
+
+```r
+months_4
+```
+
+```
+## [1] Dec  Apr  Jan  Mar  &lt;NA&gt;
+## Levels: Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+```
+
+---
+# What if we don’t specify levels?
+
+If you define a factor without specifying the levels, it will assign them alphabetically
+
+
+```r
+mnths &lt;- factor(c("Dec", "Apr", "Jan", "Mar"))
+```
+
+--
+
+
+```r
+mnths
+```
+
+```
+## [1] Dec Apr Jan Mar
+## Levels: Apr Dec Jan Mar
+```
+
+---
+&lt;p style="float: right;"&gt;&lt;img src="https://raw.githubusercontent.com/tidyverse/forcats/master/man/figures/logo.png" width="300" height="300"&gt;&lt;/p&gt;
+# [`{forcats}`](https://forcats.tidyverse.org/)
+
+* When working with factors, we can use the `{forcats}` package
+  + `for cat`egorical variables
+  + anagram of factors
+  
+--
+
+* Part of the `{tidyverse}` so should be good to go
+
+--
+
+* All functions start with `fct_`
+  + use the autofill in RStudio
+
+---
+# Change level order – `fct_inorder()`
+
+#### In order they are entered
+
+```r
+(mnths &lt;- factor(c("Dec", "Apr", "Jan", "Mar")))
+```
+
+```
+## [1] Dec Apr Jan Mar
+## Levels: Apr Dec Jan Mar
+```
+
+--
+
+
+```r
+mnths %&gt;% 
+  factor(., levels = c("Jan", "Mar", "Apr", "Dec")) %&gt;% 
+  sort(.)
+```
+
+```
+## [1] Jan Mar Apr Dec
+## Levels: Jan Mar Apr Dec
+```
+
+---
+# Change level order – `fct_inorder()`
+
+#### In order they are entered
+
+```r
+(mnths &lt;- factor(c("Dec", "Apr", "Jan", "Mar")))
+```
+
+```
+## [1] Dec Apr Jan Mar
+## Levels: Apr Dec Jan Mar
+```
+
+--
+
+
+```r
+mnths %&gt;% 
+  factor(., levels = c("Jan", "Mar", "Apr", "Dec")) %&gt;% 
+* fct_inorder() %&gt;%
+  sort(.)
+```
+
+```
+## [1] Dec Apr Jan Mar
+## Levels: Dec Apr Jan Mar
+```
+
+---
+# Change level order – `fct_infreq()`
+
+#### In order of frequency
+
+
+```r
+c("b", "b", "c", "a", "a", "a") %&gt;% 
+*   fct_infreq()
+```
+
+```
+## [1] b b c a a a
+## Levels: a b c
+```
+
+--
+
+This can be **especially** useful for plotting
+
+
+```r
+ggplot(aes(x, fct_infreq(y))
+```
+
+
+---
+# Investigate factors
+
+* `{tidyverse}` gives you convenient way to evaluate factors
+  + `count()`
+  + `geom_bar()` or `geom_col())` with `{ggplot2}`
+
+* But don't forget about the base function `unique()`
+  + e.g., `unique(df$factor_variable)`
+
+---
+# General Social Survey (GSS)
+
+
+```r
+forcats::gss_cat
+```
+
+```
+## # A tibble: 21,483 x 9
+##     year marital         age race  rincome        partyid  relig  denom  tvhours
+##    &lt;int&gt; &lt;fct&gt;         &lt;int&gt; &lt;fct&gt; &lt;fct&gt;          &lt;fct&gt;    &lt;fct&gt;  &lt;fct&gt;    &lt;int&gt;
+##  1  2000 Never married    26 White $8000 to 9999  Ind,nea~ Prote~ South~      12
+##  2  2000 Divorced         48 White $8000 to 9999  Not str~ Prote~ Bapti~      NA
+##  3  2000 Widowed          67 White Not applicable Indepen~ Prote~ No de~       2
+##  4  2000 Never married    39 White Not applicable Ind,nea~ Ortho~ Not a~       4
+##  5  2000 Divorced         25 White Not applicable Not str~ None   Not a~       1
+##  6  2000 Married          25 White $20000 - 24999 Strong ~ Prote~ South~      NA
+##  7  2000 Never married    36 White $25000 or more Not str~ Chris~ Not a~       3
+##  8  2000 Divorced         44 White $7000 to 7999  Ind,nea~ Prote~ Luthe~      NA
+##  9  2000 Married          44 White $25000 or more Not str~ Prote~ Other        0
+## 10  2000 Married          47 White $25000 or more Strong ~ Prote~ South~       3
+## # ... with 21,473 more rows
+```
+
+---
+
+
+```r
+gss_cat %&gt;% 
+    count(partyid)
+```
+
+```
+## # A tibble: 10 x 2
+##    partyid                n
+##    &lt;fct&gt;              &lt;int&gt;
+##  1 No answer            154
+##  2 Don't know             1
+##  3 Other party          393
+##  4 Strong republican   2314
+##  5 Not str republican  3032
+##  6 Ind,near rep        1791
+##  7 Independent         4119
+##  8 Ind,near dem        2499
+##  9 Not str democrat    3690
+## 10 Strong democrat     3490
+```
+
+--
+
+
+```r
+levels(gss_cat$partyid)
+```
+
+```
+##  [1] "No answer"          "Don't know"         "Other party"       
+##  [4] "Strong republican"  "Not str republican" "Ind,near rep"      
+##  [7] "Independent"        "Ind,near dem"       "Not str democrat"  
+## [10] "Strong democrat"
+```
+
+---
+
+
+```r
+unique(gss_cat$partyid)
+```
+
+```
+##  [1] Ind,near rep       Not str republican Independent        Not str democrat  
+##  [5] Strong democrat    Ind,near dem       Strong republican  Other party       
+##  [9] No answer          Don't know        
+## 10 Levels: No answer Don't know Other party ... Strong democrat
+```
+
+--
+
+How many `unique` categories are there (if you have a lot)?
+
+
+```r
+length(unique(gss_cat$partyid))
+```
+
+```
+## [1] 10
+```
+
+
+---
+
+
+```r
+ggplot(gss_cat, aes(partyid)) +
+    geom_bar()
+```
+
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-24-1.png" width="100%" /&gt;
+
+---
+
+ggplot(gss_cat, aes(.pink[fct_infreq(]partyid.pink[)])) +
+&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;geom_bar()
+    
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-25-1.png" width="100%" /&gt;
+
+---
+# Change level order – `fct_infreq()`
+
+#### Change level order by hand 
+  + *probably one I use most*
+
+
+```r
+fct_relevel(variable_name, 
+            "first_level", 
+            "second_level", 
+            "third_level", 
+            ...)
+```
+
+---
+
+
+```r
+set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10)
+)
+```
+
+```
+## # A tibble: 10 x 2
+##    month suspensions
+##    &lt;chr&gt;       &lt;int&gt;
+##  1 Jan            19
+##  2 Feb            51
+##  3 Mar            61
+##  4 Apr            14
+##  5 May            25
+##  6 Jun            27
+##  7 Sep            15
+##  8 Oct            21
+##  9 Nov             7
+## 10 Dec            59
+```
+
+---
+
+
+```r
+*set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+*suspensions = sample(c(5:75), size = 10)
+)
+```
+
+```
+## # A tibble: 10 x 2
+##    month suspensions
+##    &lt;chr&gt;       &lt;int&gt;
+##  1 Jan            19
+##  2 Feb            51
+##  3 Mar            61
+##  4 Apr            14
+##  5 May            25
+##  6 Jun            27
+##  7 Sep            15
+##  8 Oct            21
+##  9 Nov             7
+## 10 Dec            59
+```
+
+---
+
+
+```r
+set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10)
+) %&gt;% 
+* ggplot(aes(month, suspensions)) +
+* geom_col()
+```
+
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-29-1.png" width="100%" /&gt;
+
+---
+
+
+```r
+set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10)
+) %&gt;% 
+* mutate(month = fct_relevel(month,
+*                   "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May"))
+```
+
+---
+
+```r
+set.seed(3000)
+tibble(
+ month = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Sep", "Oct", "Nov", "Dec"),
+ suspensions = sample(c(5:75), size = 10)
+) %&gt;% 
+  mutate(month = fct_relevel(month,
+                    "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May")) %&gt;% 
+* ggplot(aes(month, suspensions)) +
+* geom_col()
+```
+
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-31-1.png" width="100%" /&gt;
+
+---
+# Change level order – `fct_reorder()`
+
+#### Reorder according to another variable
+
+
+```r
+(relig_summary &lt;- gss_cat %&gt;%
+  group_by(relig) %&gt;%
+  summarise(tvhours = mean(tvhours, na.rm = TRUE),
+            n = n()))
+```
+
+```
+## # A tibble: 15 x 3
+##    relig                   tvhours     n
+##    &lt;fct&gt;                     &lt;dbl&gt; &lt;int&gt;
+##  1 No answer                  2.72    93
+##  2 Don't know                 4.62    15
+##  3 Inter-nondenominational    2.87   109
+##  4 Native american            3.46    23
+##  5 Christian                  2.79   689
+##  6 Orthodox-christian         2.42    95
+##  7 Moslem/islam               2.44   104
+##  8 Other eastern              1.67    32
+##  9 Hinduism                   1.89    71
+## 10 Buddhism                   2.38   147
+## 11 Other                      2.73   224
+## 12 None                       2.71  3523
+## 13 Jewish                     2.52   388
+## 14 Catholic                   2.96  5124
+## 15 Protestant                 3.15 10846
+```
+
+---
+
+
+```r
+ggplot(relig_summary, aes(tvhours, relig)) + 
+  geom_point()
+```
+
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-33-1.png" width="100%" /&gt;
+
+---
+ggplot(relig_summary, aes(tvhours, .pink[fct_reorder(]relig, .pink[tvhours)])) + 
+&lt;br&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; geom_point()
+
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-34-1.png" width="100%" /&gt;
+
+---
+# Or `mutate()` the factor reorder
+
+
+```r
+relig_summary %&gt;% 
+* mutate(relig = fct_reorder(relig, tvhours)) %&gt;%
+  ggplot(aes(tvhours, relig)) + 
+  geom_point()
+```
+
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-35-1.png" width="100%" /&gt;
+
+---
+# Quick aside for error bars
+
+
+```r
+(relig_summary_eb &lt;- gss_cat %&gt;%
+  group_by(relig) %&gt;%
+  summarise(tvhours_mean = mean(tvhours, na.rm = TRUE),
+            tvhours_se   = sqrt(var(tvhours, na.rm = TRUE) / 
+                                  length(na.omit(tvhours))),
+            n = n()))
+```
+
+```
+## # A tibble: 15 x 4
+##    relig                   tvhours_mean tvhours_se     n
+##    &lt;fct&gt;                          &lt;dbl&gt;      &lt;dbl&gt; &lt;int&gt;
+##  1 No answer                       2.72     0.326     93
+##  2 Don't know                      4.62     3.01      15
+##  3 Inter-nondenominational         2.87     0.363    109
+##  4 Native american                 3.46     1.13      23
+##  5 Christian                       2.79     0.126    689
+##  6 Orthodox-christian              2.42     0.355     95
+##  7 Moslem/islam                    2.44     0.269    104
+##  8 Other eastern                   1.67     0.449     32
+##  9 Hinduism                        1.89     0.197     71
+## 10 Buddhism                        2.38     0.235    147
+## 11 Other                           2.73     0.203    224
+## 12 None                            2.71     0.0590  3523
+## 13 Jewish                          2.52     0.151    388
+## 14 Catholic                        2.96     0.0453  5124
+## 15 Protestant                      3.15     0.0360 10846
+```
+
+---
+# Quick aside for error bars
+
+
+```r
+(relig_summary_eb &lt;- gss_cat %&gt;%
+  group_by(relig) %&gt;%
+* summarise(tvhours_mean = mean(tvhours, na.rm = TRUE),
+            tvhours_se   = sqrt(var(tvhours, na.rm = TRUE) / 
+                                  length(na.omit(tvhours))),
+            n = n()))
+```
+
+```
+## # A tibble: 15 x 4
+##    relig                   tvhours_mean tvhours_se     n
+##    &lt;fct&gt;                          &lt;dbl&gt;      &lt;dbl&gt; &lt;int&gt;
+##  1 No answer                       2.72     0.326     93
+##  2 Don't know                      4.62     3.01      15
+##  3 Inter-nondenominational         2.87     0.363    109
+##  4 Native american                 3.46     1.13      23
+##  5 Christian                       2.79     0.126    689
+##  6 Orthodox-christian              2.42     0.355     95
+##  7 Moslem/islam                    2.44     0.269    104
+##  8 Other eastern                   1.67     0.449     32
+##  9 Hinduism                        1.89     0.197     71
+## 10 Buddhism                        2.38     0.235    147
+## 11 Other                           2.73     0.203    224
+## 12 None                            2.71     0.0590  3523
+## 13 Jewish                          2.52     0.151    388
+## 14 Catholic                        2.96     0.0453  5124
+## 15 Protestant                      3.15     0.0360 10846
+```
+
+---
+# Quick aside for error bars
+
+
+```r
+(relig_summary_eb &lt;- gss_cat %&gt;%
+  group_by(relig) %&gt;%
+  summarise(tvhours_mean = mean(tvhours, na.rm = TRUE),
+*           tvhours_se   = sqrt(var(tvhours, na.rm = TRUE) /
+*                                 length(na.omit(tvhours))),
+            n = n()))
+```
+
+```
+## # A tibble: 15 x 4
+##    relig                   tvhours_mean tvhours_se     n
+##    &lt;fct&gt;                          &lt;dbl&gt;      &lt;dbl&gt; &lt;int&gt;
+##  1 No answer                       2.72     0.326     93
+##  2 Don't know                      4.62     3.01      15
+##  3 Inter-nondenominational         2.87     0.363    109
+##  4 Native american                 3.46     1.13      23
+##  5 Christian                       2.79     0.126    689
+##  6 Orthodox-christian              2.42     0.355     95
+##  7 Moslem/islam                    2.44     0.269    104
+##  8 Other eastern                   1.67     0.449     32
+##  9 Hinduism                        1.89     0.197     71
+## 10 Buddhism                        2.38     0.235    147
+## 11 Other                           2.73     0.203    224
+## 12 None                            2.71     0.0590  3523
+## 13 Jewish                          2.52     0.151    388
+## 14 Catholic                        2.96     0.0453  5124
+## 15 Protestant                      3.15     0.0360 10846
+```
+
+---
+# Quick aside for error bars
+
+
+```r
+(relig_summary_eb &lt;- gss_cat %&gt;%
+  group_by(relig) %&gt;%
+  summarise(tvhours_mean = mean(tvhours, na.rm = TRUE),
+            tvhours_se   = sqrt(var(tvhours, na.rm = TRUE) / 
+                                  length(na.omit(tvhours))),
+*           n = n()))
+```
+
+```
+## # A tibble: 15 x 4
+##    relig                   tvhours_mean tvhours_se     n
+##    &lt;fct&gt;                          &lt;dbl&gt;      &lt;dbl&gt; &lt;int&gt;
+##  1 No answer                       2.72     0.326     93
+##  2 Don't know                      4.62     3.01      15
+##  3 Inter-nondenominational         2.87     0.363    109
+##  4 Native american                 3.46     1.13      23
+##  5 Christian                       2.79     0.126    689
+##  6 Orthodox-christian              2.42     0.355     95
+##  7 Moslem/islam                    2.44     0.269    104
+##  8 Other eastern                   1.67     0.449     32
+##  9 Hinduism                        1.89     0.197     71
+## 10 Buddhism                        2.38     0.235    147
+## 11 Other                           2.73     0.203    224
+## 12 None                            2.71     0.0590  3523
+## 13 Jewish                          2.52     0.151    388
+## 14 Catholic                        2.96     0.0453  5124
+## 15 Protestant                      3.15     0.0360 10846
+```
+
+---
+# Quick aside for error bars
+
+
+```r
+*ggplot(relig_summary_eb,
+       aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + 
+  geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se,
+                     xmax = tvhours_mean + 1.96 * tvhours_se),
+                 color = "cornflowerblue") +
+  geom_point()
+```
+
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-40-1.png" width="100%" /&gt;
+
+---
+# Quick aside for error bars
+
+
+```r
+ggplot(relig_summary_eb, 
+*      aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) +
+  geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se,
+                     xmax = tvhours_mean + 1.96 * tvhours_se),
+                 color = "cornflowerblue") +
+  geom_point()
+```
+
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-41-1.png" width="100%" /&gt;
+
+---
+# Quick aside for error bars
+
+
+```r
+ggplot(relig_summary_eb, 
+       aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + 
+* geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se,
+*                    xmax = tvhours_mean + 1.96 * tvhours_se),
+*                color = "cornflowerblue") +
+  geom_point()
+```
+
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-42-1.png" width="100%" /&gt;
+
+---
+# Quick aside for error bars
+
+
+```r
+ggplot(relig_summary_eb, 
+       aes(tvhours_mean, fct_reorder(relig, tvhours_mean))) + 
+  geom_errorbarh(aes(xmin = tvhours_mean - 1.96 * tvhours_se,
+                     xmax = tvhours_mean + 1.96 * tvhours_se),
+                 color = "cornflowerblue") +
+* geom_point()
+```
+
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-43-1.png" width="100%" /&gt;
+
+---
+# Modifying factor levels – `fct_recode()`
+
+#### Make modifying factors more explicit
+
+`fct_recode(var_name, "new level" = "old level"...`
+
+
+```r
+gss_cat %&gt;%
+  mutate(partyid = fct_recode(partyid,
+*   "Republican, strong" = "Strong republican",
+*   "Republican, weak" = "Not str republican",
+*   "Independent, near rep" = "Ind,near rep",
+*   "Independent, near dem" = "Ind,near dem",
+*   "Democrat, weak" = "Not str democrat",
+*   "Democrat, strong" = "Strong democrat")) %&gt;%
+  count(partyid)
+```
+
+---
+
+```r
+gss_cat %&gt;%
+  mutate(partyid = fct_recode(partyid,
+*   "Republican, strong" = "Strong republican",
+*   "Republican, weak" = "Not str republican",
+*   "Independent, near rep" = "Ind,near rep",
+*   "Independent, near dem" = "Ind,near dem",
+*   "Democrat, weak" = "Not str democrat",
+*   "Democrat, strong" = "Strong democrat")) %&gt;%
+  count(partyid)
+```
+
+```
+## # A tibble: 10 x 2
+##    partyid                   n
+##    &lt;fct&gt;                 &lt;int&gt;
+##  1 No answer               154
+##  2 Don't know                1
+##  3 Other party             393
+##  4 Republican, strong     2314
+##  5 Republican, weak       3032
+##  6 Independent, near rep  1791
+##  7 Independent            4119
+##  8 Independent, near dem  2499
+##  9 Democrat, weak         3690
+## 10 Democrat, strong       3490
+```
+
+---
+# Collapsing levels – `fct_recode()`
+
+`fct_recode()` can also be used to collapse levels easily
+
+
+```r
+gss_cat %&gt;%
+  mutate(partyid = fct_recode(partyid,
+    "Republican, strong"    = "Strong republican",
+    "Republican, weak"      = "Not str republican",
+    "Independent, near rep" = "Ind,near rep",
+    "Independent, near dem" = "Ind,near dem",
+    "Democrat, weak"        = "Not str democrat",
+    "Democrat, strong"      = "Strong democrat",
+*   "Other"                 = "No answer",
+*   "Other"                 = "Don't know",
+*   "Other"                 = "Other party")) %&gt;%
+  count(partyid)
+```
+
+---
+
+```r
+gss_cat %&gt;%
+  mutate(partyid = fct_recode(partyid,
+    "Republican, strong"    = "Strong republican",
+    "Republican, weak"      = "Not str republican",
+    "Independent, near rep" = "Ind,near rep",
+    "Independent, near dem" = "Ind,near dem",
+    "Democrat, weak"        = "Not str democrat",
+    "Democrat, strong"      = "Strong democrat",
+*   "Other"                 = "No answer",
+*   "Other"                 = "Don't know",
+*   "Other"                 = "Other party")) %&gt;%
+  count(partyid)
+```
+
+```
+## # A tibble: 8 x 2
+##   partyid                   n
+##   &lt;fct&gt;                 &lt;int&gt;
+## 1 Other                   548
+## 2 Republican, strong     2314
+## 3 Republican, weak       3032
+## 4 Independent, near rep  1791
+## 5 Independent            4119
+## 6 Independent, near dem  2499
+## 7 Democrat, weak         3690
+## 8 Democrat, strong       3490
+```
+
+---
+# Collapsing levels – `fct_collapse()`
+
+`fct_collapse()` is one of the more useful functions in `{forcats}`
+
+* Collapse all categories into Republican, Democrat, Independent, or Other
+
+
+```r
+gss_cat %&gt;%
+* mutate(partyid = fct_collapse(partyid,
+    	Other = c("No answer", "Don't know", "Other party"),
+    	Rep = c("Strong republican", "Not str republican"),
+    	Ind = c("Ind,near rep", "Independent", "Ind,near dem"),
+    	Dem = c("Not str democrat", "Strong democrat")
+  )) %&gt;%
+  count(partyid)
+```
+
+```
+## # A tibble: 4 x 2
+##   partyid     n
+##   &lt;fct&gt;   &lt;int&gt;
+## 1 Other     548
+## 2 Rep      5346
+## 3 Ind      8409
+## 4 Dem      7180
+```
+
+---
+# Collapsing levels – `fct_lump_?()`
+
+#### `fct_lump_?()` – "lump" a bunch of categories together
+
+* `fct_lump_n(factor_variable, n)`:
+
+--
+lumps all levels except for the `n` most frequent (or least frequent if `n` &lt; 0) into "Other" level
+
+--
+
+* `fct_lump_min(factor_variable, min)`:
+
+--
+lumps levels that appear fewer than `min` times
+
+--
+
+* `fct_lump_prop(factor_variable, prop)`:
+
+--
+lumps levels that appear in fewer `prop` `\(\times\)` `n` times
+
+---
+# Collapsing levels – `fct_lump_n()`
+
+Collapse to `n` = **9** religious groups: top 8 groups plus "Other"
+
+
+```r
+gss_cat %&gt;% 
+* mutate(rel = fct_lump_n(relig, 9)) %&gt;%
+  count(rel)
+```
+
+```
+## # A tibble: 9 x 2
+##   rel                         n
+##   &lt;fct&gt;                   &lt;int&gt;
+## 1 Inter-nondenominational   109
+## 2 Christian                 689
+## 3 Moslem/islam              104
+## 4 Buddhism                  147
+## 5 None                     3523
+## 6 Jewish                    388
+## 7 Catholic                 5124
+## 8 Protestant              10846
+## 9 Other                     553
+```
+
+---
+# Collapsing levels – `fct_lump_min()`
+
+Collapse to all religious groups that appear less than `min` = 200 into "Other"
+
+
+```r
+gss_cat %&gt;% 
+* mutate(rel = fct_lump_min(relig, min = 200)) %&gt;%
+  count(rel) 
+```
+
+```
+## # A tibble: 6 x 2
+##   rel            n
+##   &lt;fct&gt;      &lt;int&gt;
+## 1 Christian    689
+## 2 None        3523
+## 3 Jewish       388
+## 4 Catholic    5124
+## 5 Protestant 10846
+## 6 Other        913
+```
+
+---
+# Collapsing levels – `fct_lump_prop()`
+
+Collapse to all religious groups that appear less than `prop` = 10% into "Other"
+
+
+```r
+gss_cat %&gt;% 
+* mutate(rel = fct_lump_prop(relig, prop = .10)) %&gt;%
+  count(rel) 
+```
+
+```
+## # A tibble: 4 x 2
+##   rel            n
+##   &lt;fct&gt;      &lt;int&gt;
+## 1 None        3523
+## 2 Catholic    5124
+## 3 Protestant 10846
+## 4 Other       1990
+```
+
+---
+# Missing levels
+
+
+```r
+levels(gss_cat$race)
+```
+
+```
+## [1] "Other"          "Black"          "White"          "Not applicable"
+```
+
+--
+
+
+```r
+gss_cat %&gt;% 
+  count(race)
+```
+
+```
+## # A tibble: 3 x 2
+##   race      n
+##   &lt;fct&gt; &lt;int&gt;
+## 1 Other  1959
+## 2 Black  3129
+## 3 White 16395
+```
+
+--
+
+
+```r
+table(gss_cat$race)
+```
+
+```
+## 
+##          Other          Black          White Not applicable 
+##           1959           3129          16395              0
+```
+
+---
+# Missing levels
+
+
+```r
+ggplot(gss_cat, aes(race)) +
+    geom_bar()
+```
+
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-55-1.png" width="100%" /&gt;
+
+---
+# Missing levels
+
+
+```r
+ggplot(gss_cat, aes(race)) +
+    geom_bar() +
+*   scale_x_discrete(drop = FALSE)
+```
+
+&lt;img src="w9_factors_files/figure-html/unnamed-chunk-56-1.png" width="100%" /&gt;
+
+---
+# Review
+
+`fct_inorder()`:
+
+--
+Levels ordered as entered
+
+--
+
+`fct_infreq()`:
+
+--
+Change level order in order of frequency (largest first)
+
+--
+
+`fct_relevel()`:
+
+--
+Change level order by hand
+
+--
+
+`fct_reorder()`:
+
+--
+Change level order according to another variable
+
+--
+
+`fct_recode()`:
+
+--
+Recode (collapse) levels into new named levels
+
+--
+
+`fct_collapse()`:
+
+--
+Recode many levels into fewer levels
+
+--
+
+`fct_lump_?()`:
+
+--
+Recode all levels into "Other":
+* except for the `n` most frequent - `fct_lump_n()`
+* that appear fewer than `min` times - `fct_lump_min()`
+* that appear less than `prop`% - `fct_lump_prop()`
+
+---
+# Try it
+
+* Go back to your Homework 9 assignment
+* Reproduce the plot using `fct_relevel()` and `fct_recode()`
+
+---
+class: inverse, left, middle
+
+# Pull Requests 
+
+---
+# Peer Review of Data Prep Script
+
+#### Expectations
+
+Feedback:
+1. Note &lt;u&gt;at least three&lt;/u&gt; areas of strength
+
+2. Note &lt;u&gt;at least one&lt;/u&gt; thing you learned from reviewing their script
+
+3. Note &lt;u&gt;at least one and no more than three&lt;/u&gt; areas for improvement
+
+--
+
+Making your code publicly available can feel daunting 
+* The purpose of this portion of the final project is to help us all learn from each other
+* We are all learning
+  + Be constructive in your feedback
+  + Be kind
+* Under no circumstances will negative comments be tolerated 
+  + Any comments that could be perceived as negative, and outside the scope of the code, will result in an immediate score of zero
+  
+---
+# Peer Review GitHub Process
+
+1. Locate GitHub .green[repo] of assigned peer to review
+
+2. Fork the .green[repo]
+
+3. Clone the .green[repo]
+
+4. Provide script feedback
+  + edit the .Rmd file directly
+  + edit code
+  + provide comments in code and/or text (`Ctrl/Command + Shift + C`)
+  + *.green[commit]* &amp; *.green[push]*
+
+5. Create .green[Pull Request (PR)]
+* Write brief summary of the PR that includes
+  + \&gt;= 3 strengths
+  + \&gt;= 1 thing you learned
+  + 1 to 3 three areas of improvement
+
+---
+### 1. Locate GitHub repo of assigned peer to review
+
+&lt;table class="table" style="font-size: 10px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Student &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Repo to Review &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; File to Review &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Errol Kaylor &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/laurenberny/final_git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; markdown.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Havisha Khurana &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/laurenberny/final_git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; markdown.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Merly Klaas &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/ekgekd/EDLD651_Final.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; EDLD651_finalproj.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Cassie Malcom &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/ekgekd/EDLD651_Final.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; EDLD651_finalproj.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Manuel Vazquez Cano &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/laurenberny/final_git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; markdown.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Yijun Cheng &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/ZF-MPH/final_project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; final_project.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Claire Guidinger &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/ZF-MPH/final_project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; final_project.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Marielena McWhirter &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/heatherleonard/EDLD651Final_Project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DraftData.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mandi Ward &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/cguidin4/final_project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; final_project.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Amy Warnock &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/ZF-MPH/final_project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; final_project.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Lauren Berny &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/cguidin4/final_project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; final_project.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Adriana Conn &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/ekgekd/EDLD651_Final.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; EDLD651_finalproj.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Mavis Gallo &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/mandiward17/Draft_data_set.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; draft_data_script.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Aubrey Green &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/merlyklaas/final_project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; final_project_script.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Shawn McWeeny &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/mandiward17/Draft_data_set.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; draft_data_script.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Rebecca Gordon &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/mandiward17/Draft_data_set.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; draft_data_script.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Heather Leonard &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/merlyklaas/final_project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; final_project_script.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Abbie Sanders &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/laurenberny/final_git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; markdown.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Elizabeth Bates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/merlyklaas/final_project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; final_project_script.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Esmeralda Castro &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/laurenberny/final_git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; markdown.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Zach Farley &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/heatherleonard/EDLD651Final_Project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DraftData.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Eliott Doyle &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/merlyklaas/final_project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; final_project_script.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Simone Mendes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/heatherleonard/EDLD651Final_Project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DraftData.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Dillon Welindt &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; https://github.com/merlyklaas/final_project.git &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; final_project_script.Rmd &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+
+---
+# 2. Fork the repo
+
+1. Navigate to the (host) GitHub repo
+2. Click Fork in the upper right corner
+3. Where to fork? – **your GitHub account**
+
+&lt;img src="images/gh_fork.png" width="100%" /&gt;
+
+---
+# 3. Clone the repo
+
+.pull-left[
+(1) Clone the repo
+* copy the URL
+
+&lt;img src="images/gh_clone.png" width="75%" /&gt;
+]
+--
+
+.pull-right[
+(2) Open GitKraken
+* *Clone with URL*
+* Where will it live on your local machine?
+  + it's own folder, with no other RProjects
+  
+&lt;img src="images/gh_clone2.png" width="75%" /&gt;
+]
+
+---
+# 4. Provide script feedback
+
+* Open R Project in your *.green[local]*
+* Find the .Rmd document you will be reviewing
+  + it should be an Rmd document
+* Make your edits/comments
+  + edit code as you like
+  + include a comment for each edit!
+  + Provide comments in code **and/or** text (`Ctrl/Command + Shift + C`)
+* Commit as you go (if you are working on this across sessions/days)
+* **.green[Push] only when you are finished**
+
+---
+# 5. Create Pull Request (PR)
+
+(1) Navigate back to the (host) GitHub repo
+
+--
+
+(2) Click “Pull requests”
+
+&lt;img src="images/gh_pr.png" width="50%" /&gt;
+
+--
+
+(3) Click “New pull request”
+
+&lt;img src="images/gh_newpr.png" width="50%" /&gt;
+
+---
+# 5. Create Pull Request (PR)
+
+(4) Click *"Compare across forks"*
+
+&lt;img src="images/gh_compareforks.png" width="100%" /&gt;
+
+--
+
+Use drop-downs so that:
+* *host* repo is on **left**
+* *your* repo is on the **right**
+
+&lt;img src="images/gh_compareforks2.png" width="100%" /&gt;
+
+--
+
+You will be able view the changes you made to the .Rmd document
+
+---# 5. Create Pull Request (PR)
+
+(5) Click *"Create pull request"*
+
+&lt;img src="images/gh_comparechanges.png" width="100%" /&gt;
+
+---
+# 5. Create Pull Request (PR)
+
+Write a brief summary list of the PR that includes
+  + \&gt;= 3 strengths
+  + \&gt;= 1 thing you learned
+  + 1 to 3 three areas of improvement
+  + **Use markdown formatting, headers or list!**
+
+&lt;img src="images/gh_createpr1.png" width="100%" /&gt;
+
+---
+# 5. Create Pull Request (PR)
+
+(6) Click *"Create pull request"* when you're done
+
+&lt;img src="images/gh_createpr2.png" width="100%" /&gt;
+
+
+---
+# 5. Create Pull Request (PR)
+## Recap
+
+(1) Navigate back to the (host) GitHub repo
+
+(2) Click *"Pull requests"*
+
+(3) Click *"New pull request"*
+
+(4) Click *"Compare across forks"*
+* Use drop-downs so that:
+  + Host .green[repo] is on the left, your .green[repo] is on the right
+* View changes
+(5) Click *"Create pull request"*
+* Write brief summary list of the .green[PR] that includes
+  + \&gt;= 3 strengths
+  + \&gt;= 1 thing you learned
+  + 1 to 3 three areas of improvement
+  + **Use markdown formatting, headers, or list!**
+(6) Click *"Create pull request"*
+
+---
+# Reviewing your PRs
+
+You will get an email from GitHub
+
+1. Click on first link, for .green[PR]
+
+2. Click *"Commits"* tab
+
+3. Click on *"File changes"* to see changes
+
+4. Copy/paste all desired changes
+
+5. Don’t close *"Close PR"* just yet; I want to review
+
+---
+class: inverse, left, middle
+
+# Next time
+
+---
+# Before next class
+
+* Final Project
+  + .red[Final Project: Peer Review of Script]
+  + .red[Final Project: Presentations] - email me your content before class
+* Homework
+  + **Homework 10**
+
+---
+class: inverse, left, middle
+
+---
+
+
+
+
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
