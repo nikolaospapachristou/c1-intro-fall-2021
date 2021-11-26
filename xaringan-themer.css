@@ -70,7 +70,6 @@
   --pink: #CC79A7;
   --gray: 999999;
   --white: #FFFFFF;
-  --red: #ff0000;
   --black: #000000;
 }
 
@@ -330,12 +329,6 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 }
 .bg-white {
   background-color: var(--white);
-}
-.red {
-  color: var(--red);
-}
-.bg-red {
-  background-color: var(--red);
 }
 .black {
   color: var(--black);

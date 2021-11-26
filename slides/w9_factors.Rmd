@@ -472,7 +472,7 @@ ggplot(gss_cat, aes(fct_infreq(partyid))) +
 ```
 
 ---
-# Change level order – `fct_infreq()`
+# Change level order – `fct_relevel()`
 
 #### Change level order by hand 
   + *probably one I use most*
