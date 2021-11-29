@@ -58,7 +58,7 @@ library(kableExtra)
   + *The_Two_Towers.csv*
   + *The_Return_Of_The_King.csv*
     - (These data sets show the **words spoken** by characters of different races and genders in the *Lord of the Ring*s movie trilogy.)
-* Combine these three data sets into one data set as a new object named `lotr_tidy`
+* Combine these three data sets into one data set as a new object named `lotr`
 
 ```{r data}
 
@@ -68,7 +68,7 @@ tt <- import(here("data", "The_Two_Towers.csv"))
 
 rotk <- import(here("data", "The_Return_Of_The_King.csv"))
 
-lotr_untidy <- bind_rows(fotr, tt, rotk) %>% 
+lotr <- bind_rows(fotr, tt, rotk) %>% 
   as_tibble() 
 
 ```
@@ -82,18 +82,18 @@ lotr_untidy <- bind_rows(fotr, tt, rotk) %>%
 #### 6. Your third code chunk should:
 * Have a meaningful name (do not use spaces or capital letters)
 * Tidy the combined data set
-* Save the tidy data to the data folder in your project as `lotr_tidy`
+* Save the tidy data to the data folder in your project as `tidy_lotr`
 
 ```{r tidy_data}
 
-lotr_tidy <- lotr_untidy %>% 
+tidy_lotr <- lotr_untidy %>% 
   pivot_longer(
     cols = c(Female, Male),
     names_to = "Gender",
     values_to = "Words"
   )
 
-export(lotr_tidy, here("data", "lotr_tidy.csv"))
+export(lotr_tidy, here("data", "tidy_lotr.csv"))
 ```
 <br>
 <br>
@@ -101,8 +101,8 @@ export(lotr_tidy, here("data", "lotr_tidy.csv"))
 
 #### 7. Your fourth code chunk should include code that:
 * Reads in the *Female.csv* and *Male.csv* files and saves a single tidy data frame to file 
-* This should reproduce exactly the `lotr_tidy` data from above
-* Compute the total number of words spoken by each race across the entire trilogy.
+* Tidy these data to reproduce exactly the `tidy_lotr` data from above
+* Compute the total number of words spoken by each race across the entire trilogy
 * Show these results in a table and a figure.
 
 ```{r replicate_data}
